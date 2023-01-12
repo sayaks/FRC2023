@@ -2,6 +2,12 @@
   "NetworkTables": {
     "transitory": {
       "157": {
+        "Swerve": {
+          "SinglePod": {
+            "open": true
+          },
+          "open": true
+        },
         "open": true
       },
       "Shuffleboard": {
@@ -16,7 +22,8 @@
   },
   "NetworkTables Settings": {
     "mode": "Client (NT4)",
-    "serverTeam": "157"
+    "serverTeam": "157",
+    "visible": false
   },
   "Plots": {
     "Plot <0>": {
@@ -48,7 +55,27 @@
     "Plot <1>": {
       "plots": [
         {
-          "height": 332
+          "height": 332,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:157/dumbEncoder"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/157/Swerve/SinglePod/Input Angle"
+            }
+          ]
         }
       ]
     }

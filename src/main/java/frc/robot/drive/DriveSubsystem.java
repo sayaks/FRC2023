@@ -4,6 +4,7 @@
 
 package frc.robot.drive;
 
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
@@ -11,6 +12,14 @@ import frc.robot.Constants.DriveConstants;
 public class DriveSubsystem extends SubsystemBase {
     private SwervePod singlePod = new SwervePod(DriveConstants.SINGLE_POD_CONFIG,
             NetworkTableInstance.getDefault().getTable("157/Swerve/SinglePod"));
+
+    public void set(final SwerveModuleState state) {
+        singlePod.set(state);
+    }
+
+    public void stop() {
+        singlePod.stop();
+    }
 
     public void directSet(final double rollSpeed, final double spinSpeed) {
         singlePod.directSet(rollSpeed, spinSpeed);

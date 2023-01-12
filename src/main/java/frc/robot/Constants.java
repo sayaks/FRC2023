@@ -26,14 +26,16 @@ public final class Constants {
     }
 
     public static class DriveConstants {
-        public static final double TELEOP_SPIN_SPEED = 0.3;
-        public static final double TELEOP_ROLL_SPEED = 0.3;
+        public static final double TELEOP_SPIN_SPEED = .1;
+        public static final double TELEOP_ROLL_SPEED = .1;
+        public static final double TELEOP_AXIS_THRESHOLD = 0.2;
 
         public static final IdleMode ROLL_IDLE_MODE = IdleMode.kBrake;
         public static final IdleMode SPIN_IDLE_MODE = IdleMode.kCoast;
 
         public static final double ROLL_SLEW_RATE = 1;
-        public static final double SPIN_KP = 0.0025;
+        public static final double SPIN_KP = 0.01;
+        public static final double SPIN_KD = 0.00009;
 
         public static final SwervePod.Config SINGLE_POD_CONFIG = new SwervePod.Config(4, 1, 3, false);
     }

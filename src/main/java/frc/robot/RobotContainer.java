@@ -5,7 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.drive.DirectDrive;
+import frc.robot.drive.DegreeDrive;
 import frc.robot.drive.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,7 +35,7 @@ public class RobotContainer {
         // Configure the trigger bindings
         configureBindings();
 
-        driveSubsystem.setDefaultCommand(new DirectDrive(driveSubsystem, driverController));
+        driveSubsystem.setDefaultCommand(new DegreeDrive(driveSubsystem, driverController));
     }
 
     /**

@@ -34,6 +34,7 @@ public class SwervePod {
         motorRoll.setInverted(false);
         motorSpin.setIdleMode(DriveConstants.SPIN_IDLE_MODE);
         motorSpin.setInverted(false);
+        encoderSpin.configSensorDirection(true);
     }
 
     public void set(final SwerveModuleState state) {
@@ -97,9 +98,15 @@ public class SwervePod {
 
     private void spin(final double target) {
         table.getEntry("Input Angle").setDouble(target);
+
         final var initialDelta = computeInitialDelta(target);
+        table.getEntry("Initial Delta").setDouble(initialDelta);
+
         final var shortestDelta = computeShortestDelta(initialDelta);
+        table.getEntry("Shorted Delta").setDouble(shortestDelta);
+
         final var pidOutput = computeSpinPidOutput(shortestDelta);
+        table.getEntry("PID Output").setDouble(pidOutput);
         directSpin(pidOutput);
     }
 
@@ -139,7 +146,7 @@ public class SwervePod {
         throw new RuntimeException("Above expect() should have covered this.");
     }
 
-    private final PIDController spinPid = new PIDController(DriveConstants.SPIN_KP, 0, 0);
+    private final PIDController spinPid = new PIDController(DriveConstants.SPIN_KP, 0, DriveConstants.SPIN_KD);
 
     private double computeSpinPidOutput(final double shortestDelta) {
         final var pidOutput = spinPid.calculate(getCurrentSpin() + shortestDelta, getCurrentSpin());
