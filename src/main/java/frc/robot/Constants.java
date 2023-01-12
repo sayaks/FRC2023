@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+
+import frc.robot.drive.SwervePod;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -19,5 +23,18 @@ package frc.robot;
 public final class Constants {
     public static class OperatorConstants {
         public static final int DRIVER_INPUT_ID = 0;
+    }
+
+    public static class DriveConstants {
+        public static final double TELEOP_SPIN_SPEED = 0.3;
+        public static final double TELEOP_ROLL_SPEED = 0.3;
+
+        public static final IdleMode ROLL_IDLE_MODE = IdleMode.kBrake;
+        public static final IdleMode SPIN_IDLE_MODE = IdleMode.kCoast;
+
+        public static final double ROLL_SLEW_RATE = 1;
+        public static final double SPIN_KP = 0.0025;
+
+        public static final SwervePod.Config SINGLE_POD_CONFIG = new SwervePod.Config(4, 1, 3, false);
     }
 }

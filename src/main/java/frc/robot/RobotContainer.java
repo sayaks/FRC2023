@@ -5,11 +5,10 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.examples.Autos;
-import frc.robot.examples.ExampleCommand;
-import frc.robot.examples.ExampleSubsystem;
+import frc.robot.drive.DirectDrive;
+import frc.robot.drive.DriveSubsystem;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -23,10 +22,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+    private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController driverController = new CommandXboxController(
+    private final Joystick driverController = new Joystick(
             OperatorConstants.DRIVER_INPUT_ID);
 
     /**
@@ -35,6 +34,8 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+
+        driveSubsystem.setDefaultCommand(new DirectDrive(driveSubsystem, driverController));
     }
 
     /**
@@ -47,13 +48,7 @@ public class RobotContainer {
      * Flight joysticks.
      */
     private void configureBindings() {
-        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        new Trigger(exampleSubsystem::exampleCondition)
-                .onTrue(new ExampleCommand(exampleSubsystem));
 
-        // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-        // pressed, cancelling on release.
-        driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand());
     }
 
     /**
@@ -62,7 +57,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        return Autos.exampleAuto(exampleSubsystem);
+        return null;
     }
 }
