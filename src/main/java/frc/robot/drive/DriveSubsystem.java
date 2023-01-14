@@ -4,13 +4,15 @@
 
 package frc.robot.drive;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
-    private SwervePod singlePod = new SwervePod(DriveConstants.SINGLE_POD_CONFIG,
+    public SwervePod singlePod = new SwervePod(DriveConstants.POD_CONFIGS[0],
             NetworkTableInstance.getDefault().getTable("157/Swerve/SinglePod"));
 
     public void set(final SwerveModuleState state) {
@@ -23,5 +25,11 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void directSet(final double rollSpeed, final double spinSpeed) {
         singlePod.directSet(rollSpeed, spinSpeed);
+    }
+
+    public Command goToAngle(final double angle) {
+        final var state = new SwerveModuleState(0.0, Rotation2d.fromDegrees(angle));
+
+        return run(() -> singlePod.set(state)).until(() -> singlePod.isSpinCloseTo(angle));
     }
 }

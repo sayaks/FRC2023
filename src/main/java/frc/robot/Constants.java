@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.drive.SwervePod;
 
 /**
@@ -37,6 +38,15 @@ public final class Constants {
         public static final double SPIN_KP = 0.01;
         public static final double SPIN_KD = 0.00009;
 
-        public static final SwervePod.Config SINGLE_POD_CONFIG = new SwervePod.Config(4, 1, 3, false);
+        public static final SwervePod.Config[] POD_CONFIGS = new SwervePod.Config[] {
+                new SwervePod.Config(2, 3, 1, false),
+                new SwervePod.Config(5, 6, 4, false),
+                new SwervePod.Config(8, 9, 7, false),
+                new SwervePod.Config(11, 12, 10, false)
+        };
+    }
+
+    public static class SwervePodConstants {
+        public static final Rotation2d ANGLE_TOLERANCE = Rotation2d.fromDegrees(1);
     }
 }

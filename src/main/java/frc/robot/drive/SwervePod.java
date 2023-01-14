@@ -9,6 +9,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.SwervePodConstants;
 
 import static org.assabet.aztechs157.ExpectDouble.expect;
 
@@ -88,8 +89,12 @@ public class SwervePod {
         return wrapped;
     }
 
-    private double getCurrentSpin() {
+    public double getCurrentSpin() {
         return encoderSpin.getAbsolutePosition();
+    }
+
+    public boolean isSpinCloseTo(final double angle) {
+        return Math.abs(angle - getCurrentSpin()) < SwervePodConstants.ANGLE_TOLERANCE.getDegrees();
     }
 
     private void directSpin(final double speed) {
