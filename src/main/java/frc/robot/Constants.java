@@ -7,6 +7,7 @@ package frc.robot;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import frc.robot.drive.SwervePod;
 
 /**
@@ -45,13 +46,12 @@ public final class Constants {
                 new SwervePod.Config(11, 12, 10, false)
         };
 
-        public static final double CENTER_TO_POD = 0.707;
-        public static final Translation2d FRONT_LEFT_LOCATION = new Translation2d(CENTER_TO_POD, CENTER_TO_POD);
-        public static final Translation2d FRONT_RIGHT_LOCATION = new Translation2d(CENTER_TO_POD, -CENTER_TO_POD);
-        public static final Translation2d BACK_LEFT_LOCATION = new Translation2d(-CENTER_TO_POD, CENTER_TO_POD);
-        public static final Translation2d BACK_RIGHT_LOCATION = new Translation2d(-CENTER_TO_POD, -CENTER_TO_POD);
+        public static final double CENTER_TO_POD_METER = Units.inchesToMeters(9.25);
         public static final Translation2d[] WHEEL_LOCATIONS = new Translation2d[] {
-                BACK_LEFT_LOCATION, FRONT_LEFT_LOCATION, FRONT_RIGHT_LOCATION, BACK_RIGHT_LOCATION };
-
+                new Translation2d(-CENTER_TO_POD_METER, -CENTER_TO_POD_METER),
+                new Translation2d(-CENTER_TO_POD_METER, CENTER_TO_POD_METER),
+                new Translation2d(CENTER_TO_POD_METER, CENTER_TO_POD_METER),
+                new Translation2d(CENTER_TO_POD_METER, -CENTER_TO_POD_METER),
+        };
     }
 }
