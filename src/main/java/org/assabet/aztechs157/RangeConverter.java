@@ -1,4 +1,4 @@
-package org.assabet.aztechs157.range;
+package org.assabet.aztechs157;
 
 public class RangeConverter {
     private final Range inputRange;
