@@ -9,7 +9,6 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.SwervePodConstants;
 
 import static org.assabet.aztechs157.ExpectDouble.expect;
 
@@ -34,8 +33,8 @@ public class SwervePod {
         motorRoll.setIdleMode(DriveConstants.ROLL_IDLE_MODE);
         motorRoll.setInverted(false);
         motorSpin.setIdleMode(DriveConstants.SPIN_IDLE_MODE);
-        motorSpin.setInverted(false);
-        encoderSpin.configSensorDirection(true);
+        motorSpin.setInverted(true);
+        encoderSpin.configSensorDirection(false);
     }
 
     public void set(final SwerveModuleState state) {
@@ -91,10 +90,6 @@ public class SwervePod {
 
     public double getCurrentSpin() {
         return encoderSpin.getAbsolutePosition();
-    }
-
-    public boolean isSpinCloseTo(final double angle) {
-        return Math.abs(angle - getCurrentSpin()) < SwervePodConstants.ANGLE_TOLERANCE.getDegrees();
     }
 
     private void directSpin(final double speed) {

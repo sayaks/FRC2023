@@ -6,7 +6,7 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.drive.SwervePod;
 
 /**
@@ -27,7 +27,7 @@ public final class Constants {
     }
 
     public static class DriveConstants {
-        public static final double TELEOP_SPIN_SPEED = .1;
+        public static final double TELEOP_SPIN_SPEED = 10;
         public static final double TELEOP_ROLL_SPEED = .1;
         public static final double TELEOP_AXIS_THRESHOLD = 0.2;
 
@@ -44,9 +44,14 @@ public final class Constants {
                 new SwervePod.Config(8, 9, 7, false),
                 new SwervePod.Config(11, 12, 10, false)
         };
-    }
 
-    public static class SwervePodConstants {
-        public static final Rotation2d ANGLE_TOLERANCE = Rotation2d.fromDegrees(1);
+        public static final double CENTER_TO_POD = 0.707;
+        public static final Translation2d FRONT_LEFT_LOCATION = new Translation2d(CENTER_TO_POD, CENTER_TO_POD);
+        public static final Translation2d FRONT_RIGHT_LOCATION = new Translation2d(CENTER_TO_POD, -CENTER_TO_POD);
+        public static final Translation2d BACK_LEFT_LOCATION = new Translation2d(-CENTER_TO_POD, CENTER_TO_POD);
+        public static final Translation2d BACK_RIGHT_LOCATION = new Translation2d(-CENTER_TO_POD, -CENTER_TO_POD);
+        public static final Translation2d[] WHEEL_LOCATIONS = new Translation2d[] {
+                BACK_LEFT_LOCATION, FRONT_LEFT_LOCATION, FRONT_RIGHT_LOCATION, BACK_RIGHT_LOCATION };
+
     }
 }

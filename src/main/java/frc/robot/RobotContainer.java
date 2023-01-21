@@ -5,11 +5,10 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.drive.DegreeDrive;
 import frc.robot.drive.DriveSubsystem;
+import frc.robot.drive.FullDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -36,7 +35,7 @@ public class RobotContainer {
         // Configure the trigger bindings
         configureBindings();
 
-        driveSubsystem.setDefaultCommand(new DegreeDrive(driveSubsystem, driverController));
+        driveSubsystem.setDefaultCommand(new FullDrive(driveSubsystem, driverController));
     }
 
     /**
@@ -49,7 +48,6 @@ public class RobotContainer {
      * Flight joysticks.
      */
     private void configureBindings() {
-        new JoystickButton(driverController, 1).onTrue(driveSubsystem.goToAngle(0));
     }
 
     /**

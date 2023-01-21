@@ -37,6 +37,6 @@ public class DegreeDrive extends CommandBase {
         final var speed = Math.min(1, length) * DriveConstants.TELEOP_ROLL_SPEED;
 
         final var state = new SwerveModuleState(speed, Rotation2d.fromDegrees(angle));
-        drive.set(state);
+        drive.setSingle(state);
     }
 }

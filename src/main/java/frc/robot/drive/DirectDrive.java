@@ -21,6 +21,6 @@ public class DirectDrive extends CommandBase {
         final var rollSpeed = -joystick.getRawAxis(1) * DriveConstants.TELEOP_ROLL_SPEED;
         final var spinSpeed = joystick.getRawAxis(4) * DriveConstants.TELEOP_SPIN_SPEED;
 
-        drive.directSet(rollSpeed, spinSpeed);
+        drive.directSetSingle(rollSpeed, spinSpeed);
     }
 }
