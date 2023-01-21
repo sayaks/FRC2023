@@ -33,8 +33,8 @@ public class SwervePod {
         driveMotor.setIdleMode(DriveConstants.ROLL_IDLE_MODE);
         driveMotor.setInverted(false);
         angleMotor.setIdleMode(DriveConstants.SPIN_IDLE_MODE);
-        angleMotor.setInverted(false);
-        angleEncoder.configSensorDirection(true);
+        angleMotor.setInverted(true);
+        angleEncoder.configSensorDirection(false);
     }
 
     public void set(final SwerveModuleState state) {
@@ -98,6 +98,7 @@ public class SwervePod {
 
     private void goToAngle(final double target) {
         table.getEntry("Input Angle").setDouble(target);
+        table.getEntry("Current Angle").setDouble(getCurrentAngle());
 
         final var initialDelta = computeInitialDelta(target);
         table.getEntry("Initial Delta").setDouble(initialDelta);

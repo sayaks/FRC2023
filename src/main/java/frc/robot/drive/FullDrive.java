@@ -22,7 +22,8 @@ public class FullDrive extends CommandBase {
         final var speed = (-joystick.getRawAxis(3) + 1) / 2;
         final var x = deadZone(joystick.getRawAxis(1)) * speed;
         final var y = deadZone(joystick.getRawAxis(0)) * speed;
-        final var r = deadZone(joystick.getRawAxis(2)) * Constants.DriveConstants.TELEOP_SPIN_SPEED;
+        final var r = deadZone(joystick.getRawAxis(2) + joystick.getRawAxis(4))
+                * Constants.DriveConstants.TELEOP_SPIN_SPEED;
 
         final var speeds = new ChassisSpeeds(x, y, Math.toRadians(r));
         drive.set(speeds);

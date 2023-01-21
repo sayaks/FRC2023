@@ -3,6 +3,18 @@
     "transitory": {
       "157": {
         "Swerve": {
+          "Pod 1": {
+            "open": true
+          },
+          "Pod 2": {
+            "open": true
+          },
+          "Pod 3": {
+            "open": true
+          },
+          "Pod 4": {
+            "open": true
+          },
           "SinglePod": {
             "open": true
           },
@@ -77,7 +89,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

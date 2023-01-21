@@ -48,10 +48,10 @@ public final class Constants {
 
         public static final double CENTER_TO_POD_METER = Units.inchesToMeters(9.25);
         public static final Translation2d[] WHEEL_LOCATIONS = new Translation2d[] {
-                new Translation2d(-CENTER_TO_POD_METER, -CENTER_TO_POD_METER),
                 new Translation2d(-CENTER_TO_POD_METER, CENTER_TO_POD_METER),
                 new Translation2d(CENTER_TO_POD_METER, CENTER_TO_POD_METER),
                 new Translation2d(CENTER_TO_POD_METER, -CENTER_TO_POD_METER),
+                new Translation2d(-CENTER_TO_POD_METER, -CENTER_TO_POD_METER),
         };
     }
 }
