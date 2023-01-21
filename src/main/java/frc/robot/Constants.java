@@ -40,10 +40,10 @@ public final class Constants {
         public static final double SPIN_KD = 0.00009;
 
         public static final SwervePod.Config[] POD_CONFIGS = new SwervePod.Config[] {
-                new SwervePod.Config(2, 3, 1, false),
-                new SwervePod.Config(5, 6, 4, false),
-                new SwervePod.Config(8, 9, 7, false),
-                new SwervePod.Config(11, 12, 10, false)
+                new SwervePod.Config(1, 2, 3, false),
+                new SwervePod.Config(4, 5, 6, false),
+                new SwervePod.Config(7, 8, 9, false),
+                new SwervePod.Config(10, 11, 12, false),
         };
 
         public static final double CENTER_TO_POD_METER = Units.inchesToMeters(9.25);

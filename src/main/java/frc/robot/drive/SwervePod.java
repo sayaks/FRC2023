@@ -14,50 +14,50 @@ import static org.assabet.aztechs157.ExpectDouble.expect;
 
 public class SwervePod {
 
-    public record Config(int motorSpinId, int encoderSpinId, int motorRollId, boolean motorRollInverted) {
+    public record Config(int driveMotorId, int angleMotorId, int angleEncoderId, boolean driveMotorInverted) {
     }
 
-    private final CANSparkMax motorRoll;
-    private final CANSparkMax motorSpin;
-    private final CANCoder encoderSpin;
+    private final CANSparkMax driveMotor;
+    private final CANSparkMax angleMotor;
+    private final CANCoder angleEncoder;
     private final NetworkTable table;
 
     public SwervePod(final Config config, final NetworkTable table) {
         this.table = table;
-        motorRoll = new CANSparkMax(config.motorRollId, MotorType.kBrushless);
-        motorSpin = new CANSparkMax(config.motorSpinId, MotorType.kBrushless);
-        encoderSpin = new CANCoder(config.encoderSpinId);
+        driveMotor = new CANSparkMax(config.driveMotorId, MotorType.kBrushless);
+        angleMotor = new CANSparkMax(config.angleMotorId, MotorType.kBrushless);
+        angleEncoder = new CANCoder(config.angleEncoderId);
 
-        table.getEntry("Inverted").setBoolean(config.motorRollInverted);
+        table.getEntry("Inverted").setBoolean(config.driveMotorInverted);
 
-        motorRoll.setIdleMode(DriveConstants.ROLL_IDLE_MODE);
-        motorRoll.setInverted(false);
-        motorSpin.setIdleMode(DriveConstants.SPIN_IDLE_MODE);
-        motorSpin.setInverted(true);
-        encoderSpin.configSensorDirection(false);
+        driveMotor.setIdleMode(DriveConstants.ROLL_IDLE_MODE);
+        driveMotor.setInverted(false);
+        angleMotor.setIdleMode(DriveConstants.SPIN_IDLE_MODE);
+        angleMotor.setInverted(false);
+        angleEncoder.configSensorDirection(true);
     }
 
     public void set(final SwerveModuleState state) {
-        spin(wrapDegrees(state.angle.getDegrees()));
-        roll(state.speedMetersPerSecond);
+        goToAngle(wrapDegrees(state.angle.getDegrees()));
+        drive(state.speedMetersPerSecond);
     }
 
-    public void directSet(final double rollSpeed, final double spinSpeed) {
-        getCurrentSpin();
+    public void directSet(final double driveSpeed, final double angleSpeed) {
+        getCurrentAngle();
 
-        directSpin(spinSpeed);
-        roll(rollSpeed);
+        setAngleSpeed(angleSpeed);
+        drive(driveSpeed);
     }
 
     public void stop() {
-        directSpin(0);
-        roll(0);
+        setAngleSpeed(0);
+        drive(0);
     }
 
-    private final SlewRateLimiter rollSlewRate = new SlewRateLimiter(DriveConstants.ROLL_SLEW_RATE);
+    private final SlewRateLimiter driveSlewrate = new SlewRateLimiter(DriveConstants.ROLL_SLEW_RATE);
     private boolean reversed = false;
 
-    private void roll(double speed) {
+    private void drive(double speed) {
         table.getEntry("Input Speed").setDouble(speed);
         table.getEntry("Roll Reversed?").setBoolean(reversed);
 
@@ -70,11 +70,11 @@ public class SwervePod {
             speed = -speed;
         }
 
-        motorRoll.set(rollSlewRate.calculate(speed));
+        driveMotor.set(driveSlewrate.calculate(speed));
     }
 
-    public double getRawRoll() {
-        return motorRoll.getEncoder().getPosition();
+    public double getRawDrivePosition() {
+        return driveMotor.getEncoder().getPosition();
     }
 
     private double wrapDegrees(final double degrees) {
@@ -88,15 +88,15 @@ public class SwervePod {
         return wrapped;
     }
 
-    public double getCurrentSpin() {
-        return encoderSpin.getAbsolutePosition();
+    public double getCurrentAngle() {
+        return angleEncoder.getAbsolutePosition();
     }
 
-    private void directSpin(final double speed) {
-        motorSpin.set(speed);
+    private void setAngleSpeed(final double speed) {
+        angleMotor.set(speed);
     }
 
-    private void spin(final double target) {
+    private void goToAngle(final double target) {
         table.getEntry("Input Angle").setDouble(target);
 
         final var initialDelta = computeInitialDelta(target);
@@ -105,13 +105,13 @@ public class SwervePod {
         final var shortestDelta = computeShortestDelta(initialDelta);
         table.getEntry("Shorted Delta").setDouble(shortestDelta);
 
-        final var pidOutput = computeSpinPidOutput(shortestDelta);
+        final var pidOutput = computeAnglePidOutput(shortestDelta);
         table.getEntry("PID Output").setDouble(pidOutput);
-        directSpin(pidOutput);
+        setAngleSpeed(pidOutput);
     }
 
     private double computeInitialDelta(final double target) {
-        final double initial = getCurrentSpin();
+        final double initial = getCurrentAngle();
 
         expect(target).greaterOrEqual(0).lessOrEqual(360);
         expect(initial).greaterOrEqual(0).lessOrEqual(360);
@@ -146,10 +146,10 @@ public class SwervePod {
         throw new RuntimeException("Above expect() should have covered this.");
     }
 
-    private final PIDController spinPid = new PIDController(DriveConstants.SPIN_KP, 0, DriveConstants.SPIN_KD);
+    private final PIDController anglePid = new PIDController(DriveConstants.SPIN_KP, 0, DriveConstants.SPIN_KD);
 
-    private double computeSpinPidOutput(final double shortestDelta) {
-        final var pidOutput = spinPid.calculate(getCurrentSpin() + shortestDelta, getCurrentSpin());
+    private double computeAnglePidOutput(final double shortestDelta) {
+        final var pidOutput = anglePid.calculate(getCurrentAngle() + shortestDelta, getCurrentAngle());
         return pidOutput;
     }
 }
