@@ -29,6 +29,10 @@ public class Axis {
                 .label("Device " + deviceId + " Axis " + axisId);
     }
 
+    public static Axis always(final double value) {
+        return new Axis(() -> value);
+    }
+
     private String label = "Unlabeled Axis";
 
     public Axis label(final String label) {

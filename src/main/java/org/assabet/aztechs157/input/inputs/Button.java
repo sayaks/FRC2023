@@ -26,6 +26,10 @@ public class Button extends Trigger {
                 .label("Device " + deviceId + " Button " + buttonId);
     }
 
+    public static Button always(final boolean value) {
+        return new Button(() -> value);
+    }
+
     private String label = "Unlabeled Button";
 
     public Button label(final String label) {
