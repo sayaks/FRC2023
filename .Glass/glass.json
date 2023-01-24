@@ -2,6 +2,9 @@
   "NetworkTables": {
     "transitory": {
       "157": {
+        "Drive": {
+          "open": true
+        },
         "Swerve": {
           "Pod 1": {
             "open": true
@@ -17,8 +20,7 @@
           },
           "SinglePod": {
             "open": true
-          },
-          "open": true
+          }
         },
         "open": true
       },

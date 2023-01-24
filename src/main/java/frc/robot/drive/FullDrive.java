@@ -1,38 +1,33 @@
 package frc.robot.drive;
 
+import org.assabet.aztechs157.input.layouts.Layout;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+import frc.robot.input.DriverInputs;
 
 public class FullDrive extends CommandBase {
     private final DriveSubsystem drive;
-    private final Joystick joystick;
+    private final Layout driverInputs;
 
     /** Creates a new FullDrive. */
-    public FullDrive(final DriveSubsystem drive, final Joystick joystick) {
+    public FullDrive(final DriveSubsystem drive, final Layout driverInputs) {
         this.drive = drive;
         addRequirements(drive);
-        this.joystick = joystick;
+        this.driverInputs = driverInputs;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        final var speed = (-joystick.getRawAxis(3) + 1) / 2;
-        final var x = deadZone(joystick.getRawAxis(1)) * speed;
-        final var y = deadZone(joystick.getRawAxis(0)) * speed;
-        final var r = deadZone(joystick.getRawAxis(2) + joystick.getRawAxis(4))
-                * Constants.DriveConstants.TELEOP_SPIN_SPEED;
+        // X and Y are swapped here due to trigonometry
+        // Having them match will make the robot think forward is to it's right
+        // Having them swapped will make it think forward is properly forward
+        final var x = driverInputs.axis(DriverInputs.driveSpeedY).get();
+        final var y = driverInputs.axis(DriverInputs.driveSpeedX).get();
+        final var r = driverInputs.axis(DriverInputs.driveRotation).get();
 
         final var speeds = new ChassisSpeeds(x, y, Math.toRadians(r));
         drive.set(speeds);
-    }
-
-    public double deadZone(final double input) {
-        if (Math.abs(input) < Constants.DriveConstants.TELEOP_AXIS_THRESHOLD) {
-            return 0;
-        }
-        return input;
     }
 }

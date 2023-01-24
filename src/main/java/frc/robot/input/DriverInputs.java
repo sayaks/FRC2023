@@ -8,35 +8,47 @@ import org.assabet.aztechs157.input.models.LogitechExtreme3D;
 import org.assabet.aztechs157.input.models.LogitechGamepadF310;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Constants.DriveConstants;
 
 public class DriverInputs {
     public static final Axis.Key driveSpeedX = new Axis.Key().label("Drive Speed X");
     public static final Axis.Key driveSpeedY = new Axis.Key().label("Drive Speed Y");
     public static final Axis.Key driveRotation = new Axis.Key().label("Drive Rotation");
-    public static final Axis.Key driveSpeed = new Axis.Key().label("Drive Speed");
 
     public static Layout getDriverInputs() {
 
         final var logitechLayout = new MapLayout();
         final var logitech = new LogitechGamepadF310(0);
-        logitechLayout.assign(driveSpeedX, logitech.leftStickX);
-        logitechLayout.assign(driveSpeedY, logitech.leftStickY);
-        logitechLayout.assign(driveRotation, logitech.rightStickX);
-        logitechLayout.assign(driveSpeed, Axis.always(.5));
+        logitechLayout.assign(driveSpeedX, manualDeadzone(logitech.leftStickX).scaled(0.5));
+        logitechLayout.assign(driveSpeedY, manualDeadzone(logitech.leftStickY).scaled(0.5));
+        logitechLayout.assign(driveRotation,
+                manualDeadzone(logitech.rightStickX).scaled(DriveConstants.TELEOP_SPIN_SPEED));
 
         final var stickLayout = new MapLayout();
-        final var stick = new LogitechExtreme3D(1);
-        stickLayout.assign(driveSpeedX, stick.stickX);
-        stickLayout.assign(driveSpeedY, stick.stickY);
-        stickLayout.assign(driveRotation, stick.stickRotate);
-        stickLayout.assign(driveSpeed, stick.slider);
+        final var flightStick = new LogitechExtreme3D(1);
+        // The offset and scaled move axis from range -1..1 to 0..1
+        // TODO: Add util method to Axis using RangeConverter
+        final var speed = flightStick.slider.inverted().offset(1).scaled(0.5);
+        stickLayout.assign(driveSpeedX, manualDeadzone(flightStick.stickX).scaled(speed::get));
+        stickLayout.assign(driveSpeedY, manualDeadzone(flightStick.stickY).scaled(speed::get));
+        stickLayout.assign(driveRotation,
+                manualDeadzone(flightStick.stickRotate).scaled(DriveConstants.TELEOP_SPIN_SPEED));
 
         final var entry = NetworkTableInstance.getDefault().getEntry("157/Drive/StickEnabled");
         entry.setDefaultBoolean(false);
 
         return new SelectableLayout(
                 () -> entry.getBoolean(false)
-                        ? logitechLayout
-                        : stickLayout);
+                        ? stickLayout
+                        : logitechLayout);
+    }
+
+    public static Axis manualDeadzone(final Axis input) {
+        return input.map(value -> {
+            if (Math.abs(value) < DriveConstants.TELEOP_AXIS_THRESHOLD) {
+                return 0;
+            }
+            return value;
+        });
     }
 }
