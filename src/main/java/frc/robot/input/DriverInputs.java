@@ -17,13 +17,14 @@ public class DriverInputs {
     public static final Axis.Key driveRotation = new Axis.Key().label("Drive Rotation");
 
     public static Layout getDriverInputs() {
+        final var rotationDegreesPerSecond = 50;
 
         final var logitechLayout = new MapLayout();
         final var logitech = new LogitechGamepadF310(0);
         logitechLayout.assign(driveSpeedX, manualDeadzone(logitech.leftStickX).scaled(0.5));
         logitechLayout.assign(driveSpeedY, manualDeadzone(logitech.leftStickY).scaled(0.5));
         logitechLayout.assign(driveRotation,
-                manualDeadzone(logitech.rightStickX).scaled(DriveConstants.TELEOP_SPIN_SPEED));
+                manualDeadzone(logitech.rightStickX).scaled(rotationDegreesPerSecond));
 
         final var stickLayout = new MapLayout();
         final var flightStick = new LogitechExtreme3D(1);
@@ -33,8 +34,8 @@ public class DriverInputs {
 
         stickLayout.assign(driveSpeedX, manualDeadzone(flightStick.stickX).scaled(flightStickSpeedModifier::get));
         stickLayout.assign(driveSpeedY, manualDeadzone(flightStick.stickY).scaled(flightStickSpeedModifier::get));
-        stickLayout.assign(driveRotation,
-                manualDeadzone(flightStick.stickRotate).scaled(DriveConstants.TELEOP_SPIN_SPEED));
+        stickLayout.assign(driveRotation, manualDeadzone(flightStick.stickRotate)
+                .scaled(rotationDegreesPerSecond).scaled(flightStickSpeedModifier::get));
 
         final var entry = NetworkTableInstance.getDefault().getEntry("157/Drive/StickEnabled");
         entry.setDefaultBoolean(false);
