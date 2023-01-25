@@ -1,5 +1,6 @@
 package frc.robot.input;
 
+import org.assabet.aztechs157.Range;
 import org.assabet.aztechs157.input.inputs.Axis;
 import org.assabet.aztechs157.input.layouts.Layout;
 import org.assabet.aztechs157.input.layouts.MapLayout;
@@ -26,11 +27,12 @@ public class DriverInputs {
 
         final var stickLayout = new MapLayout();
         final var flightStick = new LogitechExtreme3D(1);
-        // The offset and scaled move axis from range -1..1 to 0..1
-        // TODO: Add util method to Axis using RangeConverter
-        final var speed = flightStick.slider.inverted().offset(1).scaled(0.5);
-        stickLayout.assign(driveSpeedX, manualDeadzone(flightStick.stickX).scaled(speed::get));
-        stickLayout.assign(driveSpeedY, manualDeadzone(flightStick.stickY).scaled(speed::get));
+
+        final var flightStickSpeedModifier = flightStick.slider.inverted()
+                .convertRange(new Range(-1, 1), new Range(0, 1));
+
+        stickLayout.assign(driveSpeedX, manualDeadzone(flightStick.stickX).scaled(flightStickSpeedModifier::get));
+        stickLayout.assign(driveSpeedY, manualDeadzone(flightStick.stickY).scaled(flightStickSpeedModifier::get));
         stickLayout.assign(driveRotation,
                 manualDeadzone(flightStick.stickRotate).scaled(DriveConstants.TELEOP_SPIN_SPEED));
 

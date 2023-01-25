@@ -100,6 +100,11 @@ public class Axis {
         return map(value -> range.clamp(value));
     }
 
+    public Axis convertRange(final Range rangeFrom, final Range rangeTo) {
+        final var converter = new RangeConverter(rangeFrom, rangeTo);
+        return map(value -> converter.convert(value));
+    }
+
     /**
      * Create a deadzone on the current axis.
      *
