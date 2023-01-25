@@ -11,16 +11,16 @@ public class LogitechGamepadF310 extends Model {
         super(joystickId);
     }
 
-    public final Button a = button(1).label("A");
-    public final Button b = button(2).label("B");
-    public final Button x = button(3).label("X");
-    public final Button y = button(4).label("Y");
-    public final Button leftBumper = button(5).label("Left Bumper");
-    public final Button rightBumper = button(6).label("Right Bumper");
-    public final Button back = button(7).label("Back");
-    public final Button start = button(8).label("Start");
-    public final Button leftStickPress = button(9).label("Left Stick Press");
-    public final Button rightStickPress = button(10).label("Right Stick Press");
+    public final Button a = button("A", 1);
+    public final Button b = button("B", 2);
+    public final Button x = button("X", 3);
+    public final Button y = button("Y", 4);
+    public final Button leftBumper = button("Left Bumper", 5);
+    public final Button rightBumper = button("Right Bumper", 6);
+    public final Button back = button("Back", 7);
+    public final Button start = button("Start", 8);
+    public final Button leftStickPress = button("Left Stick Press", 9);
+    public final Button rightStickPress = button("Right Stick Press", 10);
 
     public final Axis leftStickX = axis("Left Stick X", 0);
     public final Axis leftStickY = axis("Left Stick Y", 1);

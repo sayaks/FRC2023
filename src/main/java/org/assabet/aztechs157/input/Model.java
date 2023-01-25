@@ -27,8 +27,8 @@ public class Model {
      * @param buttonId The button to model
      * @return The modeled {@link Button}
      */
-    public Button button(final int buttonId) {
-        return Button.fromDriverStation(deviceId, buttonId);
+    public Button button(final String label, final int buttonId) {
+        return Button.fromDriverStation(deviceId, buttonId).label(label);
     }
 
     /**
