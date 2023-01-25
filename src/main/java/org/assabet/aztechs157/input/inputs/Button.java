@@ -3,8 +3,6 @@ package org.assabet.aztechs157.input.inputs;
 import java.util.function.BooleanSupplier;
 import java.util.function.UnaryOperator;
 
-import org.assabet.aztechs157.input.BaseKey;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -14,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * {@link Button}.
  */
 public class Button extends Trigger {
-    public static class Key extends BaseKey<Key> {
+    public static record Key(String label) {
     }
 
     public Button(final BooleanSupplier isPressed) {

@@ -12,9 +12,9 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class DriverInputs extends SelectableLayout {
-    public static final Axis.Key driveSpeedX = new Axis.Key().label("Drive Speed X");
-    public static final Axis.Key driveSpeedY = new Axis.Key().label("Drive Speed Y");
-    public static final Axis.Key driveRotation = new Axis.Key().label("Drive Rotation");
+    public static final Axis.Key driveSpeedX = new Axis.Key("Drive Speed X");
+    public static final Axis.Key driveSpeedY = new Axis.Key("Drive Speed Y");
+    public static final Axis.Key driveRotation = new Axis.Key("Drive Rotation");
 
     private static final NetworkTableEntry entry = NetworkTableInstance.getDefault().getEntry("157/Drive/StickEnabled");
 

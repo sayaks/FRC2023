@@ -3,15 +3,13 @@ package org.assabet.aztechs157.input.inputs;
 import java.util.function.IntSupplier;
 import java.util.function.IntUnaryOperator;
 
-import org.assabet.aztechs157.input.BaseKey;
-
 import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * Class for getting input from a pov.
  */
 public class Pov {
-    public static class Key extends BaseKey<Key> {
+    public static record Key(String label) {
     }
 
     private final IntSupplier degrees;

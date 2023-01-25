@@ -5,7 +5,6 @@ import java.util.function.DoubleUnaryOperator;
 
 import org.assabet.aztechs157.Range;
 import org.assabet.aztechs157.RangeConverter;
-import org.assabet.aztechs157.input.BaseKey;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -15,7 +14,7 @@ import edu.wpi.first.wpilibj.DriverStation;
  * {@link Axis}.
  */
 public class Axis {
-    public static class Key extends BaseKey<Key> {
+    public static record Key(String label) {
     }
 
     private final DoubleSupplier value;
