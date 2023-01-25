@@ -10,7 +10,6 @@ import org.assabet.aztechs157.input.models.LogitechGamepadF310;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.Constants.DriveConstants;
 
 public class DriverInputs extends SelectableLayout {
     public static final Axis.Key driveSpeedX = new Axis.Key().label("Drive Speed X");
@@ -55,8 +54,10 @@ public class DriverInputs extends SelectableLayout {
     }
 
     private static Axis manualDeadzone(final Axis input) {
+        final var threshold = 0.2;
+
         return input.map(value -> {
-            if (Math.abs(value) < DriveConstants.TELEOP_AXIS_THRESHOLD) {
+            if (Math.abs(value) < threshold) {
                 return 0;
             }
             return value;

@@ -2,31 +2,27 @@ package frc.robot.drive;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.input.DriverInputs;
 
 public class DegreeDrive extends CommandBase {
     private final DriveSubsystem drive;
-    private final Joystick joystick;
+    private final DriverInputs driverInputs;
 
     /** Creates a new TeleopDrive. */
-    public DegreeDrive(final DriveSubsystem drive, final Joystick joystick) {
+    public DegreeDrive(final DriveSubsystem drive, final DriverInputs driverInputs) {
         this.drive = drive;
         addRequirements(drive);
-        this.joystick = joystick;
+        this.driverInputs = driverInputs;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        final var x = joystick.getRawAxis(0);
-        final var y = joystick.getRawAxis(1);
+        final var x = driverInputs.axis(DriverInputs.driveSpeedX).get();
+        final var y = driverInputs.axis(DriverInputs.driveSpeedY).get();
 
-        final var aboveThreshold = Math.abs(x) > DriveConstants.TELEOP_AXIS_THRESHOLD
-                || Math.abs(y) > DriveConstants.TELEOP_AXIS_THRESHOLD;
-
-        if (!aboveThreshold) {
+        if (x == 0 || y == 0) {
             drive.stop();
             return;
         }
@@ -34,7 +30,7 @@ public class DegreeDrive extends CommandBase {
         final var angle = Math.toDegrees(Math.atan2(y, x)) + 180;
 
         final var length = Math.sqrt((x * x) + (y * y));
-        final var speed = Math.min(1, length) * DriveConstants.TELEOP_ROLL_SPEED;
+        final var speed = Math.min(1, length) * .1;
 
         final var state = new SwerveModuleState(speed, Rotation2d.fromDegrees(angle));
         drive.setSingle(state);

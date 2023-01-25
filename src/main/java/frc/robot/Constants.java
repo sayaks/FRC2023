@@ -28,10 +28,6 @@ public final class Constants {
     }
 
     public static class DriveConstants {
-        public static final double TELEOP_SPIN_SPEED = 10;
-        public static final double TELEOP_ROLL_SPEED = .1;
-        public static final double TELEOP_AXIS_THRESHOLD = 0.2;
-
         public static final IdleMode ROLL_IDLE_MODE = IdleMode.kBrake;
         public static final IdleMode SPIN_IDLE_MODE = IdleMode.kCoast;
 
