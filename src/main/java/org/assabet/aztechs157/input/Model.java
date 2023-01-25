@@ -37,8 +37,8 @@ public class Model {
      * @param buttonId The axis to model
      * @return The modeled {@link Axis}
      */
-    public Axis axis(final int axisId) {
-        return Axis.fromDriverStation(deviceId, axisId);
+    public Axis axis(final String label, final int axisId) {
+        return Axis.fromDriverStation(label, deviceId, axisId);
     }
 
     /**

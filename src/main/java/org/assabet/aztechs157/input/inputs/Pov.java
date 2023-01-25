@@ -67,19 +67,19 @@ public class Pov {
     public final Button left = matchesValue(LEFT, "Left");
     public final Button upLeft = matchesValue(UP_LEFT, "Up Left");
 
-    public final Axis x = new Axis(() -> {
+    public final Axis x = new Axis(null, () -> {
         final var value = get();
         if (value == CENTER) {
             return 0;
         }
         return Math.round(Math.sin(Math.toRadians(value)));
-    }).label(label + " X");
+    });
 
-    public final Axis y = new Axis(() -> {
+    public final Axis y = new Axis(null, () -> {
         final var value = get();
         if (value == CENTER) {
             return 0;
         }
         return Math.round(Math.cos(Math.toRadians(value)));
-    }).label(label + " Y");
+    });
 }

@@ -40,7 +40,7 @@ public class SelectableLayout implements Layout {
      * @return A {@link Axis} representing the input
      */
     public Axis axis(final Axis.Key key) {
-        return new Axis(() -> getSelected().axis(key).get());
+        return new Axis(null, () -> getSelected().axis(key).get());
     }
 
     /**

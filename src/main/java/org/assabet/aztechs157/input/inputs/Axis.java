@@ -18,30 +18,19 @@ public class Axis {
     }
 
     private final DoubleSupplier value;
+    public final String label;
 
-    public Axis(final DoubleSupplier value) {
+    public Axis(final String label, final DoubleSupplier value) {
+        this.label = label;
         this.value = value;
     }
 
-    public static Axis fromDriverStation(final int deviceId, final int axisId) {
-        return new Axis(() -> DriverStation.getStickAxis(deviceId, axisId))
-                .label("Device " + deviceId + " Axis " + axisId);
+    public static Axis fromDriverStation(final String label, final int deviceId, final int axisId) {
+        return new Axis(label, () -> DriverStation.getStickAxis(deviceId, axisId));
     }
 
     public static Axis always(final double value) {
-        return new Axis(() -> value);
-    }
-
-    private String label = "Unlabeled Axis";
-
-    public Axis label(final String label) {
-        this.label = label;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return label;
+        return new Axis(value + "", () -> value);
     }
 
     public double get() {
@@ -49,7 +38,7 @@ public class Axis {
     }
 
     public Axis map(final DoubleUnaryOperator function) {
-        return new Axis(() -> function.applyAsDouble(get())).label(label);
+        return new Axis(label, () -> function.applyAsDouble(get()));
     }
 
     /**

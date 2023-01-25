@@ -22,12 +22,12 @@ public class LogitechGamepadF310 extends Model {
     public final Button leftStickPress = button(9).label("Left Stick Press");
     public final Button rightStickPress = button(10).label("Right Stick Press");
 
-    public final Axis leftStickX = axis(0).label("Left Stick X");
-    public final Axis leftStickY = axis(1).label("Left Stick Y");
-    public final Axis rightTriggerHeld = axis(2).label("Right Trigger Held");
-    public final Axis leftTriggerHeld = axis(3).label("Left Trigger Held");
-    public final Axis rightStickX = axis(4).label("Right Stick X");
-    public final Axis rightStickY = axis(5).label("Right Stick Y");
+    public final Axis leftStickX = axis("Left Stick X", 0);
+    public final Axis leftStickY = axis("Left Stick Y", 1);
+    public final Axis rightTriggerHeld = axis("Right Trigger Held", 2);
+    public final Axis leftTriggerHeld = axis("Left Trigger Held", 3);
+    public final Axis rightStickX = axis("Right Stick X", 4);
+    public final Axis rightStickY = axis("Right Stick Y", 5);
 
     public final Pov pov = pov(0).label("");
 }

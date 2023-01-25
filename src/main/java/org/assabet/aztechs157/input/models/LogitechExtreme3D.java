@@ -23,10 +23,10 @@ public class LogitechExtreme3D extends Model {
     public final Button button11 = button(11);
     public final Button button12 = button(12);
 
-    public final Axis stickX = axis(0);
-    public final Axis stickY = axis(1);
-    public final Axis stickRotate = axis(2);
-    public final Axis slider = axis(3);
+    public final Axis stickX = axis("Stick X", 0);
+    public final Axis stickY = axis("Stick Y", 1);
+    public final Axis stickRotate = axis("Stick Rotate", 2);
+    public final Axis slider = axis("Slider", 3);
 
     public final Pov pov = pov(0);
 }
