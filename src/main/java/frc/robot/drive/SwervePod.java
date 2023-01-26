@@ -1,6 +1,6 @@
 package frc.robot.drive;
 
-import static org.assabet.aztechs157.numbers.ExpectNumber.expect;
+import org.assabet.aztechs157.Expect;
 
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
@@ -84,7 +84,7 @@ public class SwervePod {
             wrapped += 360;
         }
 
-        expect(wrapped).greaterOrEqual(0).lessOrEqual(360);
+        Expect.number(wrapped).greaterOrEqual(0).lessOrEqual(360);
         return wrapped;
     }
 
@@ -114,22 +114,22 @@ public class SwervePod {
     private double computeInitialDelta(final double target) {
         final double initial = getCurrentAngle();
 
-        expect(target).greaterOrEqual(0).lessOrEqual(360);
-        expect(initial).greaterOrEqual(0).lessOrEqual(360);
+        Expect.number(target).greaterOrEqual(0).lessOrEqual(360);
+        Expect.number(initial).greaterOrEqual(0).lessOrEqual(360);
 
         var initialDelta = target - initial;
-        expect(initialDelta).greaterOrEqual(-360).lessOrEqual(360);
+        Expect.number(initialDelta).greaterOrEqual(-360).lessOrEqual(360);
 
         if (initialDelta < 0) {
             initialDelta += 360;
         }
-        expect(initialDelta).greaterOrEqual(0).lessOrEqual(360);
+        Expect.number(initialDelta).greaterOrEqual(0).lessOrEqual(360);
 
         return initialDelta;
     }
 
     private double computeShortestDelta(final double initialDelta) {
-        expect(initialDelta).greaterOrEqual(0).lessOrEqual(360);
+        Expect.number(initialDelta).greaterOrEqual(0).lessOrEqual(360);
 
         if (initialDelta < 90) {
             reversed = false;
@@ -144,7 +144,7 @@ public class SwervePod {
             return initialDelta - 360;
         }
 
-        throw new RuntimeException("Above expect() should have covered this.");
+        throw new RuntimeException("Above Expect.number() should have covered this.");
     }
 
     private final PIDController anglePid = new PIDController(DriveConstants.SPIN_KP, 0, DriveConstants.SPIN_KD);
