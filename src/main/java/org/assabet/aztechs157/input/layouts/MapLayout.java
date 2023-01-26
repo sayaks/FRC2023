@@ -5,13 +5,18 @@ import java.util.Map;
 
 import org.assabet.aztechs157.input.inputs.Axis;
 import org.assabet.aztechs157.input.inputs.Button;
-import java.util.function.BiFunction;
 
 /**
  * A simple structure that stores the mapping between keys and inputs. These can
  * be used with {@link SelectableLayout} to allow hot-swapping of layouts.
  */
 public class MapLayout implements Layout {
+    public final String label;
+
+    public MapLayout(final String label) {
+        this.label = label;
+    }
+
     private final Map<Button.Key, Button> buttons = new HashMap<>();
     private final Map<Axis.Key, Axis> axes = new HashMap<>();
 
@@ -25,7 +30,7 @@ public class MapLayout implements Layout {
      * @param button The button being assigned
      */
     public void assign(final Button.Key key, final Button button) {
-        buttons.put(key, buttonAssigner.apply(buttons.get(key), button));
+        buttons.put(key, button);
     }
 
     /**
@@ -38,20 +43,7 @@ public class MapLayout implements Layout {
      * @param axis The axis being assigned
      */
     public void assign(final Axis.Key key, final Axis axis) {
-        axes.put(key, axisAssigner.apply(axes.get(key), axis));
-    }
-
-    private BiFunction<Button, Button, Button> buttonAssigner = (prev, next) -> next;
-    private BiFunction<Axis, Axis, Axis> axisAssigner = (prev, next) -> next;
-
-    public MapLayout assignButtonsWith(final BiFunction<Button, Button, Button> buttonAssigner) {
-        this.buttonAssigner = buttonAssigner;
-        return this;
-    }
-
-    public MapLayout assignAxesWith(final BiFunction<Axis, Axis, Axis> axisAssigner) {
-        this.axisAssigner = axisAssigner;
-        return this;
+        axes.put(key, axis);
     }
 
     /**
@@ -72,13 +64,6 @@ public class MapLayout implements Layout {
      */
     public Axis axis(final Axis.Key key) {
         return axes.get(key);
-    }
-
-    private String label = "Unlabeled MapLayout";
-
-    public MapLayout label(final String label) {
-        this.label = label;
-        return this;
     }
 
     @Override

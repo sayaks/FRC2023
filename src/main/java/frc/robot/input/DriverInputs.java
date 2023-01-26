@@ -27,7 +27,7 @@ public class DriverInputs extends SelectableLayout {
     private static final double kMaxRotationDegreesPerSecond = 50;
 
     private static Layout logitechLayout() {
-        final var layout = new MapLayout();
+        final var layout = new MapLayout("Logitech Layout");
         final var input = new LogitechGamepadF310(0);
 
         final var speedModifier = 0.5;
@@ -40,7 +40,7 @@ public class DriverInputs extends SelectableLayout {
     }
 
     private static Layout flightLayout() {
-        final var layout = new MapLayout();
+        final var layout = new MapLayout("Flight Layout");
         final var input = new LogitechExtreme3D(1);
 
         final var speedModifier = input.slider.inverted()
