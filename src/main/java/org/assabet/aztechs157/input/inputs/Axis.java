@@ -56,7 +56,7 @@ public class Axis {
      * @param scale The value to scale by
      * @return A new input with the scale applied
      */
-    public Axis scaled(final double scale) {
+    public Axis scaledBy(final double scale) {
         return map(value -> value * scale);
     }
 
@@ -66,15 +66,15 @@ public class Axis {
      * @param scale The input to retrieve the scale from
      * @return A new input with the scale applied
      */
-    public Axis scaled(final DoubleSupplier scale) {
+    public Axis scaledBy(final DoubleSupplier scale) {
         return map(value -> value * scale.getAsDouble());
     }
 
-    public Axis offset(final double offset) {
+    public Axis offsetBy(final double offset) {
         return map(value -> value + offset);
     }
 
-    public Axis offset(final DoubleSupplier offset) {
+    public Axis offsetBy(final DoubleSupplier offset) {
         return map(value -> value + offset.getAsDouble());
     }
 
@@ -84,7 +84,7 @@ public class Axis {
      * @param range The range to clamp to
      * @return A new input with clamp applied
      */
-    public Axis clamp(final Range range) {
+    public Axis clampTo(final Range range) {
         return map(value -> range.clamp(value));
     }
 

@@ -24,7 +24,8 @@ public class DriverInputs extends SelectableLayout {
                 : logitechLayout());
     }
 
-    private static final double kMaxRotationDegreesPerSecond = 50;
+    private static final Range deadzone = new Range(-0.2, 0.2);
+    private static final double maxRotationDegreesPerSecond = 50;
 
     private static Layout logitechLayout() {
         final var layout = new MapLayout("Logitech Layout");
@@ -32,9 +33,9 @@ public class DriverInputs extends SelectableLayout {
 
         final var speedModifier = 0.5;
 
-        layout.assign(driveSpeedX, manualDeadzone(input.leftStickX).scaled(speedModifier));
-        layout.assign(driveSpeedY, manualDeadzone(input.leftStickY).scaled(speedModifier));
-        layout.assign(driveRotation, manualDeadzone(input.rightStickX).scaled(kMaxRotationDegreesPerSecond));
+        layout.assign(driveSpeedX, input.leftStickX.deadzone(deadzone).scaledBy(speedModifier));
+        layout.assign(driveSpeedY, input.leftStickY.deadzone(deadzone).scaledBy(speedModifier));
+        layout.assign(driveRotation, input.rightStickX.deadzone(deadzone).scaledBy(maxRotationDegreesPerSecond));
 
         return layout;
     }
@@ -43,24 +44,12 @@ public class DriverInputs extends SelectableLayout {
         final var layout = new MapLayout("Flight Layout");
         final var input = new LogitechExtreme3D(1);
 
-        final var speedModifier = input.slider.inverted()
-                .convertRange(new Range(-1, 1), new Range(0, 1));
+        final var speedModifier = input.slider.inverted().convertRange(new Range(-1, 1), new Range(0, 1));
 
-        layout.assign(driveSpeedX, manualDeadzone(input.stickX).scaled(speedModifier::get));
-        layout.assign(driveSpeedY, manualDeadzone(input.stickY).scaled(speedModifier::get));
-        layout.assign(driveRotation, manualDeadzone(input.stickRotate).scaled(kMaxRotationDegreesPerSecond));
+        layout.assign(driveSpeedX, input.stickX.deadzone(deadzone).scaledBy(speedModifier::get));
+        layout.assign(driveSpeedY, input.stickY.deadzone(deadzone).scaledBy(speedModifier::get));
+        layout.assign(driveRotation, input.stickRotate.deadzone(deadzone).scaledBy(maxRotationDegreesPerSecond));
 
         return layout;
-    }
-
-    private static Axis manualDeadzone(final Axis input) {
-        final var threshold = 0.2;
-
-        return input.map(value -> {
-            if (Math.abs(value) < threshold) {
-                return 0;
-            }
-            return value;
-        });
     }
 }
