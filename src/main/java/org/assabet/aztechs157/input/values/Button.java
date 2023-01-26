@@ -4,6 +4,8 @@ import java.util.function.BooleanSupplier;
 import java.util.function.UnaryOperator;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * Class for getting input from a button. This class has methods and static
@@ -32,6 +34,16 @@ public class Button {
 
     public boolean get() {
         return value.getAsBoolean();
+    }
+
+    public Button whenPressed(final Command command) {
+        new Trigger(value).onTrue(command);
+        return this;
+    }
+
+    public Button whileHeld(final Command command) {
+        new Trigger(value).whileTrue(command);
+        return this;
     }
 
     public Button map(final UnaryOperator<Boolean> function) {
