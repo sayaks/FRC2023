@@ -30,9 +30,9 @@ public class SwervePod {
 
         table.getEntry("Inverted").setBoolean(config.driveMotorInverted);
 
-        driveMotor.setIdleMode(DriveConstants.ROLL_IDLE_MODE);
+        driveMotor.setIdleMode(DriveConstants.DRIVE_IDLE_MODE);
         driveMotor.setInverted(false);
-        angleMotor.setIdleMode(DriveConstants.SPIN_IDLE_MODE);
+        angleMotor.setIdleMode(DriveConstants.ANGLE_IDLE_MODE);
         angleMotor.setInverted(true);
         angleEncoder.configSensorDirection(false);
     }
@@ -54,7 +54,7 @@ public class SwervePod {
         drive(0);
     }
 
-    private final SlewRateLimiter driveSlewrate = new SlewRateLimiter(DriveConstants.ROLL_SLEW_RATE);
+    private final SlewRateLimiter driveSlewrate = new SlewRateLimiter(DriveConstants.DRIVE_SLEW_RATE);
     private boolean reversed = false;
 
     private void drive(double speed) {
@@ -147,7 +147,7 @@ public class SwervePod {
         throw new RuntimeException("Above Expect.number() should have covered this.");
     }
 
-    private final PIDController anglePid = new PIDController(DriveConstants.SPIN_KP, 0, DriveConstants.SPIN_KD);
+    private final PIDController anglePid = new PIDController(DriveConstants.ANGLE_KP, 0, DriveConstants.ANGLE_KD);
 
     private double computeAnglePidOutput(final double shortestDelta) {
         final var pidOutput = anglePid.calculate(getCurrentAngle() + shortestDelta, getCurrentAngle());

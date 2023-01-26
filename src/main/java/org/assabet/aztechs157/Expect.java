@@ -2,7 +2,7 @@ package org.assabet.aztechs157;
 
 public final class Expect {
     private Expect() {
-        throw new IllegalStateException("Expect is a utility class");
+        throw new UnsupportedOperationException("Expect is a utility class");
     }
 
     public static class ExpectError extends RuntimeException {
