@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.assabet.aztechs157.input.inputs.Axis;
 import org.assabet.aztechs157.input.inputs.Button;
-import org.assabet.aztechs157.input.inputs.Pov;
 import java.util.function.BiFunction;
 
 /**
@@ -15,7 +14,6 @@ import java.util.function.BiFunction;
 public class MapLayout implements Layout {
     private final Map<Button.Key, Button> buttons = new HashMap<>();
     private final Map<Axis.Key, Axis> axes = new HashMap<>();
-    private final Map<Pov.Key, Pov> povs = new HashMap<>();
 
     /**
      * For this Layout, assign a {@link Button.Key} to a {@link Button}.
@@ -43,21 +41,8 @@ public class MapLayout implements Layout {
         axes.put(key, axisAssigner.apply(axes.get(key), axis));
     }
 
-    /**
-     * For this Layout, assign a {@link Pov.KeyBase} to a {@link Pov}. Calling this
-     * method multiple times with the same key will override the previous
-     * assignment.
-     *
-     * @param key The key to assign with
-     * @param pov The pov being assigned
-     */
-    public void assign(final Pov.Key key, final Pov pov) {
-        povs.put(key, povAssigner.apply(povs.get(key), pov));
-    }
-
     private BiFunction<Button, Button, Button> buttonAssigner = (prev, next) -> next;
     private BiFunction<Axis, Axis, Axis> axisAssigner = (prev, next) -> next;
-    private BiFunction<Pov, Pov, Pov> povAssigner = (prev, next) -> next;
 
     public MapLayout assignButtonsWith(final BiFunction<Button, Button, Button> buttonAssigner) {
         this.buttonAssigner = buttonAssigner;
@@ -66,11 +51,6 @@ public class MapLayout implements Layout {
 
     public MapLayout assignAxesWith(final BiFunction<Axis, Axis, Axis> axisAssigner) {
         this.axisAssigner = axisAssigner;
-        return this;
-    }
-
-    public MapLayout assignPovsWith(final BiFunction<Pov, Pov, Pov> povAssigner) {
-        this.povAssigner = povAssigner;
         return this;
     }
 
@@ -92,16 +72,6 @@ public class MapLayout implements Layout {
      */
     public Axis axis(final Axis.Key key) {
         return axes.get(key);
-    }
-
-    /**
-     * Retrieve the {@link Pov} associated with a {@link Pov.KeyBase}
-     *
-     * @param key The key an pov was assigned to
-     * @return The associated pov
-     */
-    public Pov pov(final Pov.Key key) {
-        return povs.get(key);
     }
 
     private String label = "Unlabeled MapLayout";
@@ -138,16 +108,6 @@ public class MapLayout implements Layout {
                         entryFormat,
                         entry.getKey().label(),
                         entry.getValue().label));
-            }
-        }
-
-        if (!povs.isEmpty()) {
-            builder.append(String.format(headerFormat, "Povs"));
-            for (final var entry : povs.entrySet()) {
-                builder.append(String.format(
-                        entryFormat,
-                        entry.getKey(),
-                        entry.getValue()));
             }
         }
 

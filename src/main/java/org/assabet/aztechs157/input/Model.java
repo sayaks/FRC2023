@@ -2,7 +2,6 @@ package org.assabet.aztechs157.input;
 
 import org.assabet.aztechs157.input.inputs.Axis;
 import org.assabet.aztechs157.input.inputs.Button;
-import org.assabet.aztechs157.input.inputs.Pov;
 
 /**
  * Models map physical inputs on a input device to input classes such as

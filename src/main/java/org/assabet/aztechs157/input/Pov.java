@@ -1,7 +1,9 @@
-package org.assabet.aztechs157.input.inputs;
+package org.assabet.aztechs157.input;
 
 import java.util.function.IntSupplier;
-import java.util.function.IntUnaryOperator;
+
+import org.assabet.aztechs157.input.inputs.Axis;
+import org.assabet.aztechs157.input.inputs.Button;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -9,9 +11,6 @@ import edu.wpi.first.wpilibj.DriverStation;
  * Class for getting input from a pov.
  */
 public class Pov {
-    public static record Key(String label) {
-    }
-
     private final IntSupplier degrees;
 
     public Pov(final IntSupplier degrees) {
@@ -24,10 +23,6 @@ public class Pov {
 
     public int get() {
         return degrees.getAsInt();
-    }
-
-    public Pov map(final IntUnaryOperator function) {
-        return new Pov(() -> function.applyAsInt(get()));
     }
 
     public static final int CENTER = -1;

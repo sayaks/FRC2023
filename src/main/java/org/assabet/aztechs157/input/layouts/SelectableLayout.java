@@ -4,7 +4,6 @@ import java.util.function.Supplier;
 
 import org.assabet.aztechs157.input.inputs.Axis;
 import org.assabet.aztechs157.input.inputs.Button;
-import org.assabet.aztechs157.input.inputs.Pov;
 
 /**
  * Object that manages layouts. A layout can be selected from Shuffleboard that
@@ -41,16 +40,6 @@ public class SelectableLayout implements Layout {
      */
     public Axis axis(final Axis.Key key) {
         return new Axis(null, () -> getSelected().axis(key).get());
-    }
-
-    /**
-     * Get a pov from the currently selected layout.
-     *
-     * @param key Which pov to retrieve
-     * @return A {@link Pov} representing the input
-     */
-    public Pov pov(final Pov.Key key) {
-        return new Pov(() -> getSelected().pov(key).get());
     }
 
     private String label = "Unlabeled Selectable Layout";
