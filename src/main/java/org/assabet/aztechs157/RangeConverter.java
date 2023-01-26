@@ -1,8 +1,8 @@
 package org.assabet.aztechs157;
 
 public class RangeConverter {
-    private final Range inputRange;
-    private final Range outputRange;
+    public final Range inputRange;
+    public final Range outputRange;
     private final double scaleFactor;
 
     public RangeConverter(final Range inputRange, final Range outputRange) {

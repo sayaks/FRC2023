@@ -1,5 +1,6 @@
 package frc.robot.input;
 
+import org.assabet.aztechs157.Deadzone;
 import org.assabet.aztechs157.Range;
 import org.assabet.aztechs157.input.inputs.Axis;
 import org.assabet.aztechs157.input.layouts.Layout;
@@ -24,7 +25,7 @@ public class DriverInputs extends SelectableLayout {
                 : logitechLayout());
     }
 
-    private static final Range deadzone = new Range(-0.2, 0.2);
+    private static final Deadzone deadzone = Deadzone.forAxis(new Range(-0.2, 0.2));
     private static final double maxRotationDegreesPerSecond = 50;
 
     private static Layout logitechLayout() {
@@ -33,9 +34,9 @@ public class DriverInputs extends SelectableLayout {
 
         final var speedModifier = 0.5;
 
-        layout.assign(driveSpeedX, input.leftStickX.deadzone(deadzone).scaledBy(speedModifier));
-        layout.assign(driveSpeedY, input.leftStickY.deadzone(deadzone).scaledBy(speedModifier));
-        layout.assign(driveRotation, input.rightStickX.deadzone(deadzone).scaledBy(maxRotationDegreesPerSecond));
+        layout.assign(driveSpeedX, input.leftStickX.map(deadzone::apply).scaledBy(speedModifier));
+        layout.assign(driveSpeedY, input.leftStickY.map(deadzone::apply).scaledBy(speedModifier));
+        layout.assign(driveRotation, input.rightStickX.map(deadzone::apply).scaledBy(maxRotationDegreesPerSecond));
 
         return layout;
     }
@@ -46,9 +47,9 @@ public class DriverInputs extends SelectableLayout {
 
         final var speedModifier = input.slider.inverted().convertRange(new Range(-1, 1), new Range(0, 1));
 
-        layout.assign(driveSpeedX, input.stickX.deadzone(deadzone).scaledBy(speedModifier::get));
-        layout.assign(driveSpeedY, input.stickY.deadzone(deadzone).scaledBy(speedModifier::get));
-        layout.assign(driveRotation, input.stickRotate.deadzone(deadzone).scaledBy(maxRotationDegreesPerSecond));
+        layout.assign(driveSpeedX, input.stickX.map(deadzone::apply).scaledBy(speedModifier::get));
+        layout.assign(driveSpeedY, input.stickY.map(deadzone::apply).scaledBy(speedModifier::get));
+        layout.assign(driveRotation, input.stickRotate.map(deadzone::apply).scaledBy(maxRotationDegreesPerSecond));
 
         return layout;
     }
