@@ -9,7 +9,7 @@ import org.assabet.aztechs157.input.inputs.Button;
  */
 public class Model {
 
-    private final int deviceId;
+    public final int deviceId;
 
     /**
      * Create a Model that models the device specified by `deviceId`

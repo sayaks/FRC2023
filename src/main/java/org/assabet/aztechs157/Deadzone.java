@@ -1,10 +1,10 @@
 package org.assabet.aztechs157;
 
 public class Deadzone {
-    private final Range deadzone;
-    private final Range full;
-    private final RangeConverter leftConverter;
-    private final RangeConverter rightConverter;
+    public final Range deadzone;
+    public final Range full;
+    public final RangeConverter leftConverter;
+    public final RangeConverter rightConverter;
 
     public static Deadzone forAxis(final Range deadzone) {
         return new Deadzone(deadzone, new Range(-1, 1), 0);
