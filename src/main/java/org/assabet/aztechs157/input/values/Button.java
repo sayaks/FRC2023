@@ -1,4 +1,4 @@
-package org.assabet.aztechs157.input.inputs;
+package org.assabet.aztechs157.input.values;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.UnaryOperator;

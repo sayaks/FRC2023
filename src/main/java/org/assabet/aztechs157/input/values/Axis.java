@@ -1,4 +1,4 @@
-package org.assabet.aztechs157.input.inputs;
+package org.assabet.aztechs157.input.values;
 
 import java.util.function.DoubleSupplier;
 import java.util.function.DoubleUnaryOperator;

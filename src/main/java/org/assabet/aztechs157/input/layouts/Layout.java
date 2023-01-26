@@ -1,7 +1,7 @@
 package org.assabet.aztechs157.input.layouts;
 
-import org.assabet.aztechs157.input.inputs.Axis;
-import org.assabet.aztechs157.input.inputs.Button;
+import org.assabet.aztechs157.input.values.Axis;
+import org.assabet.aztechs157.input.values.Button;
 
 public interface Layout {
     /**
