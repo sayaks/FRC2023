@@ -8,7 +8,7 @@ import org.assabet.aztechs157.input.values.Button;
 
 /**
  * A simple structure that stores the mapping between keys and inputs. These can
- * be used with {@link SelectableLayout} to allow hot-swapping of layouts.
+ * be used with {@link DynamicLayout} to allow hot-swapping of layouts.
  */
 public class MapLayout implements Layout {
     public final String label;

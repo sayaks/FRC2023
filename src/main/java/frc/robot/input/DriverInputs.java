@@ -2,7 +2,7 @@ package frc.robot.input;
 
 import org.assabet.aztechs157.input.layouts.Layout;
 import org.assabet.aztechs157.input.layouts.MapLayout;
-import org.assabet.aztechs157.input.layouts.SelectableLayout;
+import org.assabet.aztechs157.input.layouts.DynamicLayout;
 import org.assabet.aztechs157.input.models.LogitechExtreme3D;
 import org.assabet.aztechs157.input.models.LogitechGamepadF310;
 import org.assabet.aztechs157.input.values.Axis;
@@ -13,7 +13,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class DriverInputs extends SelectableLayout {
+public class DriverInputs extends DynamicLayout {
     public static final Axis.Key driveSpeedX = new Axis.Key("Drive Speed X");
     public static final Axis.Key driveSpeedY = new Axis.Key("Drive Speed Y");
     public static final Axis.Key driveRotation = new Axis.Key("Drive Rotation");

@@ -8,17 +8,16 @@ import org.assabet.aztechs157.input.values.Button;
 /**
  * Object that manages layouts. A layout can be selected from Shuffleboard that
  * can then be used by the robot. It maps the inputs of a
- * {@link SelectableLayout}
- * to the desired functions of the robot.
+ * {@link DynamicLayout} to the desired functions of the robot.
  */
-public class SelectableLayout implements Layout {
+public class DynamicLayout implements Layout {
     private final Supplier<Layout> layoutSupplier;
 
-    public SelectableLayout(final Supplier<Layout> layoutSupplier) {
+    public DynamicLayout(final Supplier<Layout> layoutSupplier) {
         this.layoutSupplier = layoutSupplier;
     }
 
-    public Layout getSelected() {
+    public Layout getCurrent() {
         return layoutSupplier.get();
     }
 
@@ -29,7 +28,7 @@ public class SelectableLayout implements Layout {
      * @return A {@link Button} and {@link Button.Key} representing the input
      */
     public Button button(final Button.Key key) {
-        return new Button(null, () -> getSelected().button(key).get());
+        return new Button(null, () -> getCurrent().button(key).get());
     }
 
     /**
@@ -39,18 +38,6 @@ public class SelectableLayout implements Layout {
      * @return A {@link Axis} representing the input
      */
     public Axis axis(final Axis.Key key) {
-        return new Axis(null, () -> getSelected().axis(key).get());
-    }
-
-    private String label = "Unlabeled Selectable Layout";
-
-    public SelectableLayout label(final String label) {
-        this.label = label;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return label + "\n" + getSelected().toString();
+        return new Axis(null, () -> getCurrent().axis(key).get());
     }
 }
