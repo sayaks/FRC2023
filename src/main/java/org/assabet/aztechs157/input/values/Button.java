@@ -3,6 +3,7 @@ package org.assabet.aztechs157.input.values;
 import java.util.function.BooleanSupplier;
 import java.util.function.UnaryOperator;
 
+import edu.wpi.first.util.function.BooleanConsumer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -46,8 +47,15 @@ public class Button {
         return this;
     }
 
-    public Button map(final UnaryOperator<Boolean> function) {
-        return new Button(label, () -> function.apply(get()));
+    public Button map(final UnaryOperator<Boolean> body) {
+        return new Button(label, () -> body.apply(get()));
+    }
+
+    public Button tap(final BooleanConsumer body) {
+        return map(value -> {
+            body.accept(value);
+            return value;
+        });
     }
 
     /**

@@ -1,5 +1,6 @@
 package org.assabet.aztechs157.input.values;
 
+import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 import java.util.function.DoubleUnaryOperator;
 
@@ -37,8 +38,15 @@ public class Axis {
         return value.getAsDouble();
     }
 
-    public Axis map(final DoubleUnaryOperator function) {
-        return new Axis(label, () -> function.applyAsDouble(get()));
+    public Axis map(final DoubleUnaryOperator body) {
+        return new Axis(label, () -> body.applyAsDouble(get()));
+    }
+
+    public Axis tap(final DoubleConsumer body) {
+        return map(value -> {
+            body.accept(value);
+            return value;
+        });
     }
 
     /**
