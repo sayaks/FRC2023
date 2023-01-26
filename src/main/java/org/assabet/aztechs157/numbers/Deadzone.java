@@ -1,4 +1,4 @@
-package org.assabet.aztechs157;
+package org.assabet.aztechs157.numbers;
 
 public class Deadzone {
     public final Range deadzone;

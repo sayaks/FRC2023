@@ -1,12 +1,12 @@
-package org.assabet.aztechs157;
+package org.assabet.aztechs157.numbers;
 
-public record ExpectDouble(double value) {
+public record ExpectNumber(double value) {
 
-    public static ExpectDouble expect(final double value) {
-        return new ExpectDouble(value);
+    public static ExpectNumber expect(final double value) {
+        return new ExpectNumber(value);
     }
 
-    public ExpectDouble greaterThan(final double other) {
+    public ExpectNumber greaterThan(final double other) {
         if (value > other) {
             return this;
         } else {
@@ -14,7 +14,7 @@ public record ExpectDouble(double value) {
         }
     }
 
-    public ExpectDouble lessThan(final double other) {
+    public ExpectNumber lessThan(final double other) {
         if (value < other) {
             return this;
         } else {
@@ -22,7 +22,7 @@ public record ExpectDouble(double value) {
         }
     }
 
-    public ExpectDouble greaterOrEqual(final double other) {
+    public ExpectNumber greaterOrEqual(final double other) {
         if (value >= other) {
             return this;
         } else {
@@ -30,7 +30,7 @@ public record ExpectDouble(double value) {
         }
     }
 
-    public ExpectDouble lessOrEqual(final double other) {
+    public ExpectNumber lessOrEqual(final double other) {
         if (value <= other) {
             return this;
         } else {

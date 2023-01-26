@@ -1,5 +1,7 @@
 package frc.robot.drive;
 
+import static org.assabet.aztechs157.numbers.ExpectNumber.expect;
+
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -9,8 +11,6 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import frc.robot.Constants.DriveConstants;
-
-import static org.assabet.aztechs157.ExpectDouble.expect;
 
 public class SwervePod {
 

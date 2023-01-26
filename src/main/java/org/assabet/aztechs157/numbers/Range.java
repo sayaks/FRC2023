@@ -1,4 +1,4 @@
-package org.assabet.aztechs157;
+package org.assabet.aztechs157.numbers;
 
 public record Range(double start, double end) {
 

@@ -1,13 +1,13 @@
 package frc.robot.input;
 
-import org.assabet.aztechs157.Deadzone;
-import org.assabet.aztechs157.Range;
 import org.assabet.aztechs157.input.inputs.Axis;
 import org.assabet.aztechs157.input.layouts.Layout;
 import org.assabet.aztechs157.input.layouts.MapLayout;
 import org.assabet.aztechs157.input.layouts.SelectableLayout;
 import org.assabet.aztechs157.input.models.LogitechExtreme3D;
 import org.assabet.aztechs157.input.models.LogitechGamepadF310;
+import org.assabet.aztechs157.numbers.Deadzone;
+import org.assabet.aztechs157.numbers.Range;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;

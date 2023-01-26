@@ -3,8 +3,8 @@ package org.assabet.aztechs157.input.inputs;
 import java.util.function.DoubleSupplier;
 import java.util.function.DoubleUnaryOperator;
 
-import org.assabet.aztechs157.Range;
-import org.assabet.aztechs157.RangeConverter;
+import org.assabet.aztechs157.numbers.Range;
+import org.assabet.aztechs157.numbers.RangeConverter;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
