@@ -29,5 +29,5 @@ public class LogitechGamepadF310 extends Model {
     public final Axis rightStickX = axis("Right Stick X", 4);
     public final Axis rightStickY = axis("Right Stick Y", 5);
 
-    public final Pov pov = pov(0).label("");
+    public final Pov pov = pov(0);
 }

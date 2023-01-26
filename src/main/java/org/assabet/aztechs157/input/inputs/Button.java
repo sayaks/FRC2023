@@ -4,48 +4,38 @@ import java.util.function.BooleanSupplier;
 import java.util.function.UnaryOperator;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * Class for getting input from a button. This class has methods and static
  * methods to modify and compose {@link Button}s into a new
  * {@link Button}.
  */
-public class Button extends Trigger {
+public class Button {
     public static record Key(String label) {
     }
 
-    public Button(final BooleanSupplier isPressed) {
-        super(isPressed);
+    private final BooleanSupplier value;
+    public final String label;
+
+    public Button(final String label, final BooleanSupplier value) {
+        this.label = label;
+        this.value = value;
     }
 
-    public static Button fromDriverStation(final int deviceId, final int buttonId) {
-        return new Button(() -> DriverStation.getStickButton(deviceId, buttonId))
-                .label("Device " + deviceId + " Button " + buttonId);
+    public static Button fromDriverStation(final String label, final int deviceId, final int buttonId) {
+        return new Button(label, () -> DriverStation.getStickButton(deviceId, buttonId));
     }
 
     public static Button always(final boolean value) {
-        return new Button(() -> value);
-    }
-
-    private String label = "Unlabeled Button";
-
-    public Button label(final String label) {
-        this.label = label;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return label;
+        return new Button(value + "", () -> value);
     }
 
     public boolean get() {
-        return getAsBoolean();
+        return value.getAsBoolean();
     }
 
     public Button map(final UnaryOperator<Boolean> function) {
-        return new Button(() -> function.apply(get())).label(label);
+        return new Button(label, () -> function.apply(get()));
     }
 
     /**
@@ -65,10 +55,16 @@ public class Button extends Trigger {
      * @return A new input that is only true when all of the passed inputs are true
      */
     public static Button all(final Button first, final Button... rest) {
-        final var button = new Button(() -> {
+        // The first argument is explicit to prevent being given empty arrays
+
+        final var label = new StringBuilder(first.label);
+        for (final var input : rest) {
+            label.append(" + " + input.label);
+        }
+
+        return new Button(label.toString(), () -> {
             // Check each input individually
             // As soon as one input is false, return false
-            // The first argument is explicit to prevent being given empty arrays
 
             if (first != null && first.get() == false) {
                 return false;
@@ -83,13 +79,6 @@ public class Button extends Trigger {
             // All inputs are true at this point, so return true
             return true;
         });
-
-        final var label = new StringBuilder(first + "");
-        for (final var input : rest) {
-            label.append(" + " + input);
-        }
-
-        return button.label(label.toString());
     }
 
     /**
@@ -100,10 +89,16 @@ public class Button extends Trigger {
      * @return A new input that is true when any of the passed inputs are true
      */
     public static Button any(final Button first, final Button... rest) {
-        final var button = new Button(() -> {
+        // The first argument is explicit to prevent being given empty arrays
+
+        final var label = new StringBuilder(first.label);
+        for (final var input : rest) {
+            label.append(" or " + input.label);
+        }
+
+        return new Button(label.toString(), () -> {
             // Check each input individually
             // As soon as one input is true, return true
-            // The first argument is explicit to prevent being given empty arrays
 
             if (first != null && first.get()) {
                 return true;
@@ -119,10 +114,5 @@ public class Button extends Trigger {
             return false;
         });
 
-        final var label = new StringBuilder(first + "");
-        for (final var input : rest) {
-            label.append(" or " + input);
-        }
-        return button.label(label.toString());
     }
 }

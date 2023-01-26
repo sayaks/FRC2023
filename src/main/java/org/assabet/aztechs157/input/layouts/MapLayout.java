@@ -126,8 +126,8 @@ public class MapLayout implements Layout {
             for (final var entry : buttons.entrySet()) {
                 builder.append(String.format(
                         entryFormat,
-                        entry.getKey(),
-                        entry.getValue()));
+                        entry.getKey().label(),
+                        entry.getValue().label));
             }
         }
 
@@ -136,8 +136,8 @@ public class MapLayout implements Layout {
             for (final var entry : axes.entrySet()) {
                 builder.append(String.format(
                         entryFormat,
-                        entry.getKey(),
-                        entry.getValue()));
+                        entry.getKey().label(),
+                        entry.getValue().label));
             }
         }
 

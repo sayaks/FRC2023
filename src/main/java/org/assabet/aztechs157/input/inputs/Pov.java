@@ -19,20 +19,7 @@ public class Pov {
     }
 
     public static Pov fromDriverStation(final int deviceId, final int povId) {
-        return new Pov(() -> DriverStation.getStickPOV(deviceId, povId))
-                .label("Device " + deviceId + " Pov " + povId);
-    }
-
-    private String label = "Unlabeled Pov";
-
-    public Pov label(final String label) {
-        this.label = label;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return label;
+        return new Pov(() -> DriverStation.getStickPOV(deviceId, povId));
     }
 
     public int get() {
@@ -40,7 +27,7 @@ public class Pov {
     }
 
     public Pov map(final IntUnaryOperator function) {
-        return new Pov(() -> function.applyAsInt(get())).label(label);
+        return new Pov(() -> function.applyAsInt(get()));
     }
 
     public static final int CENTER = -1;
@@ -54,7 +41,7 @@ public class Pov {
     public static final int UP_LEFT = 45 * 7;
 
     public Button matchesValue(final int degrees, final String name) {
-        return new Button(() -> get() == degrees).label(this.label + " " + name);
+        return new Button("Pov " + name, () -> get() == degrees);
     }
 
     public final Button center = matchesValue(CENTER, "Center");
@@ -67,7 +54,8 @@ public class Pov {
     public final Button left = matchesValue(LEFT, "Left");
     public final Button upLeft = matchesValue(UP_LEFT, "Up Left");
 
-    public final Axis x = new Axis(null, () -> {
+    // TODO: Change these to remove trig and be "raw" axis values
+    public final Axis x = new Axis("Pov X", () -> {
         final var value = get();
         if (value == CENTER) {
             return 0;
@@ -75,7 +63,7 @@ public class Pov {
         return Math.round(Math.sin(Math.toRadians(value)));
     });
 
-    public final Axis y = new Axis(null, () -> {
+    public final Axis y = new Axis("Pov Y", () -> {
         final var value = get();
         if (value == CENTER) {
             return 0;

@@ -30,7 +30,7 @@ public class SelectableLayout implements Layout {
      * @return A {@link Button} and {@link Button.Key} representing the input
      */
     public Button button(final Button.Key key) {
-        return new Button(() -> getSelected().button(key).get());
+        return new Button(null, () -> getSelected().button(key).get());
     }
 
     /**
