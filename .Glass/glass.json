@@ -1,5 +1,8 @@
 {
   "NetworkTables": {
+    "Retained Values": {
+      "open": false
+    },
     "transitory": {
       "157": {
         "Drive": {
@@ -23,7 +26,8 @@
           },
           "SinglePod": {
             "open": true
-          }
+          },
+          "open": true
         },
         "open": true
       },

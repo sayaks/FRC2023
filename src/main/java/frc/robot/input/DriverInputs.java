@@ -24,6 +24,9 @@ public class DriverInputs extends DynamicLayout {
         super(() -> entry.getBoolean(false)
                 ? flightLayout()
                 : logitechLayout());
+
+        entry.setDefaultBoolean(false);
+        entry.setPersistent();
     }
 
     private static final Deadzone deadzone = Deadzone.forAxis(new Range(-0.2, 0.2));
