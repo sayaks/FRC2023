@@ -5,6 +5,9 @@
         "Drive": {
           "open": true
         },
+        "Gyro": {
+          "open": true
+        },
         "Swerve": {
           "Pod 1": {
             "open": true

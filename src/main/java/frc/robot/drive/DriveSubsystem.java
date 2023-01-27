@@ -4,11 +4,15 @@
 
 package frc.robot.drive;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
@@ -27,7 +31,8 @@ public class DriveSubsystem extends SubsystemBase {
             new SwervePod(DriveConstants.POD_CONFIGS[3], table.getSubTable("Pod 4"))
     };
 
-    public void set(final ChassisSpeeds speeds) {
+    public void set(final ChassisSpeeds inputSpeeds) {
+        final var speeds = ChassisSpeeds.fromFieldRelativeSpeeds(inputSpeeds, getRobotAngle());
         final var states = kinematics.toSwerveModuleStates(speeds);
 
         for (var i = 0; i < states.length; i++) {
@@ -47,5 +52,19 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void directSetSingle(final double rollSpeed, final double spinSpeed) {
         swervePods[0].directSet(rollSpeed, spinSpeed);
+    }
+
+    private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+    private final NetworkTable gyroTable = NetworkTableInstance.getDefault().getTable("157/Gyro");
+
+    private Rotation2d getRobotAngle() {
+        return Rotation2d.fromDegrees(-gyro.getYaw());
+    }
+
+    @Override
+    public void periodic() {
+        gyroTable.getEntry("Yaw").setDouble(gyro.getYaw());
+        gyroTable.getEntry("Pitch").setDouble(gyro.getPitch());
+        gyroTable.getEntry("Roll").setDouble(gyro.getRoll());
     }
 }
