@@ -5,7 +5,6 @@ import java.util.function.DoubleSupplier;
 import java.util.function.DoubleUnaryOperator;
 
 import org.assabet.aztechs157.numbers.Range;
-import org.assabet.aztechs157.numbers.RangeConverter;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -17,6 +16,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class Axis {
     public static record Key(String label) {
     }
+
+    public static final Range kDeviceDefaultRange = new Range(-1, 1);
 
     private final DoubleSupplier value;
     public final String label;
@@ -94,10 +95,5 @@ public class Axis {
      */
     public Axis clampTo(final Range range) {
         return map(value -> range.clamp(value));
-    }
-
-    public Axis convertRange(final Range rangeFrom, final Range rangeTo) {
-        final var converter = new RangeConverter(rangeFrom, rangeTo);
-        return map(value -> converter.convert(value));
     }
 }

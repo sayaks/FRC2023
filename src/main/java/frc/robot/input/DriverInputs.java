@@ -50,7 +50,8 @@ public class DriverInputs extends DynamicLayout {
         final var layout = new MapLayout("Flight Layout");
         final var input = new LogitechExtreme3D(1);
 
-        final var speedModifier = input.slider.inverted().convertRange(new Range(-1, 1), new Range(0, 1));
+        final var axisToSpeedConverter = Axis.kDeviceDefaultRange.convertingTo(new Range(0, 1));
+        final var speedModifier = input.slider.inverted().map(axisToSpeedConverter::convert);
 
         layout.assign(driveSpeedX, input.stickX.map(deadzone::apply).scaledBy(speedModifier::get));
         layout.assign(driveSpeedY, input.stickY.map(deadzone::apply).scaledBy(speedModifier::get));

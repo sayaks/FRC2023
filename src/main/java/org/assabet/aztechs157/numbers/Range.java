@@ -19,4 +19,8 @@ public record Range(double start, double end) {
             return value;
         }
     }
+
+    public RangeConverter convertingTo(final Range output) {
+        return new RangeConverter(this, output);
+    }
 }
