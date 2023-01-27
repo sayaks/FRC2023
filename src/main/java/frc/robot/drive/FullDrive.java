@@ -1,17 +1,15 @@
 package frc.robot.drive;
 
-import org.assabet.aztechs157.input.layouts.Layout;
-
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.input.DriverInputs;
 
 public class FullDrive extends CommandBase {
     private final DriveSubsystem drive;
-    private final Layout driverInputs;
+    private final DriverInputs driverInputs;
 
     /** Creates a new FullDrive. */
-    public FullDrive(final DriveSubsystem drive, final Layout driverInputs) {
+    public FullDrive(final DriveSubsystem drive, final DriverInputs driverInputs) {
         this.drive = drive;
         addRequirements(drive);
         this.driverInputs = driverInputs;

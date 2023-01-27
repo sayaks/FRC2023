@@ -8,8 +8,6 @@ import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.FullDrive;
 import frc.robot.input.DriverInputs;
 
-import org.assabet.aztechs157.input.layouts.Layout;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -26,7 +24,7 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-    private final Layout driverInputs = DriverInputs.getDriverInputs();
+    private final DriverInputs driverInputs = new DriverInputs();
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.

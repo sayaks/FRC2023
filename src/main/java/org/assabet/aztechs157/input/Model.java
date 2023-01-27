@@ -1,8 +1,7 @@
 package org.assabet.aztechs157.input;
 
-import org.assabet.aztechs157.input.inputs.Axis;
-import org.assabet.aztechs157.input.inputs.Button;
-import org.assabet.aztechs157.input.inputs.Pov;
+import org.assabet.aztechs157.input.values.Axis;
+import org.assabet.aztechs157.input.values.Button;
 
 /**
  * Models map physical inputs on a input device to input classes such as
@@ -10,7 +9,7 @@ import org.assabet.aztechs157.input.inputs.Pov;
  */
 public class Model {
 
-    private final int deviceId;
+    public final int deviceId;
 
     /**
      * Create a Model that models the device specified by `deviceId`
@@ -27,8 +26,8 @@ public class Model {
      * @param buttonId The button to model
      * @return The modeled {@link Button}
      */
-    public Button button(final int buttonId) {
-        return Button.fromDriverStation(deviceId, buttonId);
+    public Button button(final String label, final int buttonId) {
+        return Button.fromDriverStation(label, deviceId, buttonId);
     }
 
     /**
@@ -37,8 +36,8 @@ public class Model {
      * @param buttonId The axis to model
      * @return The modeled {@link Axis}
      */
-    public Axis axis(final int axisId) {
-        return Axis.fromDriverStation(deviceId, axisId);
+    public Axis axis(final String label, final int axisId) {
+        return Axis.fromDriverStation(label, deviceId, axisId);
     }
 
     /**

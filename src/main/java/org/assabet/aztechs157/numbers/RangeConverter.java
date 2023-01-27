@@ -1,9 +1,9 @@
-package org.assabet.aztechs157;
+package org.assabet.aztechs157.numbers;
 
 public class RangeConverter {
-    private final Range inputRange;
-    private final Range outputRange;
-    private final double scaleFactor;
+    public final Range inputRange;
+    public final Range outputRange;
+    public final double scaleFactor;
 
     public RangeConverter(final Range inputRange, final Range outputRange) {
         this.inputRange = inputRange;
@@ -22,17 +22,5 @@ public class RangeConverter {
         final var outputValue = scaled + outputRange.start();
 
         return outputValue;
-    }
-
-    public Range inputRange() {
-        return inputRange;
-    }
-
-    public Range outputRange() {
-        return outputRange;
-    }
-
-    public double scaleFactor() {
-        return scaleFactor;
     }
 }

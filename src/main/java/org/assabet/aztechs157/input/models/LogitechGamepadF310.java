@@ -1,9 +1,9 @@
 package org.assabet.aztechs157.input.models;
 
 import org.assabet.aztechs157.input.Model;
-import org.assabet.aztechs157.input.inputs.Axis;
-import org.assabet.aztechs157.input.inputs.Button;
-import org.assabet.aztechs157.input.inputs.Pov;
+import org.assabet.aztechs157.input.Pov;
+import org.assabet.aztechs157.input.values.Axis;
+import org.assabet.aztechs157.input.values.Button;
 
 public class LogitechGamepadF310 extends Model {
 
@@ -11,23 +11,23 @@ public class LogitechGamepadF310 extends Model {
         super(joystickId);
     }
 
-    public final Button a = button(1).label("A");
-    public final Button b = button(2).label("B");
-    public final Button x = button(3).label("X");
-    public final Button y = button(4).label("Y");
-    public final Button leftBumper = button(5).label("Left Bumper");
-    public final Button rightBumper = button(6).label("Right Bumper");
-    public final Button back = button(7).label("Back");
-    public final Button start = button(8).label("Start");
-    public final Button leftStickPress = button(9).label("Left Stick Press");
-    public final Button rightStickPress = button(10).label("Right Stick Press");
+    public final Button a = button("A", 1);
+    public final Button b = button("B", 2);
+    public final Button x = button("X", 3);
+    public final Button y = button("Y", 4);
+    public final Button leftBumper = button("Left Bumper", 5);
+    public final Button rightBumper = button("Right Bumper", 6);
+    public final Button back = button("Back", 7);
+    public final Button start = button("Start", 8);
+    public final Button leftStickPress = button("Left Stick Press", 9);
+    public final Button rightStickPress = button("Right Stick Press", 10);
 
-    public final Axis leftStickX = axis(0).label("Left Stick X");
-    public final Axis leftStickY = axis(1).label("Left Stick Y");
-    public final Axis rightTriggerHeld = axis(2).label("Right Trigger Held");
-    public final Axis leftTriggerHeld = axis(3).label("Left Trigger Held");
-    public final Axis rightStickX = axis(4).label("Right Stick X");
-    public final Axis rightStickY = axis(5).label("Right Stick Y");
+    public final Axis leftStickX = axis("Left Stick X", 0);
+    public final Axis leftStickY = axis("Left Stick Y", 1);
+    public final Axis rightTriggerHeld = axis("Right Trigger Held", 2);
+    public final Axis leftTriggerHeld = axis("Left Trigger Held", 3);
+    public final Axis rightStickX = axis("Right Stick X", 4);
+    public final Axis rightStickY = axis("Right Stick Y", 5);
 
-    public final Pov pov = pov(0).label("");
+    public final Pov pov = pov(0);
 }

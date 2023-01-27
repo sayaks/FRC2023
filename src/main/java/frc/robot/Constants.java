@@ -28,16 +28,12 @@ public final class Constants {
     }
 
     public static class DriveConstants {
-        public static final double TELEOP_SPIN_SPEED = 10;
-        public static final double TELEOP_ROLL_SPEED = .1;
-        public static final double TELEOP_AXIS_THRESHOLD = 0.2;
+        public static final IdleMode DRIVE_IDLE_MODE = IdleMode.kBrake;
+        public static final IdleMode ANGLE_IDLE_MODE = IdleMode.kCoast;
 
-        public static final IdleMode ROLL_IDLE_MODE = IdleMode.kBrake;
-        public static final IdleMode SPIN_IDLE_MODE = IdleMode.kCoast;
-
-        public static final double ROLL_SLEW_RATE = 1;
-        public static final double SPIN_KP = 0.01;
-        public static final double SPIN_KD = 0.00009;
+        public static final double DRIVE_SLEW_RATE = 1;
+        public static final double ANGLE_KP = 0.01;
+        public static final double ANGLE_KD = 0.00009;
 
         public static final SwervePod.Config[] POD_CONFIGS = new SwervePod.Config[] {
                 new SwervePod.Config(1, 2, 3, false),
@@ -46,7 +42,7 @@ public final class Constants {
                 new SwervePod.Config(10, 11, 12, false),
         };
 
-        public static final double CENTER_TO_POD_METER = Units.inchesToMeters(9.25);
+        private static final double CENTER_TO_POD_METER = Units.inchesToMeters(9.25);
         public static final Translation2d[] WHEEL_LOCATIONS = new Translation2d[] {
                 new Translation2d(-CENTER_TO_POD_METER, CENTER_TO_POD_METER),
                 new Translation2d(CENTER_TO_POD_METER, CENTER_TO_POD_METER),

@@ -1,5 +1,7 @@
 package frc.robot.drive;
 
+import org.assabet.aztechs157.Expect;
+
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -9,8 +11,6 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import frc.robot.Constants.DriveConstants;
-
-import static org.assabet.aztechs157.ExpectDouble.expect;
 
 public class SwervePod {
 
@@ -30,9 +30,9 @@ public class SwervePod {
 
         table.getEntry("Inverted").setBoolean(config.driveMotorInverted);
 
-        driveMotor.setIdleMode(DriveConstants.ROLL_IDLE_MODE);
+        driveMotor.setIdleMode(DriveConstants.DRIVE_IDLE_MODE);
         driveMotor.setInverted(false);
-        angleMotor.setIdleMode(DriveConstants.SPIN_IDLE_MODE);
+        angleMotor.setIdleMode(DriveConstants.ANGLE_IDLE_MODE);
         angleMotor.setInverted(true);
         angleEncoder.configSensorDirection(false);
     }
@@ -54,7 +54,7 @@ public class SwervePod {
         drive(0);
     }
 
-    private final SlewRateLimiter driveSlewrate = new SlewRateLimiter(DriveConstants.ROLL_SLEW_RATE);
+    private final SlewRateLimiter driveSlewrate = new SlewRateLimiter(DriveConstants.DRIVE_SLEW_RATE);
     private boolean reversed = false;
 
     private void drive(double speed) {
@@ -84,7 +84,7 @@ public class SwervePod {
             wrapped += 360;
         }
 
-        expect(wrapped).greaterOrEqual(0).lessOrEqual(360);
+        Expect.number(wrapped).greaterOrEqual(0).lessOrEqual(360);
         return wrapped;
     }
 
@@ -114,22 +114,22 @@ public class SwervePod {
     private double computeInitialDelta(final double target) {
         final double initial = getCurrentAngle();
 
-        expect(target).greaterOrEqual(0).lessOrEqual(360);
-        expect(initial).greaterOrEqual(0).lessOrEqual(360);
+        Expect.number(target).greaterOrEqual(0).lessOrEqual(360);
+        Expect.number(initial).greaterOrEqual(0).lessOrEqual(360);
 
         var initialDelta = target - initial;
-        expect(initialDelta).greaterOrEqual(-360).lessOrEqual(360);
+        Expect.number(initialDelta).greaterOrEqual(-360).lessOrEqual(360);
 
         if (initialDelta < 0) {
             initialDelta += 360;
         }
-        expect(initialDelta).greaterOrEqual(0).lessOrEqual(360);
+        Expect.number(initialDelta).greaterOrEqual(0).lessOrEqual(360);
 
         return initialDelta;
     }
 
     private double computeShortestDelta(final double initialDelta) {
-        expect(initialDelta).greaterOrEqual(0).lessOrEqual(360);
+        Expect.number(initialDelta).greaterOrEqual(0).lessOrEqual(360);
 
         if (initialDelta < 90) {
             reversed = false;
@@ -144,10 +144,10 @@ public class SwervePod {
             return initialDelta - 360;
         }
 
-        throw new RuntimeException("Above expect() should have covered this.");
+        throw new RuntimeException("Above Expect.number() should have covered this.");
     }
 
-    private final PIDController anglePid = new PIDController(DriveConstants.SPIN_KP, 0, DriveConstants.SPIN_KD);
+    private final PIDController anglePid = new PIDController(DriveConstants.ANGLE_KP, 0, DriveConstants.ANGLE_KD);
 
     private double computeAnglePidOutput(final double shortestDelta) {
         final var pidOutput = anglePid.calculate(getCurrentAngle() + shortestDelta, getCurrentAngle());
