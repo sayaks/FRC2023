@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
@@ -31,8 +32,13 @@ public class DriveSubsystem extends SubsystemBase {
             new SwervePod(DriveConstants.POD_CONFIGS[3], table.getSubTable("Pod 4"))
     };
 
+    public DriveSubsystem() {
+        final var resetCommand = runOnce(gyro::zeroYaw).ignoringDisable(true);
+        SmartDashboard.putData("Reset Yaw", resetCommand);
+    }
+
     public void set(final ChassisSpeeds inputSpeeds) {
-        final var speeds = ChassisSpeeds.fromFieldRelativeSpeeds(inputSpeeds, getRobotAngle());
+        final var speeds = ChassisSpeeds.fromFieldRelativeSpeeds(inputSpeeds, getRobotYaw());
         final var states = kinematics.toSwerveModuleStates(speeds);
 
         for (var i = 0; i < states.length; i++) {
@@ -57,7 +63,7 @@ public class DriveSubsystem extends SubsystemBase {
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
     private final NetworkTable gyroTable = NetworkTableInstance.getDefault().getTable("157/Gyro");
 
-    private Rotation2d getRobotAngle() {
+    private Rotation2d getRobotYaw() {
         return Rotation2d.fromDegrees(-gyro.getYaw());
     }
 

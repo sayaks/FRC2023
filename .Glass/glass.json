@@ -3,6 +3,14 @@
     "Retained Values": {
       "open": false
     },
+    "persistent": {
+      "157": {
+        "Drive": {
+          "open": true
+        },
+        "open": true
+      }
+    },
     "transitory": {
       "157": {
         "Drive": {
@@ -35,10 +43,23 @@
         "Joesph": {
           "open": true
         }
+      },
+      "SmartDashboard": {
+        "Reset Gyro": {
+          "open": true
+        }
       }
     },
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Reset Gyro": "Command"
+    },
+    "windows": {
+      "/SmartDashboard/Reset Gyro": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables Settings": {
