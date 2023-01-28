@@ -15,8 +15,11 @@ import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
     private final CANSparkMax motor = new CANSparkMax(IntakeConstants.MOTOR_ID, MotorType.kBrushless);
-    private final DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,
-            IntakeConstants.SOLENOID_FORWARD_ID, IntakeConstants.SOLENOID_BACKWARD_ID);
+    private final DoubleSolenoid solenoid = new DoubleSolenoid(
+            IntakeConstants.PNEUMATICS_HUB_ID,
+            PneumaticsModuleType.REVPH,
+            IntakeConstants.SOLENOID_FORWARD_ID,
+            IntakeConstants.SOLENOID_BACKWARD_ID);
 
     public Command runMotor(final double speed) {
         return runEnd(() -> motor.set(speed), () -> motor.set(0));

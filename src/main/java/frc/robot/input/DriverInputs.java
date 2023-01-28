@@ -59,8 +59,8 @@ public class DriverInputs extends DynamicLayout {
         final var layout = new MapLayout("Flight Layout");
         final var input = new LogitechExtreme3D(1);
 
-        layout.assign(runIntakeMotor, input.button9);
-        layout.assign(setIntakeSolenoidForward, input.button12);
+        layout.assign(runIntakeMotor, input.button10);
+        layout.assign(setIntakeSolenoidForward, input.button9);
         layout.assign(setIntakeSolenoidBackward, input.button11);
 
         final var axisToSpeedConverter = Axis.kDeviceDefaultRange.convertingTo(new Range(0, 1));

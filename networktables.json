@@ -1,0 +1,10 @@
+[
+  {
+    "name": "157/Drive/StickEnabled",
+    "type": "boolean",
+    "value": false,
+    "properties": {
+      "persistent": true
+    }
+  }
+]
