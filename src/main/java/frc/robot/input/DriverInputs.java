@@ -6,6 +6,7 @@ import org.assabet.aztechs157.input.layouts.DynamicLayout;
 import org.assabet.aztechs157.input.models.LogitechExtreme3D;
 import org.assabet.aztechs157.input.models.LogitechGamepadF310;
 import org.assabet.aztechs157.input.values.Axis;
+import org.assabet.aztechs157.input.values.Button;
 import org.assabet.aztechs157.numbers.Deadzone;
 import org.assabet.aztechs157.numbers.Range;
 
@@ -14,6 +15,10 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class DriverInputs extends DynamicLayout {
+    public static final Button.Key runIntakeMotor = new Button.Key("Run Intake Motor");
+    public static final Button.Key setIntakeSolenoidForward = new Button.Key("Set Intake Solenoid Forward");
+    public static final Button.Key setIntakeSolenoidBackward = new Button.Key("Set Intake Solenoid Backward");
+
     public static final Axis.Key driveSpeedX = new Axis.Key("Drive Speed X");
     public static final Axis.Key driveSpeedY = new Axis.Key("Drive Speed Y");
     public static final Axis.Key driveRotation = new Axis.Key("Drive Rotation");
@@ -36,6 +41,10 @@ public class DriverInputs extends DynamicLayout {
         final var layout = new MapLayout("Logitech Layout");
         final var input = new LogitechGamepadF310(0);
 
+        layout.assign(runIntakeMotor, input.a);
+        layout.assign(setIntakeSolenoidForward, input.b);
+        layout.assign(setIntakeSolenoidBackward, input.x);
+
         final var speedModifier = 0.5;
 
         layout.assign(driveSpeedX, input.leftStickX.map(deadzone::apply).scaledBy(speedModifier));
@@ -49,6 +58,10 @@ public class DriverInputs extends DynamicLayout {
     private static Layout flightLayout() {
         final var layout = new MapLayout("Flight Layout");
         final var input = new LogitechExtreme3D(1);
+
+        layout.assign(runIntakeMotor, input.button9);
+        layout.assign(setIntakeSolenoidForward, input.button12);
+        layout.assign(setIntakeSolenoidBackward, input.button11);
 
         final var axisToSpeedConverter = Axis.kDeviceDefaultRange.convertingTo(new Range(0, 1));
         final var speedModifier = input.slider.inverted().map(axisToSpeedConverter::convert);

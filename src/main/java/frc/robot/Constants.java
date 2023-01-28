@@ -23,9 +23,6 @@ import frc.robot.drive.SwervePod;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static class OperatorConstants {
-        public static final int DRIVER_INPUT_ID = 0;
-    }
 
     public static class DriveConstants {
         public static final IdleMode DRIVE_IDLE_MODE = IdleMode.kBrake;
@@ -49,5 +46,11 @@ public final class Constants {
                 new Translation2d(CENTER_TO_POD_METER, -CENTER_TO_POD_METER),
                 new Translation2d(-CENTER_TO_POD_METER, -CENTER_TO_POD_METER),
         };
+    }
+
+    public static class IntakeConstants {
+        public static final int MOTOR_ID = 0;
+        public static final int SOLENOID_FORWARD_ID = 0;
+        public static final int SOLENOID_BACKWARD_ID = 0;
     }
 }

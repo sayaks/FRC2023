@@ -7,7 +7,9 @@ package frc.robot;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.FullDrive;
 import frc.robot.input.DriverInputs;
+import frc.robot.intake.IntakeSubsystem;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -23,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
     private final DriverInputs driverInputs = new DriverInputs();
 
@@ -46,6 +49,11 @@ public class RobotContainer {
      * Flight joysticks.
      */
     private void configureBindings() {
+        driverInputs.button(DriverInputs.runIntakeMotor).whileHeld(intakeSubsystem.runMotor(0.1));
+        driverInputs.button(DriverInputs.setIntakeSolenoidForward)
+                .whenPressed(intakeSubsystem.setSolenoid(DoubleSolenoid.Value.kForward));
+        driverInputs.button(DriverInputs.setIntakeSolenoidBackward)
+                .whenPressed(intakeSubsystem.setSolenoid(DoubleSolenoid.Value.kReverse));
     }
 
     /**
