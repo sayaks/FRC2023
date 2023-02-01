@@ -7,6 +7,8 @@ package frc.robot.intake;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -21,13 +23,10 @@ public class IntakeSubsystem extends SubsystemBase {
             PneumaticsModuleType.REVPH,
             IntakeConstants.SOLENOID_FORWARD_ID,
             IntakeConstants.SOLENOID_BACKWARD_ID);
-    private final DigitalInput intake_sensor = new DigitalInput(IntakeConstants.INTAKE_SENSOR_ID);
+    private final DigitalInput intakeSensor = new DigitalInput(IntakeConstants.INTAKE_SENSOR_ID);
 
     public Command runMotor(final double speed) {
-        return runEnd(() -> {
-            motor.set(speed);
-            System.out.println(getSensor());
-        }, () -> motor.set(0));
+        return runEnd(() -> motor.set(speed), () -> motor.set(0));
 
     }
 
@@ -35,8 +34,14 @@ public class IntakeSubsystem extends SubsystemBase {
         return runOnce(() -> solenoid.set(value));
     }
 
-    public boolean getSensor() {
-        return intake_sensor.get();
+    private boolean getSensor() {
+        return intakeSensor.get();
     }
 
+    private final NetworkTableEntry sensorEntry = NetworkTableInstance.getDefault().getEntry("157/Intake/Sensor");
+
+    @Override
+    public void periodic() {
+        sensorEntry.setBoolean(getSensor());
+    }
 }
