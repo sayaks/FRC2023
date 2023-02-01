@@ -49,7 +49,8 @@ public class RobotContainer {
      * Flight joysticks.
      */
     private void configureBindings() {
-        driverInputs.button(DriverInputs.runIntakeMotor).whileHeld(intakeSubsystem.runMotor(0.1));
+        driverInputs.button(DriverInputs.runIntakeMotorIn).whileHeld(intakeSubsystem.runMotor(0.1));
+        driverInputs.button(DriverInputs.runIntakeMotorOut).whileHeld(intakeSubsystem.runMotor(-0.1));
         driverInputs.button(DriverInputs.setIntakeSolenoidForward)
                 .whenPressed(intakeSubsystem.setSolenoid(DoubleSolenoid.Value.kForward));
         driverInputs.button(DriverInputs.setIntakeSolenoidBackward)

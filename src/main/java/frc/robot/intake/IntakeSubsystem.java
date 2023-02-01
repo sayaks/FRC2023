@@ -7,6 +7,7 @@ package frc.robot.intake;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,12 +21,22 @@ public class IntakeSubsystem extends SubsystemBase {
             PneumaticsModuleType.REVPH,
             IntakeConstants.SOLENOID_FORWARD_ID,
             IntakeConstants.SOLENOID_BACKWARD_ID);
+    private final DigitalInput intake_sensor = new DigitalInput(IntakeConstants.INTAKE_SENSOR_ID);
 
     public Command runMotor(final double speed) {
-        return runEnd(() -> motor.set(speed), () -> motor.set(0));
+        return runEnd(() -> {
+            motor.set(speed);
+            System.out.println(getSensor());
+        }, () -> motor.set(0));
+
     }
 
     public Command setSolenoid(final DoubleSolenoid.Value value) {
         return runOnce(() -> solenoid.set(value));
     }
+
+    public boolean getSensor() {
+        return intake_sensor.get();
+    }
+
 }

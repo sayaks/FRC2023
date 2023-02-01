@@ -15,7 +15,8 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class DriverInputs extends DynamicLayout {
-    public static final Button.Key runIntakeMotor = new Button.Key("Run Intake Motor");
+    public static final Button.Key runIntakeMotorIn = new Button.Key("Run Intake Motor In");
+    public static final Button.Key runIntakeMotorOut = new Button.Key("Run Intake Motor Out");
     public static final Button.Key setIntakeSolenoidForward = new Button.Key("Set Intake Solenoid Forward");
     public static final Button.Key setIntakeSolenoidBackward = new Button.Key("Set Intake Solenoid Backward");
 
@@ -41,7 +42,8 @@ public class DriverInputs extends DynamicLayout {
         final var layout = new MapLayout("Logitech Layout");
         final var input = new LogitechGamepadF310(0);
 
-        layout.assign(runIntakeMotor, input.a);
+        layout.assign(runIntakeMotorIn, input.a);
+        layout.assign(runIntakeMotorOut, input.y);
         layout.assign(setIntakeSolenoidForward, input.b);
         layout.assign(setIntakeSolenoidBackward, input.x);
 
@@ -59,7 +61,8 @@ public class DriverInputs extends DynamicLayout {
         final var layout = new MapLayout("Flight Layout");
         final var input = new LogitechExtreme3D(1);
 
-        layout.assign(runIntakeMotor, input.button10);
+        layout.assign(runIntakeMotorIn, input.button5);
+        layout.assign(runIntakeMotorOut, input.button3);
         layout.assign(setIntakeSolenoidForward, input.button9);
         layout.assign(setIntakeSolenoidBackward, input.button11);
 
