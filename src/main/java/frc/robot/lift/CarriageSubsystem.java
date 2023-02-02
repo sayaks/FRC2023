@@ -24,7 +24,7 @@ public class CarriageSubsystem extends SubsystemBase {
     public CarriageSubsystem() {
     }
 
-    public Command runCariiage(final DriverInputs inputs) {
+    public Command runCarriage(final DriverInputs inputs) {
         return runEnd(() -> {
             final double speed = inputs.axis(DriverInputs.carriage).get();
             runCarriageMotor(speed);

@@ -10,7 +10,8 @@ import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.FullDrive;
 import frc.robot.input.DriverInputs;
 import frc.robot.intake.IntakeSubsystem;
-
+import frc.robot.lift.CarriageSubsystem;
+import frc.robot.lift.ElevatorSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -29,6 +30,8 @@ public class RobotContainer {
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ArmSubsystem armSubsystem = new ArmSubsystem();
+    private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+    private final CarriageSubsystem carriageSubsystem = new CarriageSubsystem();
 
     private final DriverInputs driverInputs = new DriverInputs();
 
@@ -42,6 +45,10 @@ public class RobotContainer {
         driveSubsystem.setDefaultCommand(new FullDrive(driveSubsystem, driverInputs));
 
         armSubsystem.setDefaultCommand(armSubsystem.runWrist(driverInputs));
+
+        elevatorSubsystem.setDefaultCommand(elevatorSubsystem.runElevator(driverInputs));
+
+        carriageSubsystem.setDefaultCommand(carriageSubsystem.runCarriage(driverInputs));
     }
 
     /**
