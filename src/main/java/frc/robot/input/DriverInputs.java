@@ -25,6 +25,8 @@ public class DriverInputs extends DynamicLayout {
     public static final Axis.Key driveRotation = new Axis.Key("Drive Rotation");
     public static final Axis.Key rotateWrist = new Axis.Key("Rotate Wrist");
     public static final Axis.Key rotateElbow = new Axis.Key("Rotate Elbow");
+    public static final Axis.Key elevator = new Axis.Key("Lift Elevator");
+    public static final Axis.Key carriage = new Axis.Key("lift Carriage");
 
     private static final NetworkTableEntry entry = NetworkTableInstance.getDefault().getEntry("157/Drive/StickEnabled");
 
@@ -58,6 +60,11 @@ public class DriverInputs extends DynamicLayout {
 
         layout.assign(rotateWrist, input.pov.x.scaledBy(0.05));
         layout.assign(rotateElbow, input.pov.y.scaledBy(0.05));
+
+        layout.assign(elevator, input.pov.y.scaledBy(0.05));
+        // Change carriage input to an axis not in use once there are 2 controllers. Be
+        // careful with testing for right now.
+        layout.assign(carriage, input.pov.y.scaledBy(0.02));
 
         return layout;
     }

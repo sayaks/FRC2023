@@ -70,4 +70,14 @@ public final class Constants {
         public static final Range ROTATE_LIMITS = new Range(170, 190);
     }
 
+    public static class ElevatorConstants {
+        public static final int ELEVATOR_MOTOR_ID = 16;
+        public static final Range ELEVATOR_LIMITS = new Range(0, 0);
+    }
+
+    public static class CarriageConstants {
+        public static final int CARRIAGE_MOTOR_ID = 17;
+        public static final Range CARRIAGE_LIMITS = new Range(0, 0);
+    }
+
 }
