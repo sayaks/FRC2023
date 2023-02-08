@@ -61,13 +61,9 @@ public class ArmSubsystem extends SubsystemBase {
     public void rotateWrist(final double speed) {
         wristSpeed = speed;
 
-        if (speed > 0 && getWristRotationPosition() > WristConstants.ROTATE_MAX_POS) {
-            wristMotor.set(0);
-        } else if (speed < 0 && getWristRotationPosition() < WristConstants.ROTATE_MIN_POS) {
-            wristMotor.set(0);
-        } else {
-            wristMotor.set(speed);
-        }
+        final double limitedSpeed = WristConstants.ROTATE_LIMITS.limitMotionWithinRange(
+                speed, getWristRotationPosition());
+        wristMotor.set(limitedSpeed);
     }
 
     public void test() {
@@ -82,13 +78,8 @@ public class ArmSubsystem extends SubsystemBase {
         encoderEntry.setDefaultNumber(0);
         final var position = encoderEntry.getNumber(0).doubleValue();
 
-        if (speed > 0 && position > WristConstants.ROTATE_MAX_POS) {
-            output.setNumber(0);
-        } else if (speed < 0 && position < WristConstants.ROTATE_MIN_POS) {
-            output.setNumber(0);
-        } else {
-            output.setNumber(speed);
-        }
+        final double limitedSpeed = WristConstants.ROTATE_LIMITS.limitMotionWithinRange(speed, position);
+        output.setNumber(limitedSpeed);
     }
 
     private final NetworkTable table = NetworkTableInstance.getDefault().getTable("157/Arm");

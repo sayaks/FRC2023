@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.assabet.aztechs157.numbers.Range;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -59,8 +61,7 @@ public final class Constants {
     public static class WristConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 2;
         public static final int MOTOR_ID = 14;
-        public static final double ROTATE_MAX_POS = 243;
-        public static final double ROTATE_MIN_POS = 83;
+        public static final Range ROTATE_LIMITS = new Range(83, 243);
     }
 
     public static class ElbowConstants {

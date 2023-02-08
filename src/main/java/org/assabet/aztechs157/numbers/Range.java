@@ -20,6 +20,16 @@ public record Range(double start, double end) {
         }
     }
 
+    public double limitMotionWithinRange(final double speed, final double currentPosition) {
+        if (speed > 0 && currentPosition > end) {
+            return 0;
+        } else if (speed < 0 && currentPosition < start) {
+            return 0;
+        } else {
+            return speed;
+        }
+    }
+
     public RangeConverter convertingTo(final Range output) {
         return new RangeConverter(this, output);
     }
