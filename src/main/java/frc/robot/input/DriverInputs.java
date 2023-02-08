@@ -23,6 +23,7 @@ public class DriverInputs extends DynamicLayout {
     public static final Axis.Key driveSpeedX = new Axis.Key("Drive Speed X");
     public static final Axis.Key driveSpeedY = new Axis.Key("Drive Speed Y");
     public static final Axis.Key driveRotation = new Axis.Key("Drive Rotation");
+    public static final Axis.Key rotateWrist = new Axis.Key("Rotate Wrist");
 
     private static final NetworkTableEntry entry = NetworkTableInstance.getDefault().getEntry("157/Drive/StickEnabled");
 
@@ -53,6 +54,8 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(driveSpeedY, input.leftStickY.map(deadzone::apply).scaledBy(speedModifier));
         layout.assign(driveRotation, input.rightStickX.map(deadzone::apply).scaledBy(speedModifier)
                 .scaledBy(maxRotationPerSecond.getDegrees()));
+
+        layout.assign(rotateWrist, input.pov.x.scaledBy(0.05));
 
         return layout;
     }

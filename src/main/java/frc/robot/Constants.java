@@ -55,4 +55,19 @@ public final class Constants {
         public static final int PNEUMATICS_HUB_ID = 51;
         public static final int INTAKE_SENSOR_ID = 0;
     }
+
+    public static class WristConstants {
+        public static final int ABS_ENCODER_ROTATION_ID = 2;
+        public static final int MOTOR_ID = 14;
+        public static final double ROTATE_MAX_POS = 243;
+        public static final double ROTATE_MIN_POS = 83;
+    }
+
+    public static class ElbowConstants {
+        public static final int ABS_ENCODER_ROTATION_ID = 3;
+        public static final int MOTOR_ID = 15;
+        public static final double ROTATE_MAX_POS = 330;
+        public static final double ROTATE_MIN_POS = 193;
+    }
+
 }

@@ -13,10 +13,13 @@
     },
     "transitory": {
       "157": {
-        "Drive": {
+        "Arm": {
+          "Test1": {
+            "open": true
+          },
           "open": true
         },
-        "Gyro": {
+        "Drive": {
           "open": true
         },
         "Swerve": {
@@ -38,14 +41,10 @@
         },
         "open": true
       },
-      "FMSInfo": {
-        "open": true
-      },
       "LiveWindow": {
         ".status": {
           "open": true
-        },
-        "open": true
+        }
       },
       "Shuffleboard": {
         "Joesph": {
@@ -58,8 +57,7 @@
         },
         "Reset Yaw": {
           "open": true
-        },
-        "open": true
+        }
       }
     },
     "types": {

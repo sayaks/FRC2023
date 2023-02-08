@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import frc.robot.arm.ArmSubsystem;
+import frc.robot.arm.AutoTestArm;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.FullDrive;
 import frc.robot.input.DriverInputs;
@@ -26,6 +28,7 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+    private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
     private final DriverInputs driverInputs = new DriverInputs();
 
@@ -37,6 +40,8 @@ public class RobotContainer {
         configureBindings();
 
         driveSubsystem.setDefaultCommand(new FullDrive(driveSubsystem, driverInputs));
+
+        armSubsystem.setDefaultCommand(armSubsystem.runWrist(driverInputs));
     }
 
     /**
@@ -63,6 +68,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return null;
+        return new AutoTestArm(armSubsystem);
     }
 }
