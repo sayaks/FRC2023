@@ -24,6 +24,7 @@ public class DriverInputs extends DynamicLayout {
     public static final Axis.Key driveSpeedY = new Axis.Key("Drive Speed Y");
     public static final Axis.Key driveRotation = new Axis.Key("Drive Rotation");
     public static final Axis.Key rotateWrist = new Axis.Key("Rotate Wrist");
+    public static final Axis.Key rotateElbow = new Axis.Key("Rotate Elbow");
 
     private static final NetworkTableEntry entry = NetworkTableInstance.getDefault().getEntry("157/Drive/StickEnabled");
 
@@ -56,6 +57,7 @@ public class DriverInputs extends DynamicLayout {
                 .scaledBy(maxRotationPerSecond.getDegrees()));
 
         layout.assign(rotateWrist, input.pov.x.scaledBy(0.05));
+        layout.assign(rotateElbow, input.pov.y.scaledBy(0.05));
 
         return layout;
     }

@@ -4,13 +4,13 @@
 
 package frc.robot;
 
-import frc.robot.arm.ArmSubsystem;
-import frc.robot.arm.AutoTestArm;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.FullDrive;
+import frc.robot.elbow.ElbowSubsystem;
 import frc.robot.input.DriverInputs;
 import frc.robot.intake.IntakeSubsystem;
-
+import frc.robot.wrist.WristSubsystem;
+import frc.robot.wrist.AutoTestArm;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -28,7 +28,8 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-    private final ArmSubsystem armSubsystem = new ArmSubsystem();
+    private final WristSubsystem wristSubsystem = new WristSubsystem();
+    private final ElbowSubsystem elbowSubsystem = new ElbowSubsystem();
 
     private final DriverInputs driverInputs = new DriverInputs();
 
@@ -41,7 +42,8 @@ public class RobotContainer {
 
         driveSubsystem.setDefaultCommand(new FullDrive(driveSubsystem, driverInputs));
 
-        armSubsystem.setDefaultCommand(armSubsystem.runWrist(driverInputs));
+        wristSubsystem.setDefaultCommand(wristSubsystem.runWrist(driverInputs));
+        elbowSubsystem.setDefaultCommand(elbowSubsystem.runElbow(driverInputs));
     }
 
     /**
@@ -54,8 +56,8 @@ public class RobotContainer {
      * Flight joysticks.
      */
     private void configureBindings() {
-        driverInputs.button(DriverInputs.runIntakeMotorIn).whileHeld(intakeSubsystem.runMotor(0.1));
-        driverInputs.button(DriverInputs.runIntakeMotorOut).whileHeld(intakeSubsystem.runMotor(-0.1));
+        driverInputs.button(DriverInputs.runIntakeMotorIn).whileHeld(intakeSubsystem.intake(0.4));
+        driverInputs.button(DriverInputs.runIntakeMotorOut).whileHeld(intakeSubsystem.runMotor(-0.4));
         driverInputs.button(DriverInputs.setIntakeSolenoidForward)
                 .whenPressed(intakeSubsystem.setSolenoid(DoubleSolenoid.Value.kForward));
         driverInputs.button(DriverInputs.setIntakeSolenoidBackward)
@@ -68,6 +70,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new AutoTestArm(armSubsystem);
+        return new AutoTestArm(wristSubsystem);
     }
 }

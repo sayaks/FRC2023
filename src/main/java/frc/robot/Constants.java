@@ -67,8 +67,7 @@ public final class Constants {
     public static class ElbowConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 3;
         public static final int MOTOR_ID = 15;
-        public static final double ROTATE_MAX_POS = 330;
-        public static final double ROTATE_MIN_POS = 193;
+        public static final Range ROTATE_LIMITS = new Range(170, 190);
     }
 
 }

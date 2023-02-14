@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.arm;
+package frc.robot.wrist;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -18,25 +18,17 @@ import frc.robot.Constants.WristConstants;
 import frc.robot.input.DriverInputs;
 import frc.robot.lib.NumberUtil;
 
-public class ArmSubsystem extends SubsystemBase {
-
-    private final CANSparkMax elbowMotor = new CANSparkMax(0, MotorType.kBrushless);
-    private final Counter elbowAbsEncoder = new Counter(Mode.kSemiperiod);;
+public class WristSubsystem extends SubsystemBase {
 
     private final CANSparkMax wristMotor = new CANSparkMax(WristConstants.MOTOR_ID, MotorType.kBrushless);
-    private final Counter wristAbsEncoder = new Counter(Mode.kSemiperiod);;
+    private final Counter wristAbsEncoder = new Counter(Mode.kSemiperiod);
     private double wristSpeed = 0.0;
 
-    public ArmSubsystem() {
+    public WristSubsystem() {
         wristMotor.setInverted(true);
         wristAbsEncoder.setSemiPeriodMode(true);
         wristAbsEncoder.setUpSource(Constants.WristConstants.ABS_ENCODER_ROTATION_ID);
         wristAbsEncoder.reset();
-
-        elbowMotor.setInverted(false);
-        elbowAbsEncoder.setSemiPeriodMode(true);
-        elbowAbsEncoder.setUpSource(Constants.ElbowConstants.ABS_ENCODER_ROTATION_ID);
-        elbowAbsEncoder.reset();
     }
 
     public Command runWrist(final DriverInputs inputs) {
@@ -48,14 +40,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     public double getWristRotationPosition() {
         return NumberUtil.ticksToDegs(wristAbsEncoder.getPeriod());
-    }
-
-    public Command runElbowMotor(final double speed) {
-        return runEnd(() -> elbowMotor.set(speed), () -> elbowMotor.set(0));
-    }
-
-    public double getElbowRotationPosition() {
-        return NumberUtil.ticksToDegs(elbowAbsEncoder.getPeriod());
     }
 
     public void rotateWrist(final double speed) {
@@ -86,7 +70,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        table.getEntry("Elbow").setNumber(getElbowRotationPosition());
         table.getEntry("Wrist").setNumber(getWristRotationPosition());
         table.getEntry("WristSpeed").setNumber(wristSpeed);
         test();

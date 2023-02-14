@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -24,10 +25,20 @@ public class IntakeSubsystem extends SubsystemBase {
             IntakeConstants.SOLENOID_FORWARD_ID,
             IntakeConstants.SOLENOID_BACKWARD_ID);
     private final DigitalInput intakeSensor = new DigitalInput(IntakeConstants.INTAKE_SENSOR_ID);
+    private final Compressor airCompressor = new Compressor(IntakeConstants.PNEUMATICS_HUB_ID,
+            PneumaticsModuleType.REVPH);
+
+    public IntakeSubsystem() {
+        airCompressor.enableDigital();
+    }
 
     public Command runMotor(final double speed) {
         return runEnd(() -> motor.set(speed), () -> motor.set(0));
 
+    }
+
+    public Command intake(final double speed) {
+        return runMotor(speed).until(this::getSensor);
     }
 
     public Command setSolenoid(final DoubleSolenoid.Value value) {
@@ -35,7 +46,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     private boolean getSensor() {
-        return intakeSensor.get();
+        return !intakeSensor.get();
     }
 
     private final NetworkTableEntry sensorEntry = NetworkTableInstance.getDefault().getEntry("157/Intake/Sensor");
