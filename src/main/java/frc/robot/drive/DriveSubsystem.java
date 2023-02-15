@@ -14,6 +14,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
@@ -72,5 +73,30 @@ public class DriveSubsystem extends SubsystemBase {
         gyroTable.getEntry("Yaw").setDouble(gyro.getYaw());
         gyroTable.getEntry("Pitch").setDouble(gyro.getPitch());
         gyroTable.getEntry("Roll").setDouble(gyro.getRoll());
+        table.getEntry("Raw Drive Position").setDouble(getRawDrivePosition());
+    }
+
+    public void resetDrivePosition() {
+        for (final var swervePod : swervePods) {
+            swervePod.resetDrivePosition();
+        }
+    }
+
+    public double getRawDrivePosition() {
+        double result = 0;
+        for (final var swervePod : swervePods) {
+            result += swervePod.getRawDrivePosition();
+        }
+        return result / swervePods.length;
+    }
+
+    public Command resetDrivePositionCommand() {
+        return runOnce(() -> resetDrivePosition());
+    }
+
+    public Command driveRawDistanceCommand(final ChassisSpeeds inputSpeeds, final double rawDistance) {
+        return run(() -> set(inputSpeeds))
+                .until(() -> getRawDrivePosition() >= rawDistance)
+                .finallyDo((a) -> stop());
     }
 }

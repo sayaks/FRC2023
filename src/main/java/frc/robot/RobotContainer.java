@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.AutoConstants;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.FullDrive;
 import frc.robot.elbow.ElbowSubsystem;
@@ -77,6 +78,9 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new AutoTestArm(wristSubsystem);
+        return driveSubsystem.resetDrivePositionCommand()
+                .andThen(driveSubsystem.driveRawDistanceCommand(
+                        AutoConstants.AUTO_SPEEDS,
+                        AutoConstants.AUTO_DISTANCE));
     }
 }

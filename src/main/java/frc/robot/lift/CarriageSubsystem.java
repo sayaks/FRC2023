@@ -17,7 +17,7 @@ import frc.robot.lib.NumberUtil;
 public class CarriageSubsystem extends SubsystemBase {
     private final CANSparkMax carriageMotor = new CANSparkMax(CarriageConstants.CARRIAGE_MOTOR_ID,
             MotorType.kBrushless);
-    private final AnalogInput carriage10Pot = new AnalogInput(0);
+    private final AnalogInput carriage10Pot = new AnalogInput(CarriageConstants.CARRIAGE_ANALOG_ID);
     private double carriageSpeed = 0.0;
 
     /** Creates a new CarriageSubsystem. */

@@ -73,6 +73,10 @@ public class SwervePod {
         driveMotor.set(driveSlewrate.calculate(speed));
     }
 
+    public void resetDrivePosition() {
+        driveMotor.getEncoder().setPosition(0);
+    }
+
     public double getRawDrivePosition() {
         return driveMotor.getEncoder().getPosition();
     }

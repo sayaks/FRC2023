@@ -18,7 +18,7 @@ import frc.robot.lib.NumberUtil;
 public class ElevatorSubsystem extends SubsystemBase {
     private final CANSparkMax elevatorMotor = new CANSparkMax(ElevatorConstants.ELEVATOR_MOTOR_ID,
             MotorType.kBrushless);
-    private final AnalogInput elevator10Pot = new AnalogInput(0);
+    private final AnalogInput elevator10Pot = new AnalogInput(ElevatorConstants.ELEVATOR_ANALOG_ID);
     private double elevatorSpeed = 0.0;
 
     /** Creates a new ElevatorSubsystem. */

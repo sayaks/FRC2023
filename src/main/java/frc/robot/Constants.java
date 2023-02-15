@@ -6,9 +6,11 @@ package frc.robot;
 
 import org.assabet.aztechs157.numbers.Range;
 
+import com.revrobotics.AnalogInput;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import frc.robot.drive.SwervePod;
 
@@ -50,6 +52,11 @@ public final class Constants {
         };
     }
 
+    public static class AutoConstants {
+        public static final ChassisSpeeds AUTO_SPEEDS = new ChassisSpeeds(0, 0, 0);
+        public static final double AUTO_DISTANCE = 0;
+    }
+
     public static class IntakeConstants {
         public static final int MOTOR_ID = 13;
         public static final int SOLENOID_FORWARD_ID = 0;
@@ -65,7 +72,7 @@ public final class Constants {
     }
 
     public static class ElbowConstants {
-        public static final int ABS_ENCODER_ROTATION_ID = 3;
+        public static final int ABS_ENCODER_ROTATION_ID = 1;
         public static final int MOTOR_ID = 15;
         public static final Range ROTATE_LIMITS = new Range(170, 190);
     }
@@ -73,11 +80,14 @@ public final class Constants {
     public static class ElevatorConstants {
         public static final int ELEVATOR_MOTOR_ID = 16;
         public static final Range ELEVATOR_LIMITS = new Range(0, 0);
+        public static final int ELEVATOR_ANALOG_ID = 3;
     }
 
     public static class CarriageConstants {
-        public static final int CARRIAGE_MOTOR_ID = 17;
+        public static final int CARRIAGE_MOTOR_ID = 3;
         public static final Range CARRIAGE_LIMITS = new Range(0, 0);
+        public static final int CARRIAGE_ANALOG_ID = 0;
+
     }
 
 }

@@ -31,9 +31,10 @@ public class DriverInputs extends DynamicLayout {
     private static final NetworkTableEntry entry = NetworkTableInstance.getDefault().getEntry("157/Drive/StickEnabled");
 
     public DriverInputs() {
-        super(() -> entry.getBoolean(false)
-                ? flightLayout()
-                : logitechLayout());
+        // super(() -> entry.getBoolean(false)
+        // ? flightLayout()
+        // : logitechLayout());
+        super(() -> weekZeroLayout());
 
         entry.setDefaultBoolean(false);
         entry.setPersistent();
@@ -41,6 +42,32 @@ public class DriverInputs extends DynamicLayout {
 
     private static final Deadzone deadzone = Deadzone.forAxis(new Range(-0.2, 0.2));
     private static final Rotation2d maxRotationPerSecond = Rotation2d.fromDegrees(50);
+
+    private static Layout weekZeroLayout() {
+        final var layout = new MapLayout("Week Zero Layout");
+        final var driver = new LogitechGamepadF310(0);
+        final var operator = new LogitechGamepadF310(1);
+
+        final var speedModifier = 0.5;
+
+        layout.assign(driveSpeedX, driver.leftStickX.map(deadzone::apply).scaledBy(speedModifier));
+        layout.assign(driveSpeedY, driver.leftStickY.map(deadzone::apply).scaledBy(speedModifier));
+        layout.assign(driveRotation, driver.rightStickX.map(deadzone::apply).scaledBy(speedModifier)
+                .scaledBy(maxRotationPerSecond.getDegrees()));
+
+        layout.assign(runIntakeMotorIn, operator.b);
+        layout.assign(runIntakeMotorOut, operator.a);
+        layout.assign(setIntakeSolenoidForward, operator.y);
+        layout.assign(setIntakeSolenoidBackward, operator.x);
+
+        layout.assign(rotateWrist, operator.pov.y.scaledBy(0.05));
+        layout.assign(rotateElbow, operator.pov.x.scaledBy(0.05));
+
+        layout.assign(elevator, operator.leftStickY.scaledBy(0.05));
+        layout.assign(carriage, operator.rightStickY.scaledBy(0.02));
+
+        return layout;
+    }
 
     private static Layout logitechLayout() {
         final var layout = new MapLayout("Logitech Layout");
