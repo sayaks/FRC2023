@@ -7,6 +7,8 @@ package frc.robot.lift;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,7 +34,7 @@ public class CarriageSubsystem extends SubsystemBase {
     }
 
     public double getCarriagePosition() {
-        return NumberUtil.ticksToDegs(carriage10Pot.getVoltage());
+        return carriage10Pot.getValue();
     }
 
     public void runCarriageMotor(final double speed) {
@@ -43,8 +45,11 @@ public class CarriageSubsystem extends SubsystemBase {
         carriageMotor.set(carriageLimits);
     }
 
+    private final NetworkTable table = NetworkTableInstance.getDefault().getTable("157/Carriage");
+
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        table.getEntry("Carriage").setNumber(getCarriagePosition());
+        table.getEntry("CarriageSpeed").setNumber(carriageSpeed);
     }
 }

@@ -14,9 +14,21 @@
     "transitory": {
       "157": {
         "Arm": {
+          "Test1": {
+            "open": true
+          },
+          "open": true
+        },
+        "Carriage": {
           "open": true
         },
         "Drive": {
+          "open": true
+        },
+        "Elbow": {
+          "open": true
+        },
+        "Elevator": {
           "open": true
         },
         "Swerve": {

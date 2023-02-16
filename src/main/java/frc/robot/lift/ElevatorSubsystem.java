@@ -8,6 +8,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,7 +36,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public double getElevatorPosition() {
-        return NumberUtil.ticksToDegs(elevator10Pot.getVoltage());
+        return elevator10Pot.getValue();
     }
 
     public void runElevatorMotor(final double speed) {
@@ -45,9 +47,12 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.set(elevatorLimits);
     }
 
+    private final NetworkTable table = NetworkTableInstance.getDefault().getTable("157/Elevator");
+
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        table.getEntry("Elevator").setNumber(getElevatorPosition());
+        table.getEntry("ElevatorSpeed").setNumber(elevatorSpeed);
     }
 
     public static final PIDController lowPid = new PIDController(0, 0, 0);

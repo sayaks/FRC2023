@@ -22,6 +22,7 @@ public class NumberUtil {
             return (1 << Integer.SIZE) + num;
         } else {
             return num;
+
         }
     }
 

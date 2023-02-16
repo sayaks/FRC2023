@@ -10,7 +10,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Counter.Mode;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElbowConstants;
@@ -24,8 +26,9 @@ public class ElbowSubsystem extends SubsystemBase {
     private double elbowSpeed = 0.0;
 
     public ElbowSubsystem() {
-
         elbowMotor.setInverted(false);
+        final var tab = Shuffleboard.getTab("Encoder Debug");
+        tab.addNumber("elbow position", this::getElbowRotationPosition);
         elbowAbsEncoder.setSemiPeriodMode(true);
         elbowAbsEncoder.setUpSource(ElbowConstants.ABS_ENCODER_ROTATION_ID);
         elbowAbsEncoder.reset();

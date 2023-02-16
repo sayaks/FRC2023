@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Counter.Mode;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,7 +28,7 @@ public class WristSubsystem extends SubsystemBase {
     public WristSubsystem() {
         wristMotor.setInverted(true);
         wristAbsEncoder.setSemiPeriodMode(true);
-        wristAbsEncoder.setUpSource(Constants.WristConstants.ABS_ENCODER_ROTATION_ID);
+        wristAbsEncoder.setUpSource(WristConstants.ABS_ENCODER_ROTATION_ID);
         wristAbsEncoder.reset();
     }
 
