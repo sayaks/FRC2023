@@ -11,7 +11,6 @@ import frc.robot.elbow.ElbowSubsystem;
 import frc.robot.input.DriverInputs;
 import frc.robot.intake.IntakeSubsystem;
 import frc.robot.wrist.WristSubsystem;
-import frc.robot.wrist.AutoTestArm;
 import frc.robot.lift.CarriageSubsystem;
 import frc.robot.lift.ElevatorSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -78,6 +77,10 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
+        return runDistance();
+    }
+
+    public Command runDistance() {
         return driveSubsystem.resetDrivePositionCommand()
                 .andThen(driveSubsystem.driveRawDistanceCommand(
                         AutoConstants.AUTO_SPEEDS,

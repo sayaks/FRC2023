@@ -55,4 +55,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public void periodic() {
         sensorEntry.setBoolean(getSensor());
     }
+
+    public Command ejectCargo() {
+        return runMotor(-.2).withTimeout(2);
+    }
 }

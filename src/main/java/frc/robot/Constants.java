@@ -6,7 +6,6 @@ package frc.robot;
 
 import org.assabet.aztechs157.numbers.Range;
 
-import com.revrobotics.AnalogInput;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -55,6 +54,9 @@ public final class Constants {
     public static class AutoConstants {
         public static final ChassisSpeeds AUTO_SPEEDS = new ChassisSpeeds(0, 0, 0);
         public static final double AUTO_DISTANCE = 0;
+        public static final double TURN_ACCURACY_DEG = 20;
+        public static final double DRIVE_ACCURACY = 20;
+        public static final double BALANCE_ACCURACY_DEG = 2.5;
     }
 
     public static class IntakeConstants {
@@ -68,13 +70,13 @@ public final class Constants {
     public static class WristConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 2;
         public static final int MOTOR_ID = 14;
-        public static final Range ROTATE_LIMITS = new Range(83, 243);
+        public static final Range ROTATE_LIMITS = new Range(148, 256); // 280 is full max
     }
 
     public static class ElbowConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 1;
         public static final int MOTOR_ID = 15;
-        public static final Range ROTATE_LIMITS = new Range(170, 190);
+        public static final Range ROTATE_LIMITS = new Range(192, 348);
     }
 
     public static class ElevatorConstants {

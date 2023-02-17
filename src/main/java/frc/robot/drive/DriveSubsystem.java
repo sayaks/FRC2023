@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -68,6 +69,10 @@ public class DriveSubsystem extends SubsystemBase {
         return Rotation2d.fromDegrees(-gyro.getYaw());
     }
 
+    public Rotation2d getRobotPitch() {
+        return Rotation2d.fromDegrees(gyro.getPitch());
+    }
+
     @Override
     public void periodic() {
         gyroTable.getEntry("Yaw").setDouble(gyro.getYaw());
@@ -94,9 +99,17 @@ public class DriveSubsystem extends SubsystemBase {
         return runOnce(() -> resetDrivePosition());
     }
 
+    // auto command that will have the robot drive relative to field
     public Command driveRawDistanceCommand(final ChassisSpeeds inputSpeeds, final double rawDistance) {
         return run(() -> set(inputSpeeds))
-                .until(() -> getRawDrivePosition() >= rawDistance)
+                .until(() -> Math.abs(getRawDrivePosition() - rawDistance) <= AutoConstants.DRIVE_ACCURACY)
+                .finallyDo((a) -> stop());
+    }
+
+    public Command turnToAngleCommand(final Rotation2d desiredAngle, float turnSpeed) {
+        return run(() -> set(new ChassisSpeeds(0, 0, turnSpeed)))
+                .until(() -> Math
+                        .abs(getRobotYaw().getDegrees() - desiredAngle.getDegrees()) <= AutoConstants.TURN_ACCURACY_DEG)
                 .finallyDo((a) -> stop());
     }
 }
