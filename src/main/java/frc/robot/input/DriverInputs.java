@@ -45,7 +45,7 @@ public class DriverInputs extends DynamicLayout {
     private static final Rotation2d maxRotationPerSecond = Rotation2d.fromDegrees(65);
 
     private static Layout weekZeroLayout() {
-        final var testing = true;
+        final var testing = true; // TODO: NONONOONONONONONO
         final var layout = new MapLayout("Week Zero Layout");
         final var driver = new LogitechGamepadF310(0);
         final var operator = new LogitechGamepadF310(1);
@@ -57,7 +57,7 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(driveRotation, driver.rightStickX.map(deadzone::apply).scaledBy(speedModifier)
                 .scaledBy(maxRotationPerSecond.getDegrees()));
 
-        if (testing) {
+        if (testing) { // TODO: THIS IS BAD END IT NOW
             layout.assign(TestingButton, driver.a);
         }
         layout.assign(runIntakeMotorIn, operator.b);

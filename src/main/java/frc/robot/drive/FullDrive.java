@@ -9,9 +9,15 @@ public class FullDrive extends CommandBase {
     private final DriveSubsystem drive;
     private final DriverInputs driverInputs;
     private final double slewRateVal = 1.5;
-    private final SlewRateLimiter ySlewRateLimiter = new SlewRateLimiter(slewRateVal, -slewRateVal, 0);
-    private final SlewRateLimiter xSlewRateLimiter = new SlewRateLimiter(slewRateVal, -slewRateVal, 0);
-    private final SlewRateLimiter rotSlewRateLimiter = new SlewRateLimiter(75, -75, 0);
+    private final SlewRateLimiter ySlewRateLimiter = new SlewRateLimiter(slewRateVal, -slewRateVal, 0); // TODO: Test
+                                                                                                        // and clean
+                                                                                                        // (this was a
+                                                                                                        // hack)
+    private final SlewRateLimiter xSlewRateLimiter = new SlewRateLimiter(slewRateVal, -slewRateVal, 0); // TODO: Test
+                                                                                                        // and clean
+                                                                                                        // (this was a
+                                                                                                        // hack)
+    private final SlewRateLimiter rotSlewRateLimiter = new SlewRateLimiter(75, -75, 0); // same as top 2
 
     /** Creates a new FullDrive. */
     public FullDrive(final DriveSubsystem drive, final DriverInputs driverInputs) {

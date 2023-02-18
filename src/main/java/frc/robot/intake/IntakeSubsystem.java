@@ -39,7 +39,8 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public Command intake(final double speed) {
-        return runMotor(isOpen ? speed : speed).until(this::getSensor);
+        return runMotor(isOpen ? speed : speed).until(this::getSensor); // TODO: CHANGE EVENTUALLY MAYBE SPEED
+                                                                        // MULTIPLIER
     }
 
     public Command setSolenoid(final DoubleSolenoid.Value value) {

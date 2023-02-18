@@ -1,3 +1,5 @@
+//TODO: name comments better
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -82,6 +84,8 @@ public class RobotContainer {
         return WristDownThenEjectThenPoorlyDock();
     }
 
+    // TODO: NAMING, PLEASE
+
     public Command runDistance() {
         return driveSubsystem.resetDrivePositionCommand()
                 .andThen(driveSubsystem.driveRawDistanceCommand(
@@ -105,13 +109,18 @@ public class RobotContainer {
                 .andThen(runDistance().withTimeout(4.2));
     }
 
-    public Command WristDownThenEjectThenPoorlyDock() {
+    public Command WristDownThenEjectThenPoorlyDock() { // TODO: Don't change this name though, kinda cool.
         return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(180))
                 .andThen(intakeSubsystem.ejectCargo().withTimeout(0.5))
-                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 3000.0).withTimeout(1.85))
+                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 3000.0).withTimeout(1.85) /**
+                                                                                     * change dis, no more time, only
+                                                                                     * space
+                                                                                     */
+                )
                 .andThen(driveSubsystem.driveRawDistanceCommand(
                         new ChassisSpeeds(0, 0, 0.001),
-                        100000));
+                        100000)/** TODO: Dat to */
+                );
     }
 
 }

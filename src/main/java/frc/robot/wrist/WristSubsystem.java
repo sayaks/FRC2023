@@ -34,7 +34,7 @@ public class WristSubsystem extends SubsystemBase {
         return runEnd(() -> {
             final double speed = inputs.axis(DriverInputs.rotateWrist).get();
             rotateWrist(speed);
-        }, () -> rotateWrist(0));
+        }, () -> rotateWrist(0)); // TODO: Ignore limits when encoder is INF
     }
 
     public Command runWristSpeed(final double speed) {
@@ -75,7 +75,7 @@ public class WristSubsystem extends SubsystemBase {
     public void periodic() {
         table.getEntry("Wrist").setNumber(getWristRotationPosition());
         table.getEntry("WristSpeed").setNumber(wristSpeed);
-        test();
+        test(); // TODO: WHAT THE FRUIT IS THIS HELP ME UNDERSTAND
     }
 
     public final Command turnDownToPos(double pos) {

@@ -53,7 +53,7 @@ public final class Constants {
 
     public static class AutoConstants {
         public static final ChassisSpeeds AUTO_SPEEDS = new ChassisSpeeds(-0.3, 0, 0);
-        public static final double AUTO_DISTANCE = 3000000;
+        public static final double AUTO_DISTANCE = 3000000; // TODO: DEFINITELY THAT (NOT)
         public static final double TURN_ACCURACY_DEG = 20;
         public static final double DRIVE_ACCURACY = 20;
         public static final double BALANCE_ACCURACY_DEG = 2.5;

@@ -33,7 +33,7 @@ public class CarriageSubsystem extends SubsystemBase {
     }
 
     public double getCarriagePosition() {
-        return 4000 - carriage10Pot.getValue();
+        return 4000 - carriage10Pot.getValue(); // is a hack, idk keep it I guess?
     }
 
     public void runCarriageMotor(final double speed) {
