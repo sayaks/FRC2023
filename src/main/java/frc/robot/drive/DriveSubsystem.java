@@ -26,6 +26,7 @@ public class DriveSubsystem extends SubsystemBase {
             Constants.DriveConstants.WHEEL_LOCATIONS);
 
     private final NetworkTable table = NetworkTableInstance.getDefault().getTable("157/Swerve");
+    private float gyroOffset = 0.0f;
 
     public SwervePod[] swervePods = new SwervePod[] {
             new SwervePod(DriveConstants.POD_CONFIGS[0], table.getSubTable("Pod 1")),
@@ -66,7 +67,11 @@ public class DriveSubsystem extends SubsystemBase {
     private final NetworkTable gyroTable = NetworkTableInstance.getDefault().getTable("157/Gyro");
 
     private Rotation2d getRobotYaw() {
-        return Rotation2d.fromDegrees(-gyro.getYaw());
+        return Rotation2d.fromDegrees(((-gyro.getYaw() + 180 + gyroOffset) % 360) - 180);
+    }
+
+    public Command addGyroOffset(float degrees) {
+        return runOnce(() -> gyroOffset = degrees);
     }
 
     public Rotation2d getRobotPitch() {
@@ -111,5 +116,24 @@ public class DriveSubsystem extends SubsystemBase {
                 .until(() -> Math
                         .abs(getRobotYaw().getDegrees() - desiredAngle.getDegrees()) <= AutoConstants.TURN_ACCURACY_DEG)
                 .finallyDo((a) -> stop());
+    }
+
+    public void resetPostitions() {
+        for (SwervePod swervePod : swervePods) {
+            swervePod.directSet(0, (180 - swervePod.getCurrentAngle()) / 90);
+        }
+    }
+
+    public boolean checkAllPositionsCloseToZero() {
+        for (SwervePod swervePod : swervePods) {
+            if (!(swervePod.getCurrentAngle() < 20 || swervePod.getCurrentAngle() > 340)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Command resetPositionsCommand() {
+        return runEnd(this::resetPostitions, this::stop).until(this::checkAllPositionsCloseToZero);
     }
 }

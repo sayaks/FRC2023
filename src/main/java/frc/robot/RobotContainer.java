@@ -13,6 +13,7 @@ import frc.robot.intake.IntakeSubsystem;
 import frc.robot.wrist.WristSubsystem;
 import frc.robot.lift.CarriageSubsystem;
 import frc.robot.lift.ElevatorSubsystem;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -63,8 +64,9 @@ public class RobotContainer {
      * Flight joysticks.
      */
     private void configureBindings() {
+        driverInputs.button(DriverInputs.TestingButton).whenPressed(wristSubsystem.turnDownToPos(180.0));
         driverInputs.button(DriverInputs.runIntakeMotorIn).whileHeld(intakeSubsystem.intake(1));
-        driverInputs.button(DriverInputs.runIntakeMotorOut).whileHeld(intakeSubsystem.runMotor(-0.8));
+        driverInputs.button(DriverInputs.runIntakeMotorOut).whileHeld(intakeSubsystem.runMotor(-1));
         driverInputs.button(DriverInputs.setIntakeSolenoidForward)
                 .whenPressed(intakeSubsystem.setSolenoid(DoubleSolenoid.Value.kForward));
         driverInputs.button(DriverInputs.setIntakeSolenoidBackward)
@@ -77,7 +79,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return runDistance().withTimeout(4.2);
+        return WristDownThenEjectThenPoorlyDock();
     }
 
     public Command runDistance() {
@@ -86,4 +88,30 @@ public class RobotContainer {
                         AutoConstants.AUTO_SPEEDS,
                         AutoConstants.AUTO_DISTANCE));
     }
+
+    public Command runDistanceWithSpeeds(double x, double y, double dist) {
+        return driveSubsystem.resetDrivePositionCommand()
+                .andThen(driveSubsystem.driveRawDistanceCommand(new ChassisSpeeds(x, y, 0), dist));
+    }
+
+    public Command WristDownThenEjectThenRunDistance() {
+        return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(180))
+                .andThen(intakeSubsystem.ejectCargo().withTimeout(0.5))
+                .andThen(runDistanceWithSpeeds(-0.3, 0.0, 3000.0).withTimeout(4.2));
+    }
+
+    public Command ejectThenRunDistance() {
+        return intakeSubsystem.ejectCargo().withTimeout(1)
+                .andThen(runDistance().withTimeout(4.2));
+    }
+
+    public Command WristDownThenEjectThenPoorlyDock() {
+        return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(180))
+                .andThen(intakeSubsystem.ejectCargo().withTimeout(0.5))
+                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 3000.0).withTimeout(1.85))
+                .andThen(driveSubsystem.driveRawDistanceCommand(
+                        new ChassisSpeeds(0, 0, 0.001),
+                        100000));
+    }
+
 }

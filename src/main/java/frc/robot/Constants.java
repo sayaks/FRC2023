@@ -52,8 +52,8 @@ public final class Constants {
     }
 
     public static class AutoConstants {
-        public static final ChassisSpeeds AUTO_SPEEDS = new ChassisSpeeds(0.3, 0, 0);
-        public static final double AUTO_DISTANCE = 300;
+        public static final ChassisSpeeds AUTO_SPEEDS = new ChassisSpeeds(-0.3, 0, 0);
+        public static final double AUTO_DISTANCE = 3000000;
         public static final double TURN_ACCURACY_DEG = 20;
         public static final double DRIVE_ACCURACY = 20;
         public static final double BALANCE_ACCURACY_DEG = 2.5;
@@ -64,13 +64,13 @@ public final class Constants {
         public static final int SOLENOID_FORWARD_ID = 0;
         public static final int SOLENOID_BACKWARD_ID = 1;
         public static final int PNEUMATICS_HUB_ID = 51;
-        public static final int INTAKE_SENSOR_ID = 0;
+        public static final int INTAKE_SENSOR_ID = 3;
     }
 
     public static class WristConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 2;
         public static final int MOTOR_ID = 14;
-        public static final Range ROTATE_LIMITS = new Range(155, 250); // 280 is full max
+        public static final Range ROTATE_LIMITS = new Range(165, 250); // 280 is full max
     }
 
     public static class ElbowConstants {

@@ -19,6 +19,7 @@ public class DriverInputs extends DynamicLayout {
     public static final Button.Key runIntakeMotorOut = new Button.Key("Run Intake Motor Out");
     public static final Button.Key setIntakeSolenoidForward = new Button.Key("Set Intake Solenoid Forward");
     public static final Button.Key setIntakeSolenoidBackward = new Button.Key("Set Intake Solenoid Backward");
+    public static final Button.Key TestingButton = new Button.Key("this is just for testing");
 
     public static final Axis.Key driveSpeedX = new Axis.Key("Drive Speed X");
     public static final Axis.Key driveSpeedY = new Axis.Key("Drive Speed Y");
@@ -41,9 +42,10 @@ public class DriverInputs extends DynamicLayout {
     }
 
     private static final Deadzone deadzone = Deadzone.forAxis(new Range(-0.2, 0.2));
-    private static final Rotation2d maxRotationPerSecond = Rotation2d.fromDegrees(50);
+    private static final Rotation2d maxRotationPerSecond = Rotation2d.fromDegrees(65);
 
     private static Layout weekZeroLayout() {
+        final var testing = true;
         final var layout = new MapLayout("Week Zero Layout");
         final var driver = new LogitechGamepadF310(0);
         final var operator = new LogitechGamepadF310(1);
@@ -55,16 +57,19 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(driveRotation, driver.rightStickX.map(deadzone::apply).scaledBy(speedModifier)
                 .scaledBy(maxRotationPerSecond.getDegrees()));
 
+        if (testing) {
+            layout.assign(TestingButton, driver.a);
+        }
         layout.assign(runIntakeMotorIn, operator.b);
         layout.assign(runIntakeMotorOut, operator.a);
         layout.assign(setIntakeSolenoidForward, operator.y);
         layout.assign(setIntakeSolenoidBackward, operator.x);
 
-        layout.assign(rotateWrist, operator.pov.y.scaledBy(0.5));
-        layout.assign(rotateElbow, operator.pov.x.scaledBy(0.5));
+        layout.assign(rotateWrist, operator.pov.x.scaledBy(0.5));
+        layout.assign(rotateElbow, operator.pov.y.scaledBy(0.5));
 
-        layout.assign(elevator, operator.leftStickY.scaledBy(0.5));
-        layout.assign(carriage, operator.rightStickY.scaledBy(-0.5));
+        layout.assign(elevator, operator.leftStickY.scaledBy(0.75));
+        layout.assign(carriage, operator.rightStickY.scaledBy(-0.75));
 
         return layout;
     }

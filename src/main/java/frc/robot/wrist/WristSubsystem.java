@@ -37,6 +37,10 @@ public class WristSubsystem extends SubsystemBase {
         }, () -> rotateWrist(0));
     }
 
+    public Command runWristSpeed(final double speed) {
+        return runEnd(() -> rotateWrist(speed), () -> rotateWrist(0));
+    }
+
     public double getWristRotationPosition() {
         return NumberUtil.ticksToDegs(wristAbsEncoder.getPeriod());
     }
@@ -72,6 +76,10 @@ public class WristSubsystem extends SubsystemBase {
         table.getEntry("Wrist").setNumber(getWristRotationPosition());
         table.getEntry("WristSpeed").setNumber(wristSpeed);
         test();
+    }
+
+    public final Command turnDownToPos(double pos) {
+        return runWristSpeed(-0.3).until(() -> getWristRotationPosition() < pos);
     }
 
 }

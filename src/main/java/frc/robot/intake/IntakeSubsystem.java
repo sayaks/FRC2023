@@ -27,6 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private final DigitalInput intakeSensor = new DigitalInput(IntakeConstants.INTAKE_SENSOR_ID);
     private final Compressor airCompressor = new Compressor(IntakeConstants.PNEUMATICS_HUB_ID,
             PneumaticsModuleType.REVPH);
+    private boolean isOpen = false;
 
     public IntakeSubsystem() {
         airCompressor.enableDigital();
@@ -38,11 +39,14 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public Command intake(final double speed) {
-        return runMotor(speed).until(this::getSensor);
+        return runMotor(isOpen ? speed : speed).until(this::getSensor);
     }
 
     public Command setSolenoid(final DoubleSolenoid.Value value) {
-        return runOnce(() -> solenoid.set(value));
+        return runOnce(() -> {
+            solenoid.set(value);
+            isOpen = value == DoubleSolenoid.Value.kForward;
+        });
     }
 
     private boolean getSensor() {
@@ -53,10 +57,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        sensorEntry.setBoolean(getSensor());
+        // sensorEntry.setBoolean(getSensor());
+        // System.out.println(getSensor());
     }
 
     public Command ejectCargo() {
-        return runMotor(-.2).withTimeout(2);
+        return runMotor(-1).withTimeout(2);
     }
 }
