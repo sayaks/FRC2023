@@ -52,8 +52,8 @@ public final class Constants {
     }
 
     public static class AutoConstants {
-        public static final ChassisSpeeds AUTO_SPEEDS = new ChassisSpeeds(0, 0, 0);
-        public static final double AUTO_DISTANCE = 0;
+        public static final ChassisSpeeds AUTO_SPEEDS = new ChassisSpeeds(0.3, 0, 0);
+        public static final double AUTO_DISTANCE = 300;
         public static final double TURN_ACCURACY_DEG = 20;
         public static final double DRIVE_ACCURACY = 20;
         public static final double BALANCE_ACCURACY_DEG = 2.5;
@@ -70,24 +70,25 @@ public final class Constants {
     public static class WristConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 2;
         public static final int MOTOR_ID = 14;
-        public static final Range ROTATE_LIMITS = new Range(148, 256); // 280 is full max
+        public static final Range ROTATE_LIMITS = new Range(155, 250); // 280 is full max
     }
 
     public static class ElbowConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 1;
         public static final int MOTOR_ID = 15;
-        public static final Range ROTATE_LIMITS = new Range(192, 348);
+        public static final Range ROTATE_LIMITS = new Range(170, 335); // 162 fully down, 336 fully up
     }
 
     public static class ElevatorConstants {
         public static final int ELEVATOR_MOTOR_ID = 16;
-        public static final Range ELEVATOR_LIMITS = new Range(0, 0);
+        public static final Range ELEVATOR_LIMITS = new Range(640, 1975); // end is the bottom most and start is
+                                                                          // the top most
         public static final int ELEVATOR_ANALOG_ID = 3;
     }
 
     public static class CarriageConstants {
         public static final int CARRIAGE_MOTOR_ID = 3;
-        public static final Range CARRIAGE_LIMITS = new Range(0, 0);
+        public static final Range CARRIAGE_LIMITS = new Range(850, 2100);
         public static final int CARRIAGE_ANALOG_ID = 0;
 
     }

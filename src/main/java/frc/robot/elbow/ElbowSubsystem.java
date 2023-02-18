@@ -5,6 +5,7 @@
 package frc.robot.elbow;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -26,6 +27,7 @@ public class ElbowSubsystem extends SubsystemBase {
 
     public ElbowSubsystem() {
         elbowMotor.setInverted(false);
+        elbowMotor.setIdleMode(IdleMode.kBrake);
         final var tab = Shuffleboard.getTab("Encoder Debug");
         tab.addNumber("elbow position", this::getElbowRotationPosition);
         elbowAbsEncoder.setSemiPeriodMode(true);

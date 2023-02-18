@@ -63,8 +63,8 @@ public class RobotContainer {
      * Flight joysticks.
      */
     private void configureBindings() {
-        driverInputs.button(DriverInputs.runIntakeMotorIn).whileHeld(intakeSubsystem.intake(0.4));
-        driverInputs.button(DriverInputs.runIntakeMotorOut).whileHeld(intakeSubsystem.runMotor(-0.4));
+        driverInputs.button(DriverInputs.runIntakeMotorIn).whileHeld(intakeSubsystem.intake(1));
+        driverInputs.button(DriverInputs.runIntakeMotorOut).whileHeld(intakeSubsystem.runMotor(-0.8));
         driverInputs.button(DriverInputs.setIntakeSolenoidForward)
                 .whenPressed(intakeSubsystem.setSolenoid(DoubleSolenoid.Value.kForward));
         driverInputs.button(DriverInputs.setIntakeSolenoidBackward)
@@ -77,7 +77,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return runDistance();
+        return runDistance().withTimeout(4.2);
     }
 
     public Command runDistance() {

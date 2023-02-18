@@ -60,11 +60,11 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(setIntakeSolenoidForward, operator.y);
         layout.assign(setIntakeSolenoidBackward, operator.x);
 
-        layout.assign(rotateWrist, operator.pov.y.scaledBy(0.05));
-        layout.assign(rotateElbow, operator.pov.x.scaledBy(0.05));
+        layout.assign(rotateWrist, operator.pov.y.scaledBy(0.5));
+        layout.assign(rotateElbow, operator.pov.x.scaledBy(0.5));
 
-        layout.assign(elevator, operator.leftStickY.scaledBy(0.05));
-        layout.assign(carriage, operator.rightStickY.scaledBy(0.02));
+        layout.assign(elevator, operator.leftStickY.scaledBy(0.5));
+        layout.assign(carriage, operator.rightStickY.scaledBy(-0.5));
 
         return layout;
     }
@@ -85,13 +85,13 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(driveRotation, input.rightStickX.map(deadzone::apply).scaledBy(speedModifier)
                 .scaledBy(maxRotationPerSecond.getDegrees()));
 
-        layout.assign(rotateWrist, input.pov.x.scaledBy(0.05));
-        layout.assign(rotateElbow, input.pov.y.scaledBy(0.05));
+        layout.assign(rotateWrist, input.pov.x.scaledBy(0.2));
+        layout.assign(rotateElbow, input.pov.y.scaledBy(0.2));
 
-        layout.assign(elevator, input.pov.y.scaledBy(0.05));
+        layout.assign(elevator, input.pov.y.scaledBy(0.2));
         // Change carriage input to an axis not in use once there are 2 controllers. Be
         // careful with testing for right now.
-        layout.assign(carriage, input.pov.y.scaledBy(0.02));
+        layout.assign(carriage, input.pov.y.scaledBy(0.1));
 
         return layout;
     }

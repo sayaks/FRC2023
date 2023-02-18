@@ -35,7 +35,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public double getElevatorPosition() {
-        return elevator10Pot.getValue();
+        return 2500 - elevator10Pot.getValue();
     }
 
     public void runElevatorMotor(final double speed) {
