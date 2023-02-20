@@ -76,12 +76,12 @@ public final class Constants {
     public static class ElbowConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 1;
         public static final int MOTOR_ID = 15;
-        public static final Range ROTATE_LIMITS = new Range(170, 335); // 162 fully down, 336 fully up
+        public static final Range ROTATE_LIMITS = new Range(165, 335); // 162 fully down, 336 fully up
     }
 
     public static class ElevatorConstants {
         public static final int ELEVATOR_MOTOR_ID = 16;
-        public static final Range ELEVATOR_LIMITS = new Range(640, 1975); // end is the bottom most and start is
+        public static final Range ELEVATOR_LIMITS = new Range(806, 2051); // end is the bottom most and start is
                                                                           // the top most
         public static final int ELEVATOR_ANALOG_ID = 3;
     }

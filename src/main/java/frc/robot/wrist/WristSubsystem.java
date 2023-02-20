@@ -4,9 +4,12 @@
 
 package frc.robot.wrist;
 
+import javax.sound.sampled.SourceDataLine;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Counter;
@@ -16,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.WristConstants;
 import frc.robot.input.DriverInputs;
 import frc.robot.lib.NumberUtil;
+import frc.robot.statemachines.SubsystemGroup.SafetyLogic;
 
 public class WristSubsystem extends SubsystemBase {
 
@@ -80,6 +84,75 @@ public class WristSubsystem extends SubsystemBase {
 
     public final Command turnDownToPos(double pos) {
         return runWristSpeed(-0.3).until(() -> getWristRotationPosition() < pos);
+    }
+
+    public static class WristState implements SafetyLogic {
+
+        private double wristPosition;
+        private PIDController wristDownPid;
+        private PIDController wristUpPid;
+        private double minArmPos;
+
+        public WristState(final double wristPosition, final PIDController wristDownPid, final PIDController wristUpPid,
+                final double minArmPos) {
+            this.wristPosition = wristPosition;
+            this.wristDownPid = wristDownPid;
+            this.wristUpPid = wristUpPid;
+            this.minArmPos = minArmPos;
+
+        }
+
+        public static final WristState start = new WristState(278, null, null, 165);
+        public static final WristState low = new WristState(250, null, null, 165);
+        public static final WristState mid = new WristState(166, null, null, 215);
+        public static final WristState loading = new WristState(166, null, null, 215);
+        public static final WristState high = new WristState(180, null, null, 215);
+
+        @Override
+        public SafetyLogic lowPosition() {
+            // TODO Auto-generated method stub
+            return low;
+        }
+
+        @Override
+        public SafetyLogic midPosition() {
+            // TODO Auto-generated method stub
+            return mid;
+        }
+
+        @Override
+        public SafetyLogic loadingPosition() {
+            // TODO Auto-generated method stub
+            return loading;
+        }
+
+        @Override
+        public SafetyLogic highPosition() {
+            // TODO Auto-generated method stub
+            return high;
+        }
+
+        @Override
+        public SafetyLogic defaultPosition() {
+            // TODO Auto-generated method stub
+            return start;
+        }
+
+        @Override
+        public double stateCalculate(double speed, double armPosition, double wristPosition, double elevatorPosition,
+                double carriagePosition) {
+            // TODO Auto-generated method stub
+            if (armPosition > this.minArmPos) {
+                if (wristPosition < this.wristPosition - 10) {
+                    return 0.2;
+                } else if (wristPosition > this.wristPosition + 10) {
+                    return -0.2;
+                }
+            }
+
+            return 0;
+        }
+
     }
 
 }

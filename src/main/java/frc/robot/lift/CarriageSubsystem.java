@@ -7,6 +7,7 @@ package frc.robot.lift;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CarriageConstants;
 import frc.robot.input.DriverInputs;
+import frc.robot.statemachines.SubsystemGroup.SafetyLogic;
 
 public class CarriageSubsystem extends SubsystemBase {
     private final CANSparkMax carriageMotor = new CANSparkMax(CarriageConstants.CARRIAGE_MOTOR_ID,
@@ -50,5 +52,72 @@ public class CarriageSubsystem extends SubsystemBase {
     public void periodic() {
         table.getEntry("Carriage").setNumber(getCarriagePosition());
         table.getEntry("CarriageSpeed").setNumber(carriageSpeed);
+    }
+
+    public static class CarriageState implements SafetyLogic {
+
+        private double carriagePosition;
+        private PIDController carriageDownPid;
+        private PIDController carriageUpPid;
+        private double minElbowPos;
+
+        public CarriageState(final double carriagePosition, final PIDController carriageDownPid,
+                final PIDController carriageUpPid, final double minElbowPos) {
+            this.carriagePosition = carriagePosition;
+            this.carriageDownPid = carriageDownPid;
+            this.carriageUpPid = carriageUpPid;
+            this.minElbowPos = minElbowPos;
+        }
+
+        public static final CarriageState start = new CarriageState(820, null, null, 215);
+        public static final CarriageState low = new CarriageState(2100, null, null, 155);
+        public static final CarriageState mid = new CarriageState(2100, null, null, 215);
+        public static final CarriageState loading = new CarriageState(2100, null, null, 215);
+        public static final CarriageState high = new CarriageState(2100, null, null, 215);
+
+        @Override
+        public SafetyLogic lowPosition() {
+            // TODO Auto-generated method stub
+            return low;
+        }
+
+        @Override
+        public SafetyLogic midPosition() {
+            // TODO Auto-generated method stub
+            return mid;
+        }
+
+        @Override
+        public SafetyLogic loadingPosition() {
+            // TODO Auto-generated method stub
+            return loading;
+        }
+
+        @Override
+        public SafetyLogic highPosition() {
+            // TODO Auto-generated method stub
+            return high;
+        }
+
+        @Override
+        public SafetyLogic defaultPosition() {
+            // TODO Auto-generated method stub
+            return start;
+        }
+
+        @Override
+        public double stateCalculate(double speed, double armPosition, double wristPosition, double elevatorPosition,
+                double carriagePosition) {
+            // TODO Auto-generated method stub
+            if (armPosition > this.minElbowPos) {
+                if (carriagePosition < this.carriagePosition - 100) {
+                    return 0.2;
+                } else if (carriagePosition > this.carriagePosition + 100) {
+                    return -0.2;
+                }
+            }
+            return 0;
+        }
+
     }
 }
