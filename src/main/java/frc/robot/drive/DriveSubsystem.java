@@ -74,8 +74,12 @@ public class DriveSubsystem extends SubsystemBase {
         return runOnce(() -> gyroOffset = degrees);
     }
 
+    public double getRawRobotPitch() {
+        return gyro.getRoll();
+    }
+
     public Rotation2d getRobotPitch() {
-        return Rotation2d.fromDegrees(gyro.getPitch());
+        return Rotation2d.fromDegrees(gyro.getRoll());
     }
 
     @Override

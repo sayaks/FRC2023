@@ -4,6 +4,7 @@
 
 package frc.robot.drive;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
@@ -11,8 +12,11 @@ import frc.robot.Constants.AutoConstants;
 public class AutoBalance extends CommandBase {
     private final DriveSubsystem drive;
 
+    private PIDController pid = new PIDController(0.008, 0, 0.001);
+
     /** Creates a new AutoBalance. */
-    public AutoBalance(final DriveSubsystem drive) {
+    public AutoBalance(
+            final DriveSubsystem drive) {
         this.drive = drive;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(drive);
@@ -26,20 +30,19 @@ public class AutoBalance extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        // System.out.println(drive.getRawRobotPitch());
         if (Math.abs(drive.getRobotPitch().getDegrees()) <= AutoConstants.BALANCE_ACCURACY_DEG) {
             drive.stop(); // TODO: Turn the wheels perpendicular to the platform to lock the robot in
                           // place
-        } else if (drive.getRobotPitch().getDegrees() >= AutoConstants.BALANCE_ACCURACY_DEG) {
-            drive.set(new ChassisSpeeds(.2, 0, 0));
         } else {
-            drive.set(new ChassisSpeeds(-.2, 0, 0));
+            drive.set(new ChassisSpeeds(pid.calculate(drive.getRobotPitch().getDegrees(), 0), 0, 0));
         }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        drive.stop();
+        // drive.stop();
     }
 
     // Returns true when the command should end.

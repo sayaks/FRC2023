@@ -45,6 +45,10 @@ public class ElbowSubsystem extends SubsystemBase {
         }, () -> rotateElbow(0));
     }
 
+    public void stop() {
+        rotateElbow(0);
+    }
+
     public double getElbowRotationPosition() {
         return NumberUtil.ticksToDegs(elbowAbsEncoder.getPeriod());
     }
@@ -62,12 +66,13 @@ public class ElbowSubsystem extends SubsystemBase {
     public static class ElbowState implements SafetyLogic {
 
         private double elbowPosition;
-        private PIDCommand elbowDownPid;
-        private PIDController elbowUpPid;
+        private static PIDController mainPID = new PIDController(0.01, 0, 0);
         private double minCarriagePos;
         private double minWristPos;
+        private PIDController elbowDownPid;
+        private PIDController elbowUpPid;
 
-        public ElbowState(final double elbowPosition, final PIDCommand elbowDownPid, final PIDController elbowUpPid,
+        public ElbowState(final double elbowPosition, final PIDController elbowDownPid, final PIDController elbowUpPid,
                 final double minCarriagePos, double minWristPos) {
             this.elbowPosition = elbowPosition;
             this.elbowDownPid = elbowDownPid;
@@ -76,11 +81,11 @@ public class ElbowSubsystem extends SubsystemBase {
             this.minWristPos = minWristPos;
         }
 
-        public static final ElbowState start = new ElbowState(340, null, null, 800, 157);
-        public static final ElbowState low = new ElbowState(165, null, null, 1900, 235);
-        public static final ElbowState mid = new ElbowState(340, null, null, 800, 157);
-        public static final ElbowState loading = new ElbowState(340, null, null, 800, 157);
-        public static final ElbowState high = new ElbowState(300, null, null, 800, 157);
+        public static final ElbowState start = new ElbowState(340, mainPID, mainPID, 800, 157);
+        public static final ElbowState low = new ElbowState(165, mainPID, mainPID, 1900, 235);
+        public static final ElbowState mid = new ElbowState(327, mainPID, mainPID, 800, 157);
+        public static final ElbowState loading = new ElbowState(340, mainPID, mainPID, 800, 157);
+        public static final ElbowState high = new ElbowState(300, mainPID, mainPID, 800, 157);
 
         @Override
         public SafetyLogic lowPosition() {
@@ -113,15 +118,12 @@ public class ElbowSubsystem extends SubsystemBase {
         }
 
         @Override
-        public double stateCalculate(double speed, double armPosition, double wristPosition, double elevatorPosition,
+        public double stateCalculate(double speed, double elbowPosition, double wristPosition, double elevatorPosition,
                 double carriagePosition) {
             // TODO Auto-generated method stub
+
             if (carriagePosition > this.minCarriagePos && wristPosition > this.minWristPos) {
-                if (elbowPosition < this.elbowPosition - 10) {
-                    return 0.2;
-                } else if (elbowPosition > this.elbowPosition + 10) {
-                    return -0.2;
-                }
+                return this.elbowDownPid.calculate(elbowPosition, this.elbowPosition);
             }
             return 0;
         }

@@ -6,9 +6,11 @@ package frc.robot.lift;
 
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -26,7 +28,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     /** Creates a new ElevatorSubsystem. */
     public ElevatorSubsystem() {
-
+        elevatorMotor.setIdleMode(IdleMode.kBrake);
     }
 
     public Command runElevator(final DriverInputs inputs) {
@@ -48,6 +50,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.set(elevatorLimits);
     }
 
+    public void stop() {
+        runElevatorMotor(0);
+    }
+
     private final NetworkTable table = NetworkTableInstance.getDefault().getTable("157/Elevator");
 
     @Override
@@ -56,15 +62,13 @@ public class ElevatorSubsystem extends SubsystemBase {
         table.getEntry("ElevatorSpeed").setNumber(elevatorSpeed);
     }
 
-    public static final PIDController lowPid = new PIDController(0, 0, 0);
-    public static final PIDController upToMidPid = new PIDController(0, 0, 0);
-    public static final PIDController downToMidPid = new PIDController(0, 0, 0);
-    public static final PIDController highPid = new PIDController(0, 0, 0);
+    public static final PIDController mainPid = new PIDController(0.001, 0, 0);
 
     public static class ElevatorState implements SafetyLogic {
         public final double elevatorPosition;
         public final PIDController elevatorUpPid;
         public final PIDController elevatorDownPid;
+        public static final SlewRateLimiter slew = new SlewRateLimiter(0.5, 10, 0);
         private double minWristPos;
         private ElevatorStates state;
 
@@ -80,14 +84,13 @@ public class ElevatorSubsystem extends SubsystemBase {
             this.state = state;
         }
 
-        public static final ElevatorState start = new ElevatorState(0, lowPid, lowPid, ElevatorStates.start);
-        public static final ElevatorState low = new ElevatorState(0, lowPid, lowPid, ElevatorStates.low);
+        public static final ElevatorState start = new ElevatorState(1900, mainPid, mainPid, ElevatorStates.start);
+        public static final ElevatorState low = new ElevatorState(1900, mainPid, mainPid, ElevatorStates.low);
         // the min wrist position theoretically will work at 157, however, may not be
         // safe, so will likely need some testing and logic for a safer min pos.
-        public static final ElevatorState mid = new ElevatorState(10, upToMidPid, downToMidPid, ElevatorStates.mid);
-        public static final ElevatorState loading = new ElevatorState(10, upToMidPid, downToMidPid,
-                ElevatorStates.loading);
-        public static final ElevatorState high = new ElevatorState(20, highPid, downToMidPid, ElevatorStates.high);
+        public static final ElevatorState mid = new ElevatorState(1750, mainPid, mainPid, ElevatorStates.mid);
+        public static final ElevatorState loading = new ElevatorState(1600, mainPid, mainPid, ElevatorStates.loading);
+        public static final ElevatorState high = new ElevatorState(600, mainPid, mainPid, ElevatorStates.high);
 
         @Override
         public SafetyLogic lowPosition() {
@@ -125,27 +128,21 @@ public class ElevatorSubsystem extends SubsystemBase {
             // TODO Auto-generated method stub
             switch (this.state) {
                 case start:
-                    if (armPosition > 300 && wristPosition > 230 && elevatorPosition > this.elevatorPosition + 100) {
-                        return -0.2;
+                    if (armPosition > 300 && wristPosition > 230) {
+                        return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition));
                     }
                     break;
 
                 case low:
-                    if (armPosition > 165 && wristPosition > 235 && carriagePosition > 2000
-                            && elevatorPosition > this.elevatorPosition + 100) {
-                        return -0.2;
+                    if (armPosition > 165 && wristPosition > 235 && carriagePosition > 2000) {
+                        return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition));
                     }
                     break;
 
                 case mid:
                 case loading:
                 case high:
-                    if (elevatorPosition > this.elevatorPosition + 100) {
-                        return -0.2;
-                    } else if (elevatorPosition < this.elevatorPosition - 100) {
-                        return 0.2;
-                    }
-                    break;
+                    return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition));
                 default:
 
                     break;

@@ -4,6 +4,7 @@
 
 package frc.robot.statemachines;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.elbow.ElbowSubsystem;
 import frc.robot.lift.CarriageSubsystem;
@@ -65,6 +66,7 @@ public class SubsystemGroup extends SubsystemBase {
     }
 
     public void startPosition(double speed) {
+
         double elevatorPosition = elevator.getElevatorPosition();
         double carriagePosition = carriage.getCarriagePosition();
         double elbowPosition = elbow.getElbowRotationPosition();
@@ -83,6 +85,33 @@ public class SubsystemGroup extends SubsystemBase {
         carriage.runCarriageMotor(carriageSpeed);
         elbow.rotateElbow(elbowSpeed);
         wrist.rotateWrist(wristSpeed);
+    }
+
+    public void stopAll() {
+        elevator.stop();
+        carriage.stop();
+        elbow.stop();
+        wrist.stop();
+    }
+
+    public Command lowPosCommand(double speed) {
+        return runEnd(() -> lowPosition(speed), () -> stopAll());
+    }
+
+    public Command midPosCommand(double speed) {
+        return runEnd(() -> midPosition(speed), () -> stopAll());
+    }
+
+    public Command highPosCommand(double speed) {
+        return runEnd(() -> highPosition(speed), () -> stopAll());
+    }
+
+    public Command startingPosCommand(double speed) {
+        return runEnd(() -> startPosition(speed), () -> stopAll());
+    }
+
+    public Command loadingPosCommand(double speed) {
+        return runEnd(() -> loadingPosition(speed), () -> stopAll());
     }
 
     public void lowPosition(double speed) {

@@ -19,7 +19,10 @@ public class DriverInputs extends DynamicLayout {
     public static final Button.Key runIntakeMotorOut = new Button.Key("Run Intake Motor Out");
     public static final Button.Key setIntakeSolenoidForward = new Button.Key("Set Intake Solenoid Forward");
     public static final Button.Key setIntakeSolenoidBackward = new Button.Key("Set Intake Solenoid Backward");
-    public static final Button.Key TestingButton = new Button.Key("this is just for testing");
+    public static final Button.Key testingLow = new Button.Key("this is just for testing");
+    public static final Button.Key testingMid = new Button.Key("This is just for testing too");
+    public static final Button.Key testingHigh = new Button.Key("This is also also a testing button");
+    public static final Button.Key testingStart = new Button.Key("this is a final testing button");
 
     public static final Axis.Key driveSpeedX = new Axis.Key("Drive Speed X");
     public static final Axis.Key driveSpeedY = new Axis.Key("Drive Speed Y");
@@ -49,7 +52,7 @@ public class DriverInputs extends DynamicLayout {
         final var driver = new LogitechGamepadF310(0);
         final var operator = new LogitechGamepadF310(1);
 
-        final var speedModifier = 0.5;
+        final var speedModifier = 0.80;
 
         layout.assign(driveSpeedX, driver.leftStickX.map(deadzone::apply).scaledBy(speedModifier));
         layout.assign(driveSpeedY, driver.leftStickY.map(deadzone::apply).scaledBy(speedModifier));
@@ -60,6 +63,10 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(runIntakeMotorOut, operator.a);
         layout.assign(setIntakeSolenoidForward, operator.y);
         layout.assign(setIntakeSolenoidBackward, operator.x);
+        layout.assign(testingLow, driver.a);
+        layout.assign(testingMid, driver.b);
+        layout.assign(testingHigh, driver.y);
+        layout.assign(testingStart, driver.x);
 
         layout.assign(rotateWrist, operator.pov.x.scaledBy(0.5));
         layout.assign(rotateElbow, operator.pov.y.scaledBy(0.5));

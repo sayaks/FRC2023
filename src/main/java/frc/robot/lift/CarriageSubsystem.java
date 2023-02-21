@@ -5,6 +5,7 @@
 package frc.robot.lift;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -25,6 +26,7 @@ public class CarriageSubsystem extends SubsystemBase {
 
     /** Creates a new CarriageSubsystem. */
     public CarriageSubsystem() {
+        carriageMotor.setIdleMode(IdleMode.kBrake);
     }
 
     public Command runCarriage(final DriverInputs inputs) {
@@ -32,6 +34,10 @@ public class CarriageSubsystem extends SubsystemBase {
             final double speed = inputs.axis(DriverInputs.carriage).get();
             runCarriageMotor(speed);
         }, () -> runCarriageMotor(0));
+    }
+
+    public void stop() {
+        runCarriageMotor(0);
     }
 
     public double getCarriagePosition() {
@@ -55,6 +61,7 @@ public class CarriageSubsystem extends SubsystemBase {
     }
 
     public static class CarriageState implements SafetyLogic {
+        private static PIDController mainPID = new PIDController(0.01, 0, 0.00);
 
         private double carriagePosition;
         private PIDController carriageDownPid;
@@ -69,11 +76,11 @@ public class CarriageSubsystem extends SubsystemBase {
             this.minElbowPos = minElbowPos;
         }
 
-        public static final CarriageState start = new CarriageState(820, null, null, 215);
-        public static final CarriageState low = new CarriageState(2100, null, null, 155);
-        public static final CarriageState mid = new CarriageState(2100, null, null, 215);
-        public static final CarriageState loading = new CarriageState(2100, null, null, 215);
-        public static final CarriageState high = new CarriageState(2100, null, null, 215);
+        public static final CarriageState start = new CarriageState(1000, mainPID, mainPID, 244);
+        public static final CarriageState low = new CarriageState(2150, mainPID, mainPID, 155);
+        public static final CarriageState mid = new CarriageState(2150, mainPID, mainPID, 215);
+        public static final CarriageState loading = new CarriageState(2150, mainPID, mainPID, 215);
+        public static final CarriageState high = new CarriageState(2150, mainPID, mainPID, 215);
 
         @Override
         public SafetyLogic lowPosition() {
@@ -110,11 +117,12 @@ public class CarriageSubsystem extends SubsystemBase {
                 double carriagePosition) {
             // TODO Auto-generated method stub
             if (armPosition > this.minElbowPos) {
-                if (carriagePosition < this.carriagePosition - 100) {
-                    return 0.2;
-                } else if (carriagePosition > this.carriagePosition + 100) {
-                    return -0.2;
-                }
+                // if (carriagePosition < this.carriagePosition - 100) {
+                // return 0.2;
+                // } else if (carriagePosition > this.carriagePosition + 100) {
+                // return -0.2;
+                //
+                return this.carriageDownPid.calculate(carriagePosition, this.carriagePosition);
             }
             return 0;
         }

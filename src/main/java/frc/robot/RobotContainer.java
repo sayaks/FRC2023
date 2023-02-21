@@ -7,6 +7,7 @@
 package frc.robot;
 
 import frc.robot.Constants.AutoConstants;
+import frc.robot.drive.AutoBalance;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.FullDrive;
 import frc.robot.elbow.ElbowSubsystem;
@@ -15,6 +16,8 @@ import frc.robot.intake.IntakeSubsystem;
 import frc.robot.wrist.WristSubsystem;
 import frc.robot.lift.CarriageSubsystem;
 import frc.robot.lift.ElevatorSubsystem;
+import frc.robot.statemachines.SubsystemGroup;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,6 +40,8 @@ public class RobotContainer {
     private final ElbowSubsystem elbowSubsystem = new ElbowSubsystem();
     private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final CarriageSubsystem carriageSubsystem = new CarriageSubsystem();
+    private final SubsystemGroup group = new SubsystemGroup(elevatorSubsystem, carriageSubsystem, elbowSubsystem,
+            wristSubsystem);
 
     private final DriverInputs driverInputs = new DriverInputs();
 
@@ -46,6 +51,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+        CameraServer.startAutomaticCapture();
 
         driveSubsystem.setDefaultCommand(new FullDrive(driveSubsystem, driverInputs));
 
@@ -66,6 +72,10 @@ public class RobotContainer {
      * Flight joysticks.
      */
     private void configureBindings() {
+        driverInputs.button(DriverInputs.testingLow).whileHeld(new AutoBalance(driveSubsystem));
+        driverInputs.button(DriverInputs.testingMid).whileHeld(group.midPosCommand(1));
+        driverInputs.button(DriverInputs.testingHigh).whileHeld(group.highPosCommand(1));
+        driverInputs.button(DriverInputs.testingStart).whileHeld(group.startingPosCommand(1));
         driverInputs.button(DriverInputs.runIntakeMotorIn).whileHeld(intakeSubsystem.intake(1));
         driverInputs.button(DriverInputs.runIntakeMotorOut).whileHeld(intakeSubsystem.runMotor(-1));
         driverInputs.button(DriverInputs.setIntakeSolenoidForward)
@@ -111,7 +121,7 @@ public class RobotContainer {
     public Command WristDownThenEjectThenPoorlyDock() { // TODO: Don't change this name though, kinda cool.
         return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(180))
                 .andThen(intakeSubsystem.ejectCargo().withTimeout(0.5))
-                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 3000.0).withTimeout(1.85) /**
+                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 3000.0).withTimeout(1.75) /**
                                                                                      * change dis, no more time, only
                                                                                      * space
                                                                                      */
@@ -121,5 +131,20 @@ public class RobotContainer {
                         100000)/** TODO: Dat to */
                 );
     }
-
+    /*
+     * min arm with low carriage: 227
+     * max arm overall: 151
+     * min arm overall: 255
+     *
+     *
+     * max wrist: 258
+     * min wrist(?): 165
+     *
+     * max carriage: 2348
+     * min carriage: 952
+     *
+     * min elevator: 2034
+     * max elevator: 550
+     *
+     */
 }

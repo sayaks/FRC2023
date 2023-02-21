@@ -7,6 +7,7 @@ package frc.robot.wrist;
 import javax.sound.sampled.SourceDataLine;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -29,6 +30,7 @@ public class WristSubsystem extends SubsystemBase {
 
     public WristSubsystem() {
         wristMotor.setInverted(true);
+        wristMotor.setIdleMode(IdleMode.kBrake);
         wristAbsEncoder.setSemiPeriodMode(true);
         wristAbsEncoder.setUpSource(WristConstants.ABS_ENCODER_ROTATION_ID);
         wristAbsEncoder.reset();
@@ -73,6 +75,10 @@ public class WristSubsystem extends SubsystemBase {
         output.setNumber(limitedSpeed);
     }
 
+    public void stop() {
+        runWristSpeed(0);
+    }
+
     private final NetworkTable table = NetworkTableInstance.getDefault().getTable("157/Arm");
 
     @Override
@@ -89,6 +95,7 @@ public class WristSubsystem extends SubsystemBase {
     public static class WristState implements SafetyLogic {
 
         private double wristPosition;
+        public static PIDController pid = new PIDController(0.01, 0, 0);
         private PIDController wristDownPid;
         private PIDController wristUpPid;
         private double minArmPos;
@@ -102,11 +109,11 @@ public class WristSubsystem extends SubsystemBase {
 
         }
 
-        public static final WristState start = new WristState(278, null, null, 165);
+        public static final WristState start = new WristState(244, null, null, 165);
         public static final WristState low = new WristState(250, null, null, 165);
-        public static final WristState mid = new WristState(166, null, null, 215);
-        public static final WristState loading = new WristState(166, null, null, 215);
-        public static final WristState high = new WristState(180, null, null, 215);
+        public static final WristState mid = new WristState(190, null, null, 215);
+        public static final WristState loading = new WristState(190, null, null, 215);
+        public static final WristState high = new WristState(190, null, null, 215);
 
         @Override
         public SafetyLogic lowPosition() {
@@ -143,11 +150,7 @@ public class WristSubsystem extends SubsystemBase {
                 double carriagePosition) {
             // TODO Auto-generated method stub
             if (armPosition > this.minArmPos) {
-                if (wristPosition < this.wristPosition - 10) {
-                    return 0.2;
-                } else if (wristPosition > this.wristPosition + 10) {
-                    return -0.2;
-                }
+                return pid.calculate(wristPosition, this.wristPosition);
             }
 
             return 0;
