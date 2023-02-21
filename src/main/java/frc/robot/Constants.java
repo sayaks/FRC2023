@@ -70,7 +70,7 @@ public final class Constants {
     public static class WristConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 2;
         public static final int MOTOR_ID = 14;
-        public static final Range ROTATE_LIMITS = new Range(165, 250); // 280 is full max
+        public static final Range ROTATE_LIMITS = new Range(150, 250); // 280 is full max
     }
 
     public static class ElbowConstants {
@@ -81,14 +81,14 @@ public final class Constants {
 
     public static class ElevatorConstants {
         public static final int ELEVATOR_MOTOR_ID = 16;
-        public static final Range ELEVATOR_LIMITS = new Range(806, 2051); // end is the bottom most and start is
+        public static final Range ELEVATOR_LIMITS = new Range(440, 1900); // end is the bottom most and start is
                                                                           // the top most
         public static final int ELEVATOR_ANALOG_ID = 3;
     }
 
     public static class CarriageConstants {
         public static final int CARRIAGE_MOTOR_ID = 3;
-        public static final Range CARRIAGE_LIMITS = new Range(850, 2100);
+        public static final Range CARRIAGE_LIMITS = new Range(1000, 2200);
         public static final int CARRIAGE_ANALOG_ID = 0;
 
     }
