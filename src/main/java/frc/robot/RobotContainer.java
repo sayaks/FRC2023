@@ -60,6 +60,8 @@ public class RobotContainer {
 
         elevatorSubsystem.setDefaultCommand(elevatorSubsystem.runElevator(driverInputs));
         carriageSubsystem.setDefaultCommand(carriageSubsystem.runCarriage(driverInputs));
+
+        intakeSubsystem.setDefaultCommand(intakeSubsystem.runIntake(driverInputs));
     }
 
     /**
@@ -72,12 +74,10 @@ public class RobotContainer {
      * Flight joysticks.
      */
     private void configureBindings() {
-        driverInputs.button(DriverInputs.testingLow).whileHeld(new AutoBalance(driveSubsystem));
-        driverInputs.button(DriverInputs.testingMid).whileHeld(group.midPosCommand(1));
-        driverInputs.button(DriverInputs.testingHigh).whileHeld(group.highPosCommand(1));
-        driverInputs.button(DriverInputs.testingStart).whileHeld(group.startingPosCommand(1));
-        driverInputs.button(DriverInputs.runIntakeMotorIn).whileHeld(intakeSubsystem.intake(1));
-        driverInputs.button(DriverInputs.runIntakeMotorOut).whileHeld(intakeSubsystem.runMotor(-1));
+        driverInputs.button(DriverInputs.lowPosition).whileHeld(new AutoBalance(driveSubsystem));
+        driverInputs.button(DriverInputs.midPosition).whileHeld(group.midPosCommand(1));
+        driverInputs.button(DriverInputs.highPosition).whileHeld(group.highPosCommand(1));
+        driverInputs.button(DriverInputs.startPosition).whileHeld(group.startingPosCommand(1));
         driverInputs.button(DriverInputs.setIntakeSolenoidForward)
                 .whenPressed(intakeSubsystem.setSolenoid(DoubleSolenoid.Value.kForward));
         driverInputs.button(DriverInputs.setIntakeSolenoidBackward)

@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Counter.Mode;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElbowConstants;
 import frc.robot.input.DriverInputs;
@@ -70,22 +69,20 @@ public class ElbowSubsystem extends SubsystemBase {
         private double minCarriagePos;
         private double minWristPos;
         private PIDController elbowDownPid;
-        private PIDController elbowUpPid;
 
-        public ElbowState(final double elbowPosition, final PIDController elbowDownPid, final PIDController elbowUpPid,
+        public ElbowState(final double elbowPosition, final PIDController elbowDownPid,
                 final double minCarriagePos, double minWristPos) {
             this.elbowPosition = elbowPosition;
             this.elbowDownPid = elbowDownPid;
-            this.elbowUpPid = elbowUpPid;
             this.minCarriagePos = minCarriagePos;
             this.minWristPos = minWristPos;
         }
 
-        public static final ElbowState start = new ElbowState(340, mainPID, mainPID, 800, 157);
-        public static final ElbowState low = new ElbowState(165, mainPID, mainPID, 1900, 235);
-        public static final ElbowState mid = new ElbowState(327, mainPID, mainPID, 800, 157);
-        public static final ElbowState loading = new ElbowState(340, mainPID, mainPID, 800, 157);
-        public static final ElbowState high = new ElbowState(300, mainPID, mainPID, 800, 157);
+        public static final ElbowState start = new ElbowState(340, mainPID, 800, 157);
+        public static final ElbowState low = new ElbowState(165, mainPID, 1900, 235);
+        public static final ElbowState mid = new ElbowState(327, mainPID, 800, 157);
+        public static final ElbowState loading = new ElbowState(340, mainPID, 800, 157);
+        public static final ElbowState high = new ElbowState(300, mainPID, 800, 157);
 
         @Override
         public SafetyLogic lowPosition() {

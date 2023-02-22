@@ -65,22 +65,20 @@ public class CarriageSubsystem extends SubsystemBase {
 
         private double carriagePosition;
         private PIDController carriageDownPid;
-        private PIDController carriageUpPid;
         private double minElbowPos;
 
         public CarriageState(final double carriagePosition, final PIDController carriageDownPid,
-                final PIDController carriageUpPid, final double minElbowPos) {
+                final double minElbowPos) {
             this.carriagePosition = carriagePosition;
             this.carriageDownPid = carriageDownPid;
-            this.carriageUpPid = carriageUpPid;
             this.minElbowPos = minElbowPos;
         }
 
-        public static final CarriageState start = new CarriageState(1000, mainPID, mainPID, 244);
-        public static final CarriageState low = new CarriageState(2150, mainPID, mainPID, 155);
-        public static final CarriageState mid = new CarriageState(2150, mainPID, mainPID, 215);
-        public static final CarriageState loading = new CarriageState(2150, mainPID, mainPID, 215);
-        public static final CarriageState high = new CarriageState(2150, mainPID, mainPID, 215);
+        public static final CarriageState start = new CarriageState(1000, mainPID, 244);
+        public static final CarriageState low = new CarriageState(2150, mainPID, 155);
+        public static final CarriageState mid = new CarriageState(2150, mainPID, 215);
+        public static final CarriageState loading = new CarriageState(2150, mainPID, 215);
+        public static final CarriageState high = new CarriageState(2150, mainPID, 215);
 
         @Override
         public SafetyLogic lowPosition() {

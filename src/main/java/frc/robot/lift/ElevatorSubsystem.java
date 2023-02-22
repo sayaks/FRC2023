@@ -4,7 +4,6 @@
 
 package frc.robot.lift;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -69,7 +68,6 @@ public class ElevatorSubsystem extends SubsystemBase {
         public final PIDController elevatorUpPid;
         public final PIDController elevatorDownPid;
         public static final SlewRateLimiter slew = new SlewRateLimiter(0.5, 10, 0);
-        private double minWristPos;
         private ElevatorStates state;
 
         public enum ElevatorStates {

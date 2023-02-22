@@ -4,8 +4,6 @@
 
 package frc.robot.wrist;
 
-import javax.sound.sampled.SourceDataLine;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -96,24 +94,19 @@ public class WristSubsystem extends SubsystemBase {
 
         private double wristPosition;
         public static PIDController pid = new PIDController(0.01, 0, 0);
-        private PIDController wristDownPid;
-        private PIDController wristUpPid;
         private double minArmPos;
 
-        public WristState(final double wristPosition, final PIDController wristDownPid, final PIDController wristUpPid,
-                final double minArmPos) {
+        public WristState(final double wristPosition, final double minArmPos) {
             this.wristPosition = wristPosition;
-            this.wristDownPid = wristDownPid;
-            this.wristUpPid = wristUpPid;
             this.minArmPos = minArmPos;
 
         }
 
-        public static final WristState start = new WristState(244, null, null, 165);
-        public static final WristState low = new WristState(250, null, null, 165);
-        public static final WristState mid = new WristState(190, null, null, 215);
-        public static final WristState loading = new WristState(190, null, null, 215);
-        public static final WristState high = new WristState(190, null, null, 215);
+        public static final WristState start = new WristState(244, 165);
+        public static final WristState low = new WristState(250, 165);
+        public static final WristState mid = new WristState(190, 215);
+        public static final WristState loading = new WristState(190, 215);
+        public static final WristState high = new WristState(190, 215);
 
         @Override
         public SafetyLogic lowPosition() {

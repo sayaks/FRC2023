@@ -15,14 +15,15 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class DriverInputs extends DynamicLayout {
-    public static final Button.Key runIntakeMotorIn = new Button.Key("Run Intake Motor In");
-    public static final Button.Key runIntakeMotorOut = new Button.Key("Run Intake Motor Out");
+    public static final Axis.Key runIntakeMotorIn = new Axis.Key("Run Intake Motor In");
+    public static final Axis.Key runIntakeMotorOut = new Axis.Key("Run Intake Motor Out");
     public static final Button.Key setIntakeSolenoidForward = new Button.Key("Set Intake Solenoid Forward");
     public static final Button.Key setIntakeSolenoidBackward = new Button.Key("Set Intake Solenoid Backward");
-    public static final Button.Key testingLow = new Button.Key("this is just for testing");
-    public static final Button.Key testingMid = new Button.Key("This is just for testing too");
-    public static final Button.Key testingHigh = new Button.Key("This is also also a testing button");
-    public static final Button.Key testingStart = new Button.Key("this is a final testing button");
+    public static final Button.Key lowPosition = new Button.Key("Set to low position");
+    public static final Button.Key midPosition = new Button.Key("Set to mid position");
+    public static final Button.Key highPosition = new Button.Key("Set to high position");
+    public static final Button.Key loadingPosition = new Button.Key("Set to loading position");
+    public static final Button.Key startPosition = new Button.Key("Set to start position");
 
     public static final Axis.Key driveSpeedX = new Axis.Key("Drive Speed X");
     public static final Axis.Key driveSpeedY = new Axis.Key("Drive Speed Y");
@@ -35,10 +36,7 @@ public class DriverInputs extends DynamicLayout {
     private static final NetworkTableEntry entry = NetworkTableInstance.getDefault().getEntry("157/Drive/StickEnabled");
 
     public DriverInputs() {
-        // super(() -> entry.getBoolean(false)
-        // ? flightLayout()
-        // : logitechLayout());
-        super(() -> weekZeroLayout());
+        super(() -> entry.getBoolean(false) ? flightStickLayout() : dualLogitechLayout());
 
         entry.setDefaultBoolean(false);
         entry.setPersistent();
@@ -47,8 +45,8 @@ public class DriverInputs extends DynamicLayout {
     private static final Deadzone deadzone = Deadzone.forAxis(new Range(-0.2, 0.2));
     private static final Rotation2d maxRotationPerSecond = Rotation2d.fromDegrees(65);
 
-    private static Layout weekZeroLayout() {
-        final var layout = new MapLayout("Week Zero Layout");
+    private static Layout dualLogitechLayout() {
+        final var layout = new MapLayout("Default Eric/Connor Layout");
         final var driver = new LogitechGamepadF310(0);
         final var operator = new LogitechGamepadF310(1);
 
@@ -59,67 +57,52 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(driveRotation, driver.rightStickX.map(deadzone::apply).scaledBy(speedModifier)
                 .scaledBy(maxRotationPerSecond.getDegrees()));
 
-        layout.assign(runIntakeMotorIn, operator.b);
-        layout.assign(runIntakeMotorOut, operator.a);
-        layout.assign(setIntakeSolenoidForward, operator.y);
-        layout.assign(setIntakeSolenoidBackward, operator.x);
-        layout.assign(testingLow, driver.a);
-        layout.assign(testingMid, driver.b);
-        layout.assign(testingHigh, driver.y);
-        layout.assign(testingStart, driver.x);
+        layout.assign(runIntakeMotorIn, operator.rightTriggerHeld);
+        layout.assign(runIntakeMotorOut, operator.leftTriggerHeld);
+        layout.assign(setIntakeSolenoidForward, operator.rightBumper);
+        layout.assign(setIntakeSolenoidBackward, operator.leftBumper);
+        layout.assign(lowPosition, operator.x);
+        layout.assign(midPosition, operator.a);
+        layout.assign(highPosition, operator.y);
+        layout.assign(loadingPosition, operator.b);
+        layout.assign(startPosition, operator.start);
 
-        layout.assign(rotateWrist, operator.pov.x.scaledBy(0.5));
-        layout.assign(rotateElbow, operator.pov.y.scaledBy(0.5));
+        layout.assign(rotateWrist, operator.rightStickY.scaledBy(0.5));
+        layout.assign(rotateElbow, operator.leftStickY.scaledBy(0.5));
 
-        layout.assign(elevator, operator.leftStickY.scaledBy(0.75));
-        layout.assign(carriage, operator.rightStickY.scaledBy(-0.75));
-
-        return layout;
-    }
-
-    private static Layout logitechLayout() {
-        final var layout = new MapLayout("Logitech Layout");
-        final var input = new LogitechGamepadF310(0);
-
-        layout.assign(runIntakeMotorIn, input.a);
-        layout.assign(runIntakeMotorOut, input.y);
-        layout.assign(setIntakeSolenoidForward, input.b);
-        layout.assign(setIntakeSolenoidBackward, input.x);
-
-        final var speedModifier = 0.5;
-
-        layout.assign(driveSpeedX, input.leftStickX.map(deadzone::apply).scaledBy(speedModifier));
-        layout.assign(driveSpeedY, input.leftStickY.map(deadzone::apply).scaledBy(speedModifier));
-        layout.assign(driveRotation, input.rightStickX.map(deadzone::apply).scaledBy(speedModifier)
-                .scaledBy(maxRotationPerSecond.getDegrees()));
-
-        layout.assign(rotateWrist, input.pov.x.scaledBy(0.2));
-        layout.assign(rotateElbow, input.pov.y.scaledBy(0.2));
-
-        layout.assign(elevator, input.pov.y.scaledBy(0.2));
-        // Change carriage input to an axis not in use once there are 2 controllers. Be
-        // careful with testing for right now.
-        layout.assign(carriage, input.pov.y.scaledBy(0.1));
+        layout.assign(elevator, operator.pov.y.scaledBy(0.75));
+        layout.assign(carriage, operator.pov.x.scaledBy(-0.75));
 
         return layout;
     }
 
-    private static Layout flightLayout() {
-        final var layout = new MapLayout("Flight Layout");
-        final var input = new LogitechExtreme3D(1);
+    private static Layout flightStickLayout() {
+        final var layout = new MapLayout("driver flight, operator logitech");
+        final var driver = new LogitechExtreme3D(0);
+        final var operator = new LogitechGamepadF310(1);
 
-        layout.assign(runIntakeMotorIn, input.button5);
-        layout.assign(runIntakeMotorOut, input.button3);
-        layout.assign(setIntakeSolenoidForward, input.button9);
-        layout.assign(setIntakeSolenoidBackward, input.button11);
+        final var speedModifier = 0.80;
 
-        final var axisToSpeedConverter = Axis.kDeviceDefaultRange.convertingTo(new Range(0, 1));
-        final var speedModifier = input.slider.inverted().map(axisToSpeedConverter::convert);
-
-        layout.assign(driveSpeedX, input.stickX.map(deadzone::apply).scaledBy(speedModifier::get));
-        layout.assign(driveSpeedY, input.stickY.map(deadzone::apply).scaledBy(speedModifier::get));
-        layout.assign(driveRotation, input.stickRotate.map(deadzone::apply).scaledBy(speedModifier::get)
+        layout.assign(driveSpeedX, driver.stickX.map(deadzone::apply).scaledBy(speedModifier));
+        layout.assign(driveSpeedY, driver.stickY.map(deadzone::apply).scaledBy(speedModifier));
+        layout.assign(driveRotation, driver.stickRotate.map(deadzone::apply).scaledBy(speedModifier)
                 .scaledBy(maxRotationPerSecond.getDegrees()));
+
+        layout.assign(runIntakeMotorIn, operator.rightTriggerHeld);
+        layout.assign(runIntakeMotorOut, operator.leftTriggerHeld);
+        layout.assign(setIntakeSolenoidForward, operator.rightBumper);
+        layout.assign(setIntakeSolenoidBackward, operator.leftBumper);
+        layout.assign(lowPosition, operator.x);
+        layout.assign(midPosition, operator.a);
+        layout.assign(highPosition, operator.y);
+        layout.assign(loadingPosition, operator.b);
+        layout.assign(startPosition, operator.start);
+
+        layout.assign(rotateWrist, operator.rightStickY.scaledBy(0.5));
+        layout.assign(rotateElbow, operator.leftStickY.scaledBy(0.5));
+
+        layout.assign(elevator, operator.pov.y.scaledBy(0.75));
+        layout.assign(carriage, operator.pov.x.scaledBy(-0.75));
 
         return layout;
     }
