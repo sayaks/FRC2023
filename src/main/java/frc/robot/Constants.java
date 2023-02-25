@@ -130,7 +130,7 @@ public final class Constants {
     }
 
     public static class CarriageConstants {
-        public static final int CARRIAGE_MOTOR_ID = 3;
+        public static final int CARRIAGE_MOTOR_ID = 17;
         public static final Range CARRIAGE_LIMITS = new Range(1000, 2200);
         public static final int CARRIAGE_ANALOG_ID = 0;
 

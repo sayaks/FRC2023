@@ -31,12 +31,14 @@ public class AutoBalance extends CommandBase {
     @Override
     public void execute() {
         // System.out.println(drive.getRawRobotPitch());
-        var angleMult = Math.abs(drive.getRobotYaw().getDegrees()) > 90 ? -1 : 1;
-        if (Math.abs(drive.getRobotPitch().getDegrees() * angleMult) <= AutoConstants.BALANCE_ACCURACY_DEG) {
-            drive.stop(); // TODO: Turn the wheels perpendicular to the platform to lock the robot in
-                          // place
+        var angleMultX = Math.abs(drive.getRobotYaw().getDegrees()) > 90 ? -1 : 1;
+        var angleMultY = drive.getRobotYaw().getDegrees() > 0 ? -1 : 1;
+        if (Math.abs(drive.getRobotRoll().getDegrees() * angleMultX) >= AutoConstants.BALANCE_ACCURACY_DEG) {
+            drive.set(new ChassisSpeeds(pid.calculate(drive.getRobotRoll().getDegrees() * angleMultX, 0), 0, 0));
+        } else if (Math.abs(drive.getRobotPitch().getDegrees() * angleMultY) <= AutoConstants.BALANCE_ACCURACY_DEG) {
+            drive.set(new ChassisSpeeds(pid.calculate(drive.getRobotPitch().getDegrees() * angleMultY, 0), 0, 0));
         } else {
-            drive.set(new ChassisSpeeds(pid.calculate(drive.getRobotPitch().getDegrees() * angleMult, 0), 0, 0));
+            drive.set(new ChassisSpeeds(0, 0, 0.001));
         }
     }
 

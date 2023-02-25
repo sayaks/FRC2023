@@ -83,8 +83,12 @@ public class DriveSubsystem extends SubsystemBase {
         return gyro.getRoll();
     }
 
-    public Rotation2d getRobotPitch() {
+    public Rotation2d getRobotRoll() {
         return Rotation2d.fromDegrees(gyro.getRoll());
+    }
+
+    public Rotation2d getRobotPitch() {
+        return Rotation2d.fromDegrees(gyro.getPitch());
     }
 
     @Override
