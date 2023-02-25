@@ -78,11 +78,20 @@ public class ElbowSubsystem extends SubsystemBase {
             this.minWristPos = minWristPos;
         }
 
-        public static final ElbowState start = new ElbowState(340, mainPID, 800, 157);
-        public static final ElbowState low = new ElbowState(165, mainPID, 1900, 235);
-        public static final ElbowState mid = new ElbowState(327, mainPID, 800, 157);
-        public static final ElbowState loading = new ElbowState(340, mainPID, 800, 157);
-        public static final ElbowState high = new ElbowState(300, mainPID, 800, 157);
+        public static final ElbowState start = new ElbowState(ElbowConstants.startPos, mainPID,
+                ElbowConstants.startPosMinCarriage,
+                ElbowConstants.startPosMinWrist);
+        public static final ElbowState low = new ElbowState(ElbowConstants.lowPos, mainPID,
+                ElbowConstants.lowPosMinCarriage,
+                ElbowConstants.lowPosMinWrist);
+        public static final ElbowState mid = new ElbowState(ElbowConstants.midPos, mainPID,
+                ElbowConstants.midPosMinCarriage,
+                ElbowConstants.midPosMinWrist);
+        public static final ElbowState loading = new ElbowState(ElbowConstants.loadingPos, mainPID,
+                ElbowConstants.loadingPosMinCarriage, ElbowConstants.loadingPosMinWrist);
+        public static final ElbowState high = new ElbowState(ElbowConstants.highPos, mainPID,
+                ElbowConstants.highPosMinCarriage,
+                ElbowConstants.highPosMinWrist);
 
         @Override
         public SafetyLogic lowPosition() {

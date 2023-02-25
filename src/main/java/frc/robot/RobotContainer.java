@@ -131,6 +131,20 @@ public class RobotContainer {
                         100000)/** TODO: Dat to */
                 );
     }
+
+    public Command WristDownThenEjectThenBetterDock() {
+        return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(180))
+                .andThen(intakeSubsystem.ejectCargo().withTimeout(0.5))
+                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 3000.0).withTimeout(1.75) /**
+                                                                                     * change dis, no more time, only
+                                                                                     * space
+                                                                                     */
+                )
+                .andThen(driveSubsystem.driveRawDistanceCommand(
+                        new ChassisSpeeds(0, 0, 0.001),
+                        100000)/** TODO: Dat to */
+                ).andThen(new AutoBalance(driveSubsystem));
+    }
     /*
      * min arm with low carriage: 227
      * max arm overall: 151

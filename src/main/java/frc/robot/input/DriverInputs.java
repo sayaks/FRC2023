@@ -70,7 +70,7 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(rotateWrist, operator.rightStickY.scaledBy(0.5));
         layout.assign(rotateElbow, operator.leftStickY.scaledBy(0.5));
 
-        layout.assign(elevator, operator.pov.y.scaledBy(0.75));
+        layout.assign(elevator, operator.pov.y.scaledBy(0.25));
         layout.assign(carriage, operator.pov.x.scaledBy(-0.75));
 
         return layout;
@@ -101,7 +101,7 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(rotateWrist, operator.rightStickY.scaledBy(0.5));
         layout.assign(rotateElbow, operator.leftStickY.scaledBy(0.5));
 
-        layout.assign(elevator, operator.pov.y.scaledBy(0.75));
+        layout.assign(elevator, operator.pov.y.scaledBy(0.25));
         layout.assign(carriage, operator.pov.x.scaledBy(-0.75));
 
         return layout;

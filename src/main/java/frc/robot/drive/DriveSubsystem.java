@@ -36,8 +36,13 @@ public class DriveSubsystem extends SubsystemBase {
     };
 
     public DriveSubsystem() {
-        final var resetCommand = runOnce(gyro::zeroYaw).ignoringDisable(true);
+        final var resetCommand = runOnce(this::resetGyro).ignoringDisable(true);
         SmartDashboard.putData("Reset Yaw", resetCommand);
+    }
+
+    public void resetGyro() {
+        gyro.zeroYaw();
+        addGyroOffset(0);
     }
 
     public void set(final ChassisSpeeds inputSpeeds) {
@@ -66,7 +71,7 @@ public class DriveSubsystem extends SubsystemBase {
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
     private final NetworkTable gyroTable = NetworkTableInstance.getDefault().getTable("157/Gyro");
 
-    private Rotation2d getRobotYaw() {
+    public Rotation2d getRobotYaw() {
         return Rotation2d.fromDegrees(((-gyro.getYaw() + 180 + gyroOffset) % 360) - 180);
     }
 

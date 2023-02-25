@@ -67,7 +67,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         public final double elevatorPosition;
         public final PIDController elevatorUpPid;
         public final PIDController elevatorDownPid;
-        public static final SlewRateLimiter slew = new SlewRateLimiter(0.5, 10, 0);
+        public static final SlewRateLimiter slew = new SlewRateLimiter(ElevatorConstants.slewPositiveVal,
+                ElevatorConstants.slewNegativeVal, 0);
         private ElevatorStates state;
 
         public enum ElevatorStates {
@@ -82,13 +83,18 @@ public class ElevatorSubsystem extends SubsystemBase {
             this.state = state;
         }
 
-        public static final ElevatorState start = new ElevatorState(1900, mainPid, mainPid, ElevatorStates.start);
-        public static final ElevatorState low = new ElevatorState(1900, mainPid, mainPid, ElevatorStates.low);
+        public static final ElevatorState start = new ElevatorState(
+                ElevatorConstants.startPos, mainPid, mainPid, ElevatorStates.start);
+        public static final ElevatorState low = new ElevatorState(
+                ElevatorConstants.lowPos, mainPid, mainPid, ElevatorStates.low);
         // the min wrist position theoretically will work at 157, however, may not be
         // safe, so will likely need some testing and logic for a safer min pos.
-        public static final ElevatorState mid = new ElevatorState(1750, mainPid, mainPid, ElevatorStates.mid);
-        public static final ElevatorState loading = new ElevatorState(1600, mainPid, mainPid, ElevatorStates.loading);
-        public static final ElevatorState high = new ElevatorState(600, mainPid, mainPid, ElevatorStates.high);
+        public static final ElevatorState mid = new ElevatorState(
+                ElevatorConstants.midPos, mainPid, mainPid, ElevatorStates.mid);
+        public static final ElevatorState loading = new ElevatorState(
+                ElevatorConstants.loadingPos, mainPid, mainPid, ElevatorStates.loading);
+        public static final ElevatorState high = new ElevatorState(
+                ElevatorConstants.highPos, mainPid, mainPid, ElevatorStates.high);
 
         @Override
         public SafetyLogic lowPosition() {
@@ -127,20 +133,20 @@ public class ElevatorSubsystem extends SubsystemBase {
             switch (this.state) {
                 case start:
                     if (armPosition > 300 && wristPosition > 230) {
-                        return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition));
+                        return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition)) * 0.2;
                     }
                     break;
 
                 case low:
                     if (armPosition > 165 && wristPosition > 235 && carriagePosition > 2000) {
-                        return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition));
+                        return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition)) * 0.2;
                     }
                     break;
 
                 case mid:
                 case loading:
                 case high:
-                    return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition));
+                    return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition)) * 0.2;
                 default:
 
                     break;
