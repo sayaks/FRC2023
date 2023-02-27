@@ -133,20 +133,20 @@ public class ElevatorSubsystem extends SubsystemBase {
             switch (this.state) {
                 case start:
                     if (armPosition > 293 && wristPosition > 116) {
-                        return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition)) * 0.2;
+                        return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition));
                     }
                     break;
 
                 case low:
                     if (armPosition > 157 && wristPosition > 121 && carriagePosition > 2908) {
-                        return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition)) * 0.2;
+                        return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition));
                     }
                     break;
 
                 case mid:
                 case loading:
                 case high:
-                    return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition)) * 0.2;
+                    return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition));
                 default:
 
                     break;
