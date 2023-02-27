@@ -132,13 +132,13 @@ public class ElevatorSubsystem extends SubsystemBase {
             // TODO Auto-generated method stub
             switch (this.state) {
                 case start:
-                    if (armPosition > 300 && wristPosition > 230) {
+                    if (armPosition > 293 && wristPosition > 116) {
                         return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition)) * 0.2;
                     }
                     break;
 
                 case low:
-                    if (armPosition > 165 && wristPosition > 235 && carriagePosition > 2000) {
+                    if (armPosition > 157 && wristPosition > 121 && carriagePosition > 2908) {
                         return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition)) * 0.2;
                     }
                     break;
