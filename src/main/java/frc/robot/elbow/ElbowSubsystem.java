@@ -65,7 +65,7 @@ public class ElbowSubsystem extends SubsystemBase {
     public static class ElbowState implements SafetyLogic {
 
         private double elbowPosition;
-        private static PIDController mainPID = new PIDController(0.01, 0, 0);
+        private static PIDController mainPID = new PIDController(0.03, 0, 0);
         private double minCarriagePos;
         private double minWristPos;
         private PIDController elbowDownPid;

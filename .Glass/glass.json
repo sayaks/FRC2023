@@ -50,15 +50,20 @@
         },
         "open": true
       },
+      "FMSInfo": {
+        "open": true
+      },
       "LiveWindow": {
         ".status": {
           "open": true
-        }
+        },
+        "open": true
       },
       "Shuffleboard": {
         "Joesph": {
           "open": true
-        }
+        },
+        "open": true
       },
       "SmartDashboard": {
         "Reset Gyro": {
@@ -66,7 +71,8 @@
         },
         "Reset Yaw": {
           "open": true
-        }
+        },
+        "open": true
       }
     },
     "types": {

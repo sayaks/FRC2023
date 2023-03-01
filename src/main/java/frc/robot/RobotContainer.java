@@ -21,6 +21,8 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -74,8 +76,10 @@ public class RobotContainer {
      * Flight joysticks.
      */
     private void configureBindings() {
-        driverInputs.button(DriverInputs.lowPosition).whileHeld(new AutoBalance(driveSubsystem));
+        driverInputs.button(DriverInputs.autoBalance).whileHeld(new AutoBalance(driveSubsystem));
+        driverInputs.button(DriverInputs.lowPosition).whileHeld(group.lowPosCommand(1));
         driverInputs.button(DriverInputs.midPosition).whileHeld(group.midPosCommand(1));
+        driverInputs.button(DriverInputs.loadingPosition).whileHeld(group.loadingPosCommand(1));
         driverInputs.button(DriverInputs.highPosition).whileHeld(group.highPosCommand(1));
         driverInputs.button(DriverInputs.startPosition).whileHeld(group.startingPosCommand(1));
         driverInputs.button(DriverInputs.setIntakeSolenoidForward)
@@ -90,7 +94,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return WristDownThenEjectThenPoorlyDock();
+        return scoreHighThenLeaveCommunityThenEngage();
     }
 
     // TODO: NAMING, PLEASE
@@ -157,6 +161,33 @@ public class RobotContainer {
                                                                                      */
                 )
                 .andThen(new AutoBalance(driveSubsystem));
+    }
+
+    public Command scoreHighThenRunDistance() {
+        return new SequentialCommandGroup(driveSubsystem.addGyroOffset(180),
+                group.highPosCommand(1).withTimeout(2),
+                intakeSubsystem.runMotor(-1).withTimeout(0.5),
+                group.startingPosCommand(1).withTimeout(2),
+                runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(3.5));
+    }
+
+    public Command scoreHighThenEngage() {
+        return new SequentialCommandGroup(driveSubsystem.addGyroOffset(180),
+                group.highPosCommand(1).withTimeout(2),
+                intakeSubsystem.runMotor(-1).withTimeout(0.5),
+                group.startingPosCommand(1).withTimeout(2),
+                runDistanceWithSpeeds(-0.5, 0.0, -3000.0).withTimeout(1.75),
+                new AutoBalance(driveSubsystem));
+    }
+
+    public Command scoreHighThenLeaveCommunityThenEngage() {
+        return new SequentialCommandGroup(driveSubsystem.addGyroOffset(180),
+                group.highPosCommand(1).withTimeout(2),
+                intakeSubsystem.runMotor(-1).withTimeout(0.5),
+                group.startingPosCommand(1).withTimeout(2),
+                runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(3.5),
+                runDistanceWithSpeeds(0.5, 0.0, -3000.0).withTimeout(1.75),
+                new AutoBalance(driveSubsystem));
     }
 
     /*

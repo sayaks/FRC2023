@@ -115,30 +115,30 @@ public final class Constants {
 
     public static class ElevatorConstants {
         public static final int ELEVATOR_MOTOR_ID = 16;
-        public static final Range ELEVATOR_LIMITS = new Range(1400, 1840); // end is the bottom most and start is
+        public static final Range ELEVATOR_LIMITS = new Range(1340, 1800); // end is the bottom most and start is
                                                                            // the top most
         public static final int ELEVATOR_ANALOG_ID = 3;
 
-        public static final double startPos = 1840;
-        public static final double lowPos = 1840;
-        public static final double midPos = 1795;
-        public static final double loadingPos = 1750;
-        public static final double highPos = 1448;
+        public static final double startPos = 1795;
+        public static final double lowPos = 1795;
+        public static final double midPos = 1718;
+        public static final double loadingPos = 1675;
+        public static final double highPos = 1430;
 
-        public static final double slewPositiveVal = 0.5;
-        public static final double slewNegativeVal = -0.5;
+        public static final double slewPositiveVal = 10;
+        public static final double slewNegativeVal = -1;
     }
 
     public static class CarriageConstants {
         public static final int CARRIAGE_MOTOR_ID = 17;
-        public static final Range CARRIAGE_LIMITS = new Range(1850, 3120);
+        public static final Range CARRIAGE_LIMITS = new Range(1860, 3180);
         public static final int CARRIAGE_ANALOG_ID = 0;
 
-        public static final double startPos = 1850;
-        public static final double lowPos = 3120;
-        public static final double midPos = 3120;
-        public static final double loadingPos = 3120;
-        public static final double highPos = 3120;
+        public static final double startPos = 1860;
+        public static final double lowPos = 3180;
+        public static final double midPos = 3180;
+        public static final double loadingPos = 3180;
+        public static final double highPos = 3180;
 
         public static final double startPosMinElbow = 236;
         public static final double lowPosMinElbow = 146;

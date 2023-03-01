@@ -5,6 +5,7 @@
 package frc.robot.statemachines;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.elbow.ElbowSubsystem;
 import frc.robot.lift.CarriageSubsystem;
@@ -94,24 +95,39 @@ public class SubsystemGroup extends SubsystemBase {
         wrist.stop();
     }
 
+    public void reset() {
+        elevator.reset();
+    }
+
     public Command lowPosCommand(double speed) {
-        return runEnd(() -> lowPosition(speed), () -> stopAll());
+        var retval = runOnce(() -> reset()).andThen(runEnd(() -> lowPosition(speed), () -> stopAll()));
+        retval.addRequirements(wrist, elbow, elevator, carriage);
+        return retval;
+
     }
 
     public Command midPosCommand(double speed) {
-        return runEnd(() -> midPosition(speed), () -> stopAll());
+        var retval = runOnce(() -> reset()).andThen(runEnd(() -> midPosition(speed), () -> stopAll()));
+        retval.addRequirements(wrist, elbow, elevator, carriage);
+        return retval;
     }
 
     public Command highPosCommand(double speed) {
-        return runEnd(() -> highPosition(speed), () -> stopAll());
+        var retval = runOnce(() -> reset()).andThen(runEnd(() -> highPosition(speed), () -> stopAll()));
+        retval.addRequirements(wrist, elbow, elevator, carriage);
+        return retval;
     }
 
     public Command startingPosCommand(double speed) {
-        return runEnd(() -> startPosition(speed), () -> stopAll());
+        var retval = runOnce(() -> reset()).andThen(runEnd(() -> startPosition(speed), () -> stopAll()));
+        retval.addRequirements(wrist, elbow, elevator, carriage);
+        return retval;
     }
 
     public Command loadingPosCommand(double speed) {
-        return runEnd(() -> loadingPosition(speed), () -> stopAll());
+        var retval = runOnce(() -> reset()).andThen(runEnd(() -> loadingPosition(speed), () -> stopAll()));
+        retval.addRequirements(wrist, elbow, elevator, carriage);
+        return retval;
     }
 
     public void lowPosition(double speed) {

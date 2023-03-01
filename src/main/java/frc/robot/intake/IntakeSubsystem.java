@@ -38,12 +38,12 @@ public class IntakeSubsystem extends SubsystemBase {
                     - inputs.axis(DriverInputs.runIntakeMotorOut).get();
             if (speed > 0) {
                 if (getSensor()) {
-                    motor.set(speed);
+                    motor.set(-speed);
                 } else {
-                    motor.set(0);
+                    motor.set(-speed);
                 }
             } else {
-                motor.set(speed);
+                motor.set(-speed);
             }
         }, () -> motor.set(0));
     }
@@ -71,13 +71,14 @@ public class IntakeSubsystem extends SubsystemBase {
     // private final NetworkTableEntry sensorEntry =
     // NetworkTableInstance.getDefault().getEntry("157/Intake/Sensor");
 
+    public Command ejectCargo() {
+        return runOnce(() -> System.out.println("ejecting!!!")).andThen(runMotor(1));
+    }
+
     @Override
     public void periodic() {
         // sensorEntry.setBoolean(getSensor());
         // System.out.println(getSensor());
     }
 
-    public Command ejectCargo() {
-        return runMotor(-1).withTimeout(2);
-    }
 }

@@ -31,7 +31,7 @@ public class AutoBalance extends CommandBase {
     @Override
     public void execute() {
         // System.out.println(drive.getRawRobotPitch());
-        var angleMultX = Math.abs(drive.getRobotYaw().getDegrees()) > 90 ? -1 : 1;
+        var angleMultX = Math.abs(drive.getRobotYaw().getDegrees()) > 90 ? 1 : -1;
         var angleMultY = drive.getRobotYaw().getDegrees() > 0 ? -1 : 1;
         if (Math.abs(drive.getRobotRoll().getDegrees() * angleMultX) >= AutoConstants.BALANCE_ACCURACY_DEG) {
             drive.set(new ChassisSpeeds(pid.calculate(drive.getRobotRoll().getDegrees() * angleMultX, 0), 0, 0));

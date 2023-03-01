@@ -24,6 +24,7 @@ public class DriverInputs extends DynamicLayout {
     public static final Button.Key highPosition = new Button.Key("Set to high position");
     public static final Button.Key loadingPosition = new Button.Key("Set to loading position");
     public static final Button.Key startPosition = new Button.Key("Set to start position");
+    public static final Button.Key autoBalance = new Button.Key("Run the balance on platform command");
 
     public static final Axis.Key driveSpeedX = new Axis.Key("Drive Speed X");
     public static final Axis.Key driveSpeedY = new Axis.Key("Drive Speed Y");
@@ -56,6 +57,7 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(driveSpeedY, driver.leftStickY.map(deadzone::apply).scaledBy(speedModifier));
         layout.assign(driveRotation, driver.rightStickX.map(deadzone::apply).scaledBy(speedModifier)
                 .scaledBy(maxRotationPerSecond.getDegrees()));
+        layout.assign(autoBalance, driver.a);
 
         layout.assign(runIntakeMotorIn, operator.rightTriggerHeld);
         layout.assign(runIntakeMotorOut, operator.leftTriggerHeld);

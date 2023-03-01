@@ -25,6 +25,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     private final AnalogInput elevator10Pot = new AnalogInput(ElevatorConstants.ELEVATOR_ANALOG_ID);
     private double elevatorSpeed = 0.0;
 
+    public void reset() {
+        ElevatorState.slew.reset(0);
+    }
+
     /** Creates a new ElevatorSubsystem. */
     public ElevatorSubsystem() {
         elevatorMotor.setIdleMode(IdleMode.kBrake);
@@ -61,7 +65,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         table.getEntry("ElevatorSpeed").setNumber(elevatorSpeed);
     }
 
-    public static final PIDController mainPid = new PIDController(0.001, 0, 0);
+    public static final PIDController mainPid = new PIDController(0.01, 0, 0);
 
     public static class ElevatorState implements SafetyLogic {
         public final double elevatorPosition;
@@ -133,20 +137,25 @@ public class ElevatorSubsystem extends SubsystemBase {
             switch (this.state) {
                 case start:
                     if (armPosition > 293 && wristPosition > 116) {
-                        return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition));
+                        return mainPid.calculate(elevatorPosition, this.elevatorPosition);
                     }
                     break;
 
                 case low:
                     if (armPosition > 157 && wristPosition > 121 && carriagePosition > 2908) {
-                        return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition));
+                        return mainPid.calculate(elevatorPosition, this.elevatorPosition);
                     }
                     break;
 
                 case mid:
                 case loading:
+                    return mainPid.calculate(elevatorPosition, this.elevatorPosition);
                 case high:
-                    return slew.calculate(mainPid.calculate(elevatorPosition, this.elevatorPosition));
+                    var val = mainPid.calculate(elevatorPosition, this.elevatorPosition);
+                    // System.out.println("valBeforeSlew: " + val);
+                    val = slew.calculate(val);
+                    // System.out.println("ValAfgerSlew: " + val);
+                    return val;
                 default:
 
                     break;
