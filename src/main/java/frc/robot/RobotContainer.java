@@ -165,7 +165,7 @@ public class RobotContainer {
 
     public Command scoreHighThenRunDistance() {
         return new SequentialCommandGroup(driveSubsystem.addGyroOffset(180),
-                group.highPosCommand(1).withTimeout(2),
+                group.midPosCommand(1).withTimeout(2),
                 intakeSubsystem.runMotor(-1).withTimeout(0.5),
                 group.startingPosCommand(1).withTimeout(2),
                 runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(3.5));
@@ -173,7 +173,7 @@ public class RobotContainer {
 
     public Command scoreHighThenEngage() {
         return new SequentialCommandGroup(driveSubsystem.addGyroOffset(180),
-                group.highPosCommand(1).withTimeout(2),
+                group.midPosCommand(1).withTimeout(2),
                 intakeSubsystem.runMotor(-1).withTimeout(0.5),
                 group.startingPosCommand(1).withTimeout(2),
                 runDistanceWithSpeeds(-0.5, 0.0, -3000.0).withTimeout(1.75),
@@ -182,10 +182,10 @@ public class RobotContainer {
 
     public Command scoreHighThenLeaveCommunityThenEngage() {
         return new SequentialCommandGroup(driveSubsystem.addGyroOffset(180),
-                group.highPosCommand(1).withTimeout(2),
+                group.midPosCommand(1).withTimeout(1.5),
                 intakeSubsystem.runMotor(-1).withTimeout(0.5),
-                group.startingPosCommand(1).withTimeout(2),
-                runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(3.5),
+                group.startingPosCommand(1).withTimeout(1.5),
+                runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(2.9),
                 runDistanceWithSpeeds(0.5, 0.0, -3000.0).withTimeout(1.75),
                 new AutoBalance(driveSubsystem));
     }

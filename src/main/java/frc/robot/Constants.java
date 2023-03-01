@@ -80,7 +80,7 @@ public final class Constants {
         public static final double lowPos = 140;
         public static final double midPos = 72;
         public static final double loadingPos = 72;
-        public static final double highPos = 72;
+        public static final double highPos = 100;
 
         public static final double startPosMinArm = 157;
         public static final double lowPosMinArm = 157;
@@ -98,7 +98,7 @@ public final class Constants {
         public static final double lowPos = 157;
         public static final double midPos = 320;
         public static final double loadingPos = 320;
-        public static final double highPos = 293;
+        public static final double highPos = 290;
 
         public static final double startPosMinCarriage = 1638;
         public static final double lowPosMinCarriage = 2003;
@@ -123,7 +123,7 @@ public final class Constants {
         public static final double lowPos = 1795;
         public static final double midPos = 1718;
         public static final double loadingPos = 1675;
-        public static final double highPos = 1430;
+        public static final double highPos = 1350;
 
         public static final double slewPositiveVal = 10;
         public static final double slewNegativeVal = -1;
