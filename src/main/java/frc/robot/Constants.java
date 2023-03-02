@@ -79,7 +79,7 @@ public final class Constants {
         public static final double START_POS = 140;
         public static final double LOW_POS = 140;
         public static final double MID_POS = 72;
-        public static final double LOADING_POS = 72;
+        public static final double LOADING_POS = 75;
         public static final double HIGH_POS = 72;
 
         public static final double START_POS_MIN_ARM = 157;
@@ -97,7 +97,7 @@ public final class Constants {
         public static final double START_POS = 332;
         public static final double LOW_POS = 157;
         public static final double MID_POS = 320;
-        public static final double LOADING_POS = 320;
+        public static final double LOADING_POS = 290;
         public static final double HIGH_POS = 293;
 
         public static final double START_POS_MIN_CARRIAGE = 1638;
@@ -122,8 +122,8 @@ public final class Constants {
         public static final double START_POS = 1795;
         public static final double LOW_POS = 1795;
         public static final double MID_POS = 1718;
-        public static final double LOADING_POS = 1675;
-        public static final double HIGH_POS = 1430;
+        public static final double LOADING_POS = 1540;
+        public static final double HIGH_POS = 1350;
 
         public static final double SLEW_POSITIVE_VAL = 10;
         public static final double SLEW_NEGATIVE_VAL = -1;
@@ -145,6 +145,19 @@ public final class Constants {
         public static final double MID_POS_MIN_ELBOW = 207;
         public static final double LOADING_POS_MIN_ELBOW = 207;
         public static final double HIGH_POS_MIN_ELBOW = 207;
+        public static final double startPos = 1860;
+        public static final double lowPos = 3180;
+        public static final double highPos = 3180;
+        public static final double midPos = 1860;
+        public static final double loadingPos = 3170;
+        public static final double highConePos = 3180;
+
+        public static final double startPosMinElbow = 236;
+        public static final double lowPosMinElbow = 146;
+        public static final double highPosMinElbow = 207;
+        public static final double midPosMinElbow = 236;
+        public static final double loadingPosMinElbow = 207;
+        public static final double highConePosMinElbow = 207;
     }
 
 }

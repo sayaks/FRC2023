@@ -76,7 +76,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         private ElevatorStates state;
 
         public enum ElevatorStates {
-            start, low, mid, loading, high
+            start, low, high, mid, loading, highCone
         }
 
         public ElevatorState(final double elevatorPosition, final PIDController elevatorUpPid,
@@ -107,21 +107,15 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPosition() {
+        public SafetyLogic highPosition() {
             // TODO Auto-generated method stub
-            return mid;
+            return high;
         }
 
         @Override
         public SafetyLogic loadingPosition() {
             // TODO Auto-generated method stub
             return loading;
-        }
-
-        @Override
-        public SafetyLogic highPosition() {
-            // TODO Auto-generated method stub
-            return high;
         }
 
         @Override
@@ -135,6 +129,7 @@ public class ElevatorSubsystem extends SubsystemBase {
                 double carriagePosition) {
             // TODO Auto-generated method stub
             switch (this.state) {
+                case mid:
                 case start:
                     if (armPosition > 293 && wristPosition > 116) {
                         return mainPid.calculate(elevatorPosition, this.elevatorPosition);
@@ -147,10 +142,10 @@ public class ElevatorSubsystem extends SubsystemBase {
                     }
                     break;
 
-                case mid:
+                case high:
                 case loading:
                     return mainPid.calculate(elevatorPosition, this.elevatorPosition);
-                case high:
+                case highCone:
                     var val = mainPid.calculate(elevatorPosition, this.elevatorPosition);
                     // System.out.println("valBeforeSlew: " + val);
                     val = slew.calculate(val);
@@ -161,6 +156,12 @@ public class ElevatorSubsystem extends SubsystemBase {
                     break;
             }
             return 0;
+        }
+
+        @Override
+        public SafetyLogic midPosition() {
+            // TODO Auto-generated method stub
+            return mid;
         }
     }
 

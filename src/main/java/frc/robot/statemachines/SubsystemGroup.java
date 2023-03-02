@@ -5,7 +5,6 @@
 package frc.robot.statemachines;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.elbow.ElbowSubsystem;
 import frc.robot.lift.CarriageSubsystem;
@@ -106,7 +105,7 @@ public class SubsystemGroup extends SubsystemBase {
 
     }
 
-    public Command midPosCommand(double speed) {
+    public Command midPosConeCommand(double speed) {
         var retval = runOnce(() -> reset()).andThen(runEnd(() -> midPosition(speed), () -> stopAll()));
         retval.addRequirements(wrist, elbow, elevator, carriage);
         return retval;

@@ -100,21 +100,15 @@ public class ElbowSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPosition() {
+        public SafetyLogic highPosition() {
             // TODO Auto-generated method stub
-            return mid;
+            return high;
         }
 
         @Override
         public SafetyLogic loadingPosition() {
             // TODO Auto-generated method stub
             return loading;
-        }
-
-        @Override
-        public SafetyLogic highPosition() {
-            // TODO Auto-generated method stub
-            return high;
         }
 
         @Override
@@ -132,6 +126,12 @@ public class ElbowSubsystem extends SubsystemBase {
                 return this.elbowDownPid.calculate(elbowPosition, this.elbowPosition);
             }
             return 0;
+        }
+
+        @Override
+        public SafetyLogic midPosition() {
+            // TODO Auto-generated method stub
+            return mid;
         }
 
     }
