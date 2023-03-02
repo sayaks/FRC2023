@@ -5,7 +5,6 @@
 package frc.robot.statemachines;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.elbow.ElbowSubsystem;
 import frc.robot.lift.CarriageSubsystem;
@@ -20,40 +19,40 @@ public class SubsystemGroup extends SubsystemBase {
 
     private SafetyLogic elevatorStart = ElevatorSubsystem.ElevatorState.start;
     private SafetyLogic elevatorLow = ElevatorSubsystem.ElevatorState.low;
-    private SafetyLogic elevatorMidCone = ElevatorSubsystem.ElevatorState.midCone;
+    private SafetyLogic elevatorMidCone = ElevatorSubsystem.ElevatorState.high;
     private SafetyLogic elevatorLoading = ElevatorSubsystem.ElevatorState.loading;
-    private SafetyLogic elevatorHigh = ElevatorSubsystem.ElevatorState.high;
+    private SafetyLogic elevatorHigh = ElevatorSubsystem.ElevatorState.highCone;
 
     private SafetyLogic carriageStart = CarriageSubsystem.CarriageState.start;
     private SafetyLogic carriageLow = CarriageSubsystem.CarriageState.low;
-    private SafetyLogic carriageMidCone = CarriageSubsystem.CarriageState.midCone;
+    private SafetyLogic carriageMidCone = CarriageSubsystem.CarriageState.high;
     private SafetyLogic carriageLoading = CarriageSubsystem.CarriageState.loading;
-    private SafetyLogic carriageHigh = CarriageSubsystem.CarriageState.high;
+    private SafetyLogic carriageHigh = CarriageSubsystem.CarriageState.highCube;
 
     private SafetyLogic elbowStart = ElbowSubsystem.ElbowState.start;
     private SafetyLogic elbowLow = ElbowSubsystem.ElbowState.low;
-    private SafetyLogic elbowMidCone = ElbowSubsystem.ElbowState.midCone;
+    private SafetyLogic elbowMidCone = ElbowSubsystem.ElbowState.high;
     private SafetyLogic elbowLoading = ElbowSubsystem.ElbowState.loading;
-    private SafetyLogic elbowHigh = ElbowSubsystem.ElbowState.high;
+    private SafetyLogic elbowHigh = ElbowSubsystem.ElbowState.highCone;
 
     private SafetyLogic wristStart = WristSubsystem.WristState.start;
     private SafetyLogic wristLow = WristSubsystem.WristState.low;
-    private SafetyLogic wristMidCone = WristSubsystem.WristState.midCone;
+    private SafetyLogic wristMidCone = WristSubsystem.WristState.high;
     private SafetyLogic wristLoading = WristSubsystem.WristState.loading;
-    private SafetyLogic wristHigh = WristSubsystem.WristState.high;
+    private SafetyLogic wristHigh = WristSubsystem.WristState.highCone;
 
     public interface SafetyLogic {
         public SafetyLogic lowPosition();
 
-        public SafetyLogic midPositionCone();
+        public SafetyLogic highPosition();
 
         public SafetyLogic loadingPosition();
 
-        public SafetyLogic highPosition();
+        public SafetyLogic highConePosition();
 
         public SafetyLogic defaultPosition();
 
-        public SafetyLogic midPositionCube();
+        public SafetyLogic midPosition();
 
         public double stateCalculate(double speed, double armPosition, double wristPosition,
                 double elevatorPosition, double carriagePosition);

@@ -78,17 +78,17 @@ public final class Constants {
 
         public static final double startPos = 140;
         public static final double lowPos = 140;
-        public static final double midPosCone = 72;
-        public static final double midPosCube = 70;
+        public static final double highPos = 72;
+        public static final double midPos = 70;
         public static final double loadingPos = 75;
-        public static final double highPos = 100;
+        public static final double highConePos = 100;
 
         public static final double startPosMinArm = 157;
         public static final double lowPosMinArm = 157;
-        public static final double midPosConeMinArm = 207;
-        public static final double midPosCubeMinArm = 157;
-        public static final double loadingPosMinArm = 207;
         public static final double highPosMinArm = 207;
+        public static final double midPosMinArm = 157;
+        public static final double loadingPosMinArm = 207;
+        public static final double highConePosMinArm = 207;
     }
 
     public static class ElbowConstants {
@@ -98,24 +98,24 @@ public final class Constants {
 
         public static final double startPos = 332;
         public static final double lowPos = 157;
-        public static final double midPosCone = 320;
-        public static final double midPosCube = 332;
+        public static final double highPos = 320;
+        public static final double midPos = 332;
         public static final double loadingPos = 290;
-        public static final double highPos = 290;
+        public static final double highConePos = 290;
 
         public static final double startPosMinCarriage = 1638;
         public static final double lowPosMinCarriage = 2003;
-        public static final double midPosConeMinCarriage = 1638;
-        public static final double midPosCubeMinCarriage = 1638;
-        public static final double loadingPosMinCarriage = 1638;
         public static final double highPosMinCarriage = 1638;
+        public static final double midPosMinCarriage = 1638;
+        public static final double loadingPosMinCarriage = 1638;
+        public static final double highConePosMinCarriage = 1638;
 
         public static final double startPosMinWrist = 36;
         public static final double lowPosMinWrist = 121;
-        public static final double midPosConeMinWrist = 36;
-        public static final double midPosCubeMinWrist = 36;
-        public static final double loadingPosMinWrist = 36;
         public static final double highPosMinWrist = 36;
+        public static final double midPosMinWrist = 36;
+        public static final double loadingPosMinWrist = 36;
+        public static final double highConePosMinWrist = 36;
     }
 
     public static class ElevatorConstants {
@@ -126,10 +126,10 @@ public final class Constants {
 
         public static final double startPos = 1795;
         public static final double lowPos = 1795;
-        public static final double midPosCone = 1718;
-        public static final double midPosCube = 1795;
+        public static final double highPos = 1718;
+        public static final double midPos = 1795;
         public static final double loadingPos = 1540;
-        public static final double highPos = 1350;
+        public static final double highConePos = 1350;
 
         public static final double slewPositiveVal = 10;
         public static final double slewNegativeVal = -1;
@@ -142,17 +142,17 @@ public final class Constants {
 
         public static final double startPos = 1860;
         public static final double lowPos = 3180;
-        public static final double midPosCone = 3180;
-        public static final double midPosCube = 1860;
-        public static final double loadingPos = 3170;
         public static final double highPos = 3180;
+        public static final double midPos = 1860;
+        public static final double loadingPos = 3170;
+        public static final double highConePos = 3180;
 
         public static final double startPosMinElbow = 236;
         public static final double lowPosMinElbow = 146;
-        public static final double midPosConeMinElbow = 207;
-        public static final double midPosCubeMinElbow = 236;
-        public static final double loadingPosMinElbow = 207;
         public static final double highPosMinElbow = 207;
+        public static final double midPosMinElbow = 236;
+        public static final double loadingPosMinElbow = 207;
+        public static final double highConePosMinElbow = 207;
     }
 
 }

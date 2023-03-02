@@ -76,7 +76,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         private ElevatorStates state;
 
         public enum ElevatorStates {
-            start, low, midCone, midCube, loading, high
+            start, low, high, mid, loading, highCone
         }
 
         public ElevatorState(final double elevatorPosition, final PIDController elevatorUpPid,
@@ -93,14 +93,14 @@ public class ElevatorSubsystem extends SubsystemBase {
                 ElevatorConstants.lowPos, mainPid, mainPid, ElevatorStates.low);
         // the min wrist position theoretically will work at 157, however, may not be
         // safe, so will likely need some testing and logic for a safer min pos.
-        public static final ElevatorState midCone = new ElevatorState(
-                ElevatorConstants.midPosCone, mainPid, mainPid, ElevatorStates.midCone);
-        public static final ElevatorState midCube = new ElevatorState(
-                ElevatorConstants.midPosCube, mainPid, mainPid, ElevatorStates.midCube);
-        public static final ElevatorState loading = new ElevatorState(
-                ElevatorConstants.loadingPos, mainPid, mainPid, ElevatorStates.loading);
         public static final ElevatorState high = new ElevatorState(
                 ElevatorConstants.highPos, mainPid, mainPid, ElevatorStates.high);
+        public static final ElevatorState mid = new ElevatorState(
+                ElevatorConstants.midPos, mainPid, mainPid, ElevatorStates.mid);
+        public static final ElevatorState loading = new ElevatorState(
+                ElevatorConstants.loadingPos, mainPid, mainPid, ElevatorStates.loading);
+        public static final ElevatorState highCone = new ElevatorState(
+                ElevatorConstants.highConePos, mainPid, mainPid, ElevatorStates.highCone);
 
         @Override
         public SafetyLogic lowPosition() {
@@ -109,9 +109,9 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPositionCone() {
+        public SafetyLogic highPosition() {
             // TODO Auto-generated method stub
-            return midCone;
+            return high;
         }
 
         @Override
@@ -121,9 +121,9 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic highPosition() {
+        public SafetyLogic highConePosition() {
             // TODO Auto-generated method stub
-            return high;
+            return highCone;
         }
 
         @Override
@@ -137,7 +137,7 @@ public class ElevatorSubsystem extends SubsystemBase {
                 double carriagePosition) {
             // TODO Auto-generated method stub
             switch (this.state) {
-                case midCube:
+                case mid:
                 case start:
                     if (armPosition > 293 && wristPosition > 116) {
                         return mainPid.calculate(elevatorPosition, this.elevatorPosition);
@@ -150,10 +150,10 @@ public class ElevatorSubsystem extends SubsystemBase {
                     }
                     break;
 
-                case midCone:
+                case high:
                 case loading:
                     return mainPid.calculate(elevatorPosition, this.elevatorPosition);
-                case high:
+                case highCone:
                     var val = mainPid.calculate(elevatorPosition, this.elevatorPosition);
                     // System.out.println("valBeforeSlew: " + val);
                     val = slew.calculate(val);
@@ -167,9 +167,9 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPositionCube() {
+        public SafetyLogic midPosition() {
             // TODO Auto-generated method stub
-            return midPositionCube();
+            return mid;
         }
     }
 

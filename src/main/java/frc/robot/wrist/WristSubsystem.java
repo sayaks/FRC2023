@@ -104,13 +104,14 @@ public class WristSubsystem extends SubsystemBase {
 
         public static final WristState start = new WristState(WristConstants.startPos, WristConstants.startPosMinArm);
         public static final WristState low = new WristState(WristConstants.lowPos, WristConstants.lowPosMinArm);
-        public static final WristState midCone = new WristState(WristConstants.midPosCone,
-                WristConstants.midPosConeMinArm);
-        public static final WristState midCube = new WristState(WristConstants.midPosCube,
-                WristConstants.midPosCubeMinArm);
+        public static final WristState high = new WristState(WristConstants.highPos,
+                WristConstants.highPosMinArm);
+        public static final WristState mid = new WristState(WristConstants.midPos,
+                WristConstants.midPosMinArm);
         public static final WristState loading = new WristState(WristConstants.loadingPos,
                 WristConstants.loadingPosMinArm);
-        public static final WristState high = new WristState(WristConstants.highPos, WristConstants.highPosMinArm);
+        public static final WristState highCone = new WristState(WristConstants.highConePos,
+                WristConstants.highConePosMinArm);
 
         @Override
         public SafetyLogic lowPosition() {
@@ -119,9 +120,9 @@ public class WristSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPositionCone() {
+        public SafetyLogic highPosition() {
             // TODO Auto-generated method stub
-            return midCone;
+            return high;
         }
 
         @Override
@@ -131,9 +132,9 @@ public class WristSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic highPosition() {
+        public SafetyLogic highConePosition() {
             // TODO Auto-generated method stub
-            return high;
+            return highCone;
         }
 
         @Override
@@ -154,9 +155,9 @@ public class WristSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPositionCube() {
+        public SafetyLogic midPosition() {
             // TODO Auto-generated method stub
-            return midCube;
+            return mid;
         }
 
     }

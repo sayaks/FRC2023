@@ -78,14 +78,14 @@ public class CarriageSubsystem extends SubsystemBase {
                 CarriageConstants.startPosMinElbow);
         public static final CarriageState low = new CarriageState(CarriageConstants.lowPos, mainPID,
                 CarriageConstants.lowPosMinElbow);
-        public static final CarriageState midCone = new CarriageState(CarriageConstants.midPosCone, mainPID,
-                CarriageConstants.midPosConeMinElbow);
-        public static final CarriageState midCube = new CarriageState(CarriageConstants.midPosCube, mainPID,
-                CarriageConstants.midPosCubeMinElbow);
-        public static final CarriageState loading = new CarriageState(CarriageConstants.loadingPos, mainPID,
-                CarriageConstants.loadingPosMinElbow);
         public static final CarriageState high = new CarriageState(CarriageConstants.highPos, mainPID,
                 CarriageConstants.highPosMinElbow);
+        public static final CarriageState mid = new CarriageState(CarriageConstants.midPos, mainPID,
+                CarriageConstants.midPosMinElbow);
+        public static final CarriageState loading = new CarriageState(CarriageConstants.loadingPos, mainPID,
+                CarriageConstants.loadingPosMinElbow);
+        public static final CarriageState highCube = new CarriageState(CarriageConstants.highConePos, mainPID,
+                CarriageConstants.highConePosMinElbow);
 
         @Override
         public SafetyLogic lowPosition() {
@@ -94,9 +94,9 @@ public class CarriageSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPositionCone() {
+        public SafetyLogic highPosition() {
             // TODO Auto-generated method stub
-            return midCone;
+            return high;
         }
 
         @Override
@@ -106,9 +106,9 @@ public class CarriageSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic highPosition() {
+        public SafetyLogic highConePosition() {
             // TODO Auto-generated method stub
-            return high;
+            return highCube;
         }
 
         @Override
@@ -133,9 +133,9 @@ public class CarriageSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPositionCube() {
+        public SafetyLogic midPosition() {
             // TODO Auto-generated method stub
-            return midPositionCube();
+            return mid;
         }
 
     }

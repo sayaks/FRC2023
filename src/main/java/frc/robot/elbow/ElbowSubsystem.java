@@ -84,17 +84,17 @@ public class ElbowSubsystem extends SubsystemBase {
         public static final ElbowState low = new ElbowState(ElbowConstants.lowPos, mainPID,
                 ElbowConstants.lowPosMinCarriage,
                 ElbowConstants.lowPosMinWrist);
-        public static final ElbowState midCone = new ElbowState(ElbowConstants.midPosCone, mainPID,
-                ElbowConstants.midPosConeMinCarriage,
-                ElbowConstants.midPosConeMinWrist);
-        public static final ElbowState midCube = new ElbowState(ElbowConstants.midPosCube, mainPID,
-                ElbowConstants.midPosCubeMinCarriage,
-                ElbowConstants.midPosCubeMinWrist);
-        public static final ElbowState loading = new ElbowState(ElbowConstants.loadingPos, mainPID,
-                ElbowConstants.loadingPosMinCarriage, ElbowConstants.loadingPosMinWrist);
         public static final ElbowState high = new ElbowState(ElbowConstants.highPos, mainPID,
                 ElbowConstants.highPosMinCarriage,
                 ElbowConstants.highPosMinWrist);
+        public static final ElbowState mid = new ElbowState(ElbowConstants.midPos, mainPID,
+                ElbowConstants.midPosMinCarriage,
+                ElbowConstants.midPosMinWrist);
+        public static final ElbowState loading = new ElbowState(ElbowConstants.loadingPos, mainPID,
+                ElbowConstants.loadingPosMinCarriage, ElbowConstants.loadingPosMinWrist);
+        public static final ElbowState highCone = new ElbowState(ElbowConstants.highConePos, mainPID,
+                ElbowConstants.highConePosMinCarriage,
+                ElbowConstants.highConePosMinWrist);
 
         @Override
         public SafetyLogic lowPosition() {
@@ -103,9 +103,9 @@ public class ElbowSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPositionCone() {
+        public SafetyLogic highPosition() {
             // TODO Auto-generated method stub
-            return midCone;
+            return high;
         }
 
         @Override
@@ -115,9 +115,9 @@ public class ElbowSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic highPosition() {
+        public SafetyLogic highConePosition() {
             // TODO Auto-generated method stub
-            return high;
+            return highCone;
         }
 
         @Override
@@ -138,9 +138,9 @@ public class ElbowSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPositionCube() {
+        public SafetyLogic midPosition() {
             // TODO Auto-generated method stub
-            return midPositionCube();
+            return mid;
         }
 
     }
