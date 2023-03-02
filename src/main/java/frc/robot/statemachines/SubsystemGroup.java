@@ -20,38 +20,40 @@ public class SubsystemGroup extends SubsystemBase {
 
     private SafetyLogic elevatorStart = ElevatorSubsystem.ElevatorState.start;
     private SafetyLogic elevatorLow = ElevatorSubsystem.ElevatorState.low;
-    private SafetyLogic elevatorMid = ElevatorSubsystem.ElevatorState.mid;
+    private SafetyLogic elevatorMidCone = ElevatorSubsystem.ElevatorState.midCone;
     private SafetyLogic elevatorLoading = ElevatorSubsystem.ElevatorState.loading;
     private SafetyLogic elevatorHigh = ElevatorSubsystem.ElevatorState.high;
 
     private SafetyLogic carriageStart = CarriageSubsystem.CarriageState.start;
     private SafetyLogic carriageLow = CarriageSubsystem.CarriageState.low;
-    private SafetyLogic carriageMid = CarriageSubsystem.CarriageState.mid;
+    private SafetyLogic carriageMidCone = CarriageSubsystem.CarriageState.midCone;
     private SafetyLogic carriageLoading = CarriageSubsystem.CarriageState.loading;
     private SafetyLogic carriageHigh = CarriageSubsystem.CarriageState.high;
 
     private SafetyLogic elbowStart = ElbowSubsystem.ElbowState.start;
     private SafetyLogic elbowLow = ElbowSubsystem.ElbowState.low;
-    private SafetyLogic elbowMid = ElbowSubsystem.ElbowState.mid;
+    private SafetyLogic elbowMidCone = ElbowSubsystem.ElbowState.midCone;
     private SafetyLogic elbowLoading = ElbowSubsystem.ElbowState.loading;
     private SafetyLogic elbowHigh = ElbowSubsystem.ElbowState.high;
 
     private SafetyLogic wristStart = WristSubsystem.WristState.start;
     private SafetyLogic wristLow = WristSubsystem.WristState.low;
-    private SafetyLogic wristMid = WristSubsystem.WristState.mid;
+    private SafetyLogic wristMidCone = WristSubsystem.WristState.midCone;
     private SafetyLogic wristLoading = WristSubsystem.WristState.loading;
     private SafetyLogic wristHigh = WristSubsystem.WristState.high;
 
     public interface SafetyLogic {
         public SafetyLogic lowPosition();
 
-        public SafetyLogic midPosition();
+        public SafetyLogic midPositionCone();
 
         public SafetyLogic loadingPosition();
 
         public SafetyLogic highPosition();
 
         public SafetyLogic defaultPosition();
+
+        public SafetyLogic midPositionCube();
 
         public double stateCalculate(double speed, double armPosition, double wristPosition,
                 double elevatorPosition, double carriagePosition);
@@ -106,8 +108,8 @@ public class SubsystemGroup extends SubsystemBase {
 
     }
 
-    public Command midPosCommand(double speed) {
-        var retval = runOnce(() -> reset()).andThen(runEnd(() -> midPosition(speed), () -> stopAll()));
+    public Command midPosConeCommand(double speed) {
+        var retval = runOnce(() -> reset()).andThen(runEnd(() -> midPositionCone(speed), () -> stopAll()));
         retval.addRequirements(wrist, elbow, elevator, carriage);
         return retval;
     }
@@ -151,19 +153,19 @@ public class SubsystemGroup extends SubsystemBase {
         wrist.rotateWrist(wristSpeed);
     }
 
-    public void midPosition(double speed) {
+    public void midPositionCone(double speed) {
         double elevatorPosition = elevator.getElevatorPosition();
         double carriagePosition = carriage.getCarriagePosition();
         double elbowPosition = elbow.getElbowRotationPosition();
         double wristPosition = wrist.getWristRotationPosition();
 
-        double elevatorSpeed = elevatorMid.stateCalculate(speed, elbowPosition, wristPosition, elevatorPosition,
+        double elevatorSpeed = elevatorMidCone.stateCalculate(speed, elbowPosition, wristPosition, elevatorPosition,
                 carriagePosition) * speed;
-        double carriageSpeed = carriageMid.stateCalculate(speed, elbowPosition, wristPosition, elevatorPosition,
+        double carriageSpeed = carriageMidCone.stateCalculate(speed, elbowPosition, wristPosition, elevatorPosition,
                 carriagePosition) * speed;
-        double elbowSpeed = elbowMid.stateCalculate(speed, elbowPosition, wristPosition, elevatorPosition,
+        double elbowSpeed = elbowMidCone.stateCalculate(speed, elbowPosition, wristPosition, elevatorPosition,
                 carriagePosition) * speed;
-        double wristSpeed = wristMid.stateCalculate(speed, elbowPosition, wristPosition, elevatorPosition,
+        double wristSpeed = wristMidCone.stateCalculate(speed, elbowPosition, wristPosition, elevatorPosition,
                 carriagePosition) * speed;
 
         elevator.runElevatorMotor(elevatorSpeed);

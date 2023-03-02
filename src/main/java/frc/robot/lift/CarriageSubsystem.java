@@ -78,8 +78,10 @@ public class CarriageSubsystem extends SubsystemBase {
                 CarriageConstants.startPosMinElbow);
         public static final CarriageState low = new CarriageState(CarriageConstants.lowPos, mainPID,
                 CarriageConstants.lowPosMinElbow);
-        public static final CarriageState mid = new CarriageState(CarriageConstants.midPos, mainPID,
-                CarriageConstants.midPosMinElbow);
+        public static final CarriageState midCone = new CarriageState(CarriageConstants.midPosCone, mainPID,
+                CarriageConstants.midPosConeMinElbow);
+        public static final CarriageState midCube = new CarriageState(CarriageConstants.midPosCube, mainPID,
+                CarriageConstants.midPosCubeMinElbow);
         public static final CarriageState loading = new CarriageState(CarriageConstants.loadingPos, mainPID,
                 CarriageConstants.loadingPosMinElbow);
         public static final CarriageState high = new CarriageState(CarriageConstants.highPos, mainPID,
@@ -92,9 +94,9 @@ public class CarriageSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPosition() {
+        public SafetyLogic midPositionCone() {
             // TODO Auto-generated method stub
-            return mid;
+            return midCone;
         }
 
         @Override
@@ -128,6 +130,12 @@ public class CarriageSubsystem extends SubsystemBase {
                 return this.carriageDownPid.calculate(carriagePosition, this.carriagePosition);
             }
             return 0;
+        }
+
+        @Override
+        public SafetyLogic midPositionCube() {
+            // TODO Auto-generated method stub
+            return midPositionCube();
         }
 
     }

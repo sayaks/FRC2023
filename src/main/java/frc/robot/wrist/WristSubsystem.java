@@ -104,7 +104,10 @@ public class WristSubsystem extends SubsystemBase {
 
         public static final WristState start = new WristState(WristConstants.startPos, WristConstants.startPosMinArm);
         public static final WristState low = new WristState(WristConstants.lowPos, WristConstants.lowPosMinArm);
-        public static final WristState mid = new WristState(WristConstants.midPos, WristConstants.midPosMinArm);
+        public static final WristState midCone = new WristState(WristConstants.midPosCone,
+                WristConstants.midPosConeMinArm);
+        public static final WristState midCube = new WristState(WristConstants.midPosCube,
+                WristConstants.midPosCubeMinArm);
         public static final WristState loading = new WristState(WristConstants.loadingPos,
                 WristConstants.loadingPosMinArm);
         public static final WristState high = new WristState(WristConstants.highPos, WristConstants.highPosMinArm);
@@ -116,9 +119,9 @@ public class WristSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPosition() {
+        public SafetyLogic midPositionCone() {
             // TODO Auto-generated method stub
-            return mid;
+            return midCone;
         }
 
         @Override
@@ -148,6 +151,12 @@ public class WristSubsystem extends SubsystemBase {
             }
 
             return 0;
+        }
+
+        @Override
+        public SafetyLogic midPositionCube() {
+            // TODO Auto-generated method stub
+            return midCube;
         }
 
     }

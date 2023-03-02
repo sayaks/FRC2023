@@ -84,9 +84,12 @@ public class ElbowSubsystem extends SubsystemBase {
         public static final ElbowState low = new ElbowState(ElbowConstants.lowPos, mainPID,
                 ElbowConstants.lowPosMinCarriage,
                 ElbowConstants.lowPosMinWrist);
-        public static final ElbowState mid = new ElbowState(ElbowConstants.midPos, mainPID,
-                ElbowConstants.midPosMinCarriage,
-                ElbowConstants.midPosMinWrist);
+        public static final ElbowState midCone = new ElbowState(ElbowConstants.midPosCone, mainPID,
+                ElbowConstants.midPosConeMinCarriage,
+                ElbowConstants.midPosConeMinWrist);
+        public static final ElbowState midCube = new ElbowState(ElbowConstants.midPosCube, mainPID,
+                ElbowConstants.midPosCubeMinCarriage,
+                ElbowConstants.midPosCubeMinWrist);
         public static final ElbowState loading = new ElbowState(ElbowConstants.loadingPos, mainPID,
                 ElbowConstants.loadingPosMinCarriage, ElbowConstants.loadingPosMinWrist);
         public static final ElbowState high = new ElbowState(ElbowConstants.highPos, mainPID,
@@ -100,9 +103,9 @@ public class ElbowSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPosition() {
+        public SafetyLogic midPositionCone() {
             // TODO Auto-generated method stub
-            return mid;
+            return midCone;
         }
 
         @Override
@@ -132,6 +135,12 @@ public class ElbowSubsystem extends SubsystemBase {
                 return this.elbowDownPid.calculate(elbowPosition, this.elbowPosition);
             }
             return 0;
+        }
+
+        @Override
+        public SafetyLogic midPositionCube() {
+            // TODO Auto-generated method stub
+            return midPositionCube();
         }
 
     }

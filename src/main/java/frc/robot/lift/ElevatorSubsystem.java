@@ -76,7 +76,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         private ElevatorStates state;
 
         public enum ElevatorStates {
-            start, low, mid, loading, high
+            start, low, midCone, midCube, loading, high
         }
 
         public ElevatorState(final double elevatorPosition, final PIDController elevatorUpPid,
@@ -93,8 +93,10 @@ public class ElevatorSubsystem extends SubsystemBase {
                 ElevatorConstants.lowPos, mainPid, mainPid, ElevatorStates.low);
         // the min wrist position theoretically will work at 157, however, may not be
         // safe, so will likely need some testing and logic for a safer min pos.
-        public static final ElevatorState mid = new ElevatorState(
-                ElevatorConstants.midPos, mainPid, mainPid, ElevatorStates.mid);
+        public static final ElevatorState midCone = new ElevatorState(
+                ElevatorConstants.midPosCone, mainPid, mainPid, ElevatorStates.midCone);
+        public static final ElevatorState midCube = new ElevatorState(
+                ElevatorConstants.midPosCube, mainPid, mainPid, ElevatorStates.midCube);
         public static final ElevatorState loading = new ElevatorState(
                 ElevatorConstants.loadingPos, mainPid, mainPid, ElevatorStates.loading);
         public static final ElevatorState high = new ElevatorState(
@@ -107,9 +109,9 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPosition() {
+        public SafetyLogic midPositionCone() {
             // TODO Auto-generated method stub
-            return mid;
+            return midCone;
         }
 
         @Override
@@ -135,6 +137,7 @@ public class ElevatorSubsystem extends SubsystemBase {
                 double carriagePosition) {
             // TODO Auto-generated method stub
             switch (this.state) {
+                case midCube:
                 case start:
                     if (armPosition > 293 && wristPosition > 116) {
                         return mainPid.calculate(elevatorPosition, this.elevatorPosition);
@@ -147,7 +150,7 @@ public class ElevatorSubsystem extends SubsystemBase {
                     }
                     break;
 
-                case mid:
+                case midCone:
                 case loading:
                     return mainPid.calculate(elevatorPosition, this.elevatorPosition);
                 case high:
@@ -161,6 +164,12 @@ public class ElevatorSubsystem extends SubsystemBase {
                     break;
             }
             return 0;
+        }
+
+        @Override
+        public SafetyLogic midPositionCube() {
+            // TODO Auto-generated method stub
+            return midPositionCube();
         }
     }
 
