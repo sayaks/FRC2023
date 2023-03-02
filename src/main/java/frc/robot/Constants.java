@@ -51,8 +51,8 @@ public final class Constants {
                 new Translation2d(-CENTER_TO_POD_METER, -CENTER_TO_POD_METER),
         };
 
-        public static final double slewRateVal = 1;
-        public static final double slewRotateVal = 100;
+        public static final double SLEWRATE_VAL = 1;
+        public static final double SLEW_ROTATE_VAL = 100;
     }
 
     public static class AutoConstants {
@@ -76,17 +76,17 @@ public final class Constants {
         public static final int MOTOR_ID = 14;
         public static final Range ROTATE_LIMITS = new Range(25, 140); // 280 is full max
 
-        public static final double startPos = 140;
-        public static final double lowPos = 140;
-        public static final double midPos = 72;
-        public static final double loadingPos = 72;
-        public static final double highPos = 72;
+        public static final double START_POS = 140;
+        public static final double LOW_POS = 140;
+        public static final double MID_POS = 72;
+        public static final double LOADING_POS = 72;
+        public static final double HIGH_POS = 72;
 
-        public static final double startPosMinArm = 157;
-        public static final double lowPosMinArm = 157;
-        public static final double midPosMinArm = 207;
-        public static final double loadingPosMinArm = 207;
-        public static final double highPosMinArm = 207;
+        public static final double START_POS_MIN_ARM = 157;
+        public static final double LOW_POS_MIN_ARM = 157;
+        public static final double MID_POS_MIN_ARM = 207;
+        public static final double LOADING_POS_MIN_ARM = 207;
+        public static final double HIGH_POS_MIN_ARM = 207;
     }
 
     public static class ElbowConstants {
@@ -94,23 +94,23 @@ public final class Constants {
         public static final int MOTOR_ID = 15;
         public static final Range ROTATE_LIMITS = new Range(157, 332); // 162 fully down, 336 fully up
 
-        public static final double startPos = 332;
-        public static final double lowPos = 157;
-        public static final double midPos = 320;
-        public static final double loadingPos = 320;
-        public static final double highPos = 293;
+        public static final double START_POS = 332;
+        public static final double LOW_POS = 157;
+        public static final double MID_POS = 320;
+        public static final double LOADING_POS = 320;
+        public static final double HIGH_POS = 293;
 
-        public static final double startPosMinCarriage = 1638;
-        public static final double lowPosMinCarriage = 2003;
-        public static final double midPosMinCarriage = 1638;
-        public static final double loadingPosMinCarriage = 1638;
-        public static final double highPosMinCarriage = 1638;
+        public static final double START_POS_MIN_CARRIAGE = 1638;
+        public static final double LOW_POS_MIN_CARRIAGE = 2003;
+        public static final double MID_POS_MIN_CARRIAGE = 1638;
+        public static final double LOADING_POS_MIN_CARRIAGE = 1638;
+        public static final double HIGH_POS_MIN_CARRIAGE = 1638;
 
-        public static final double startPosMinWrist = 36;
-        public static final double lowPosMinWrist = 121;
-        public static final double midPosMinWrist = 36;
-        public static final double loadingPosMinWrist = 36;
-        public static final double highPosMinWrist = 36;
+        public static final double START_POS_MIN_WRIST = 36;
+        public static final double LOW_POS_MIN_WRIST = 121;
+        public static final double MID_POS_MIN_WRIST = 36;
+        public static final double LOADING_POS_MIN_WRIST = 36;
+        public static final double HIGH_POS_MIN_WRIST = 36;
     }
 
     public static class ElevatorConstants {
@@ -119,14 +119,14 @@ public final class Constants {
                                                                            // the top most
         public static final int ELEVATOR_ANALOG_ID = 3;
 
-        public static final double startPos = 1795;
-        public static final double lowPos = 1795;
-        public static final double midPos = 1718;
-        public static final double loadingPos = 1675;
-        public static final double highPos = 1430;
+        public static final double START_POS = 1795;
+        public static final double LOW_POS = 1795;
+        public static final double MID_POS = 1718;
+        public static final double LOADING_POS = 1675;
+        public static final double HIGH_POS = 1430;
 
-        public static final double slewPositiveVal = 10;
-        public static final double slewNegativeVal = -1;
+        public static final double SLEW_POSITIVE_VAL = 10;
+        public static final double SLEW_NEGATIVE_VAL = -1;
     }
 
     public static class CarriageConstants {
@@ -134,17 +134,17 @@ public final class Constants {
         public static final Range CARRIAGE_LIMITS = new Range(1860, 3180);
         public static final int CARRIAGE_ANALOG_ID = 0;
 
-        public static final double startPos = 1860;
-        public static final double lowPos = 3180;
-        public static final double midPos = 3180;
-        public static final double loadingPos = 3180;
-        public static final double highPos = 3180;
+        public static final double START_POS = 1860;
+        public static final double LOW_POS = 3180;
+        public static final double MID_POS = 3180;
+        public static final double LOADING_POS = 3180;
+        public static final double HIGH_POS = 3180;
 
-        public static final double startPosMinElbow = 236;
-        public static final double lowPosMinElbow = 146;
-        public static final double midPosMinElbow = 207;
-        public static final double loadingPosMinElbow = 207;
-        public static final double highPosMinElbow = 207;
+        public static final double START_POS_MIN_ELBOW = 236;
+        public static final double LOW_POS_MIN_ELBOW = 146;
+        public static final double MID_POS_MIN_ELBOW = 207;
+        public static final double LOADING_POS_MIN_ELBOW = 207;
+        public static final double HIGH_POS_MIN_ELBOW = 207;
     }
 
 }

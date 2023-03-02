@@ -102,12 +102,13 @@ public class WristSubsystem extends SubsystemBase {
 
         }
 
-        public static final WristState start = new WristState(WristConstants.startPos, WristConstants.startPosMinArm);
-        public static final WristState low = new WristState(WristConstants.lowPos, WristConstants.lowPosMinArm);
-        public static final WristState mid = new WristState(WristConstants.midPos, WristConstants.midPosMinArm);
-        public static final WristState loading = new WristState(WristConstants.loadingPos,
-                WristConstants.loadingPosMinArm);
-        public static final WristState high = new WristState(WristConstants.highPos, WristConstants.highPosMinArm);
+        public static final WristState start = new WristState(WristConstants.START_POS,
+                WristConstants.START_POS_MIN_ARM);
+        public static final WristState low = new WristState(WristConstants.LOW_POS, WristConstants.LOW_POS_MIN_ARM);
+        public static final WristState mid = new WristState(WristConstants.MID_POS, WristConstants.MID_POS_MIN_ARM);
+        public static final WristState loading = new WristState(WristConstants.LOADING_POS,
+                WristConstants.LOADING_POS_MIN_ARM);
+        public static final WristState high = new WristState(WristConstants.HIGH_POS, WristConstants.HIGH_POS_MIN_ARM);
 
         @Override
         public SafetyLogic lowPosition() {

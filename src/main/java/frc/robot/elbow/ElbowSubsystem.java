@@ -78,20 +78,20 @@ public class ElbowSubsystem extends SubsystemBase {
             this.minWristPos = minWristPos;
         }
 
-        public static final ElbowState start = new ElbowState(ElbowConstants.startPos, mainPID,
-                ElbowConstants.startPosMinCarriage,
-                ElbowConstants.startPosMinWrist);
-        public static final ElbowState low = new ElbowState(ElbowConstants.lowPos, mainPID,
-                ElbowConstants.lowPosMinCarriage,
-                ElbowConstants.lowPosMinWrist);
-        public static final ElbowState mid = new ElbowState(ElbowConstants.midPos, mainPID,
-                ElbowConstants.midPosMinCarriage,
-                ElbowConstants.midPosMinWrist);
-        public static final ElbowState loading = new ElbowState(ElbowConstants.loadingPos, mainPID,
-                ElbowConstants.loadingPosMinCarriage, ElbowConstants.loadingPosMinWrist);
-        public static final ElbowState high = new ElbowState(ElbowConstants.highPos, mainPID,
-                ElbowConstants.highPosMinCarriage,
-                ElbowConstants.highPosMinWrist);
+        public static final ElbowState start = new ElbowState(ElbowConstants.START_POS, mainPID,
+                ElbowConstants.START_POS_MIN_CARRIAGE,
+                ElbowConstants.START_POS_MIN_WRIST);
+        public static final ElbowState low = new ElbowState(ElbowConstants.LOW_POS, mainPID,
+                ElbowConstants.LOW_POS_MIN_CARRIAGE,
+                ElbowConstants.LOW_POS_MIN_WRIST);
+        public static final ElbowState mid = new ElbowState(ElbowConstants.MID_POS, mainPID,
+                ElbowConstants.MID_POS_MIN_CARRIAGE,
+                ElbowConstants.MID_POS_MIN_WRIST);
+        public static final ElbowState loading = new ElbowState(ElbowConstants.LOADING_POS, mainPID,
+                ElbowConstants.LOADING_POS_MIN_CARRIAGE, ElbowConstants.LOADING_POS_MIN_WRIST);
+        public static final ElbowState high = new ElbowState(ElbowConstants.HIGH_POS, mainPID,
+                ElbowConstants.HIGH_POS_MIN_CARRIAGE,
+                ElbowConstants.HIGH_POS_MIN_WRIST);
 
         @Override
         public SafetyLogic lowPosition() {

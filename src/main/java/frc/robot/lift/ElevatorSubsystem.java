@@ -71,8 +71,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         public final double elevatorPosition;
         public final PIDController elevatorUpPid;
         public final PIDController elevatorDownPid;
-        public static final SlewRateLimiter slew = new SlewRateLimiter(ElevatorConstants.slewPositiveVal,
-                ElevatorConstants.slewNegativeVal, 0);
+        public static final SlewRateLimiter slew = new SlewRateLimiter(ElevatorConstants.SLEW_POSITIVE_VAL,
+                ElevatorConstants.SLEW_NEGATIVE_VAL, 0);
         private ElevatorStates state;
 
         public enum ElevatorStates {
@@ -88,17 +88,17 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
 
         public static final ElevatorState start = new ElevatorState(
-                ElevatorConstants.startPos, mainPid, mainPid, ElevatorStates.start);
+                ElevatorConstants.START_POS, mainPid, mainPid, ElevatorStates.start);
         public static final ElevatorState low = new ElevatorState(
-                ElevatorConstants.lowPos, mainPid, mainPid, ElevatorStates.low);
+                ElevatorConstants.LOW_POS, mainPid, mainPid, ElevatorStates.low);
         // the min wrist position theoretically will work at 157, however, may not be
         // safe, so will likely need some testing and logic for a safer min pos.
         public static final ElevatorState mid = new ElevatorState(
-                ElevatorConstants.midPos, mainPid, mainPid, ElevatorStates.mid);
+                ElevatorConstants.MID_POS, mainPid, mainPid, ElevatorStates.mid);
         public static final ElevatorState loading = new ElevatorState(
-                ElevatorConstants.loadingPos, mainPid, mainPid, ElevatorStates.loading);
+                ElevatorConstants.LOADING_POS, mainPid, mainPid, ElevatorStates.loading);
         public static final ElevatorState high = new ElevatorState(
-                ElevatorConstants.highPos, mainPid, mainPid, ElevatorStates.high);
+                ElevatorConstants.HIGH_POS, mainPid, mainPid, ElevatorStates.high);
 
         @Override
         public SafetyLogic lowPosition() {

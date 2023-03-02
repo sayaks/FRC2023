@@ -9,18 +9,18 @@ import frc.robot.Constants.DriveConstants;
 public class FullDrive extends CommandBase {
     private final DriveSubsystem drive;
     private final DriverInputs driverInputs;
-    private final SlewRateLimiter ySlewRateLimiter = new SlewRateLimiter(DriveConstants.slewRateVal,
-            -DriveConstants.slewRateVal, 0); // TODO: Test
+    private final SlewRateLimiter ySlewRateLimiter = new SlewRateLimiter(DriveConstants.SLEWRATE_VAL,
+            -DriveConstants.SLEWRATE_VAL, 0); // TODO: Test
     // and clean
     // (this was a
     // hack)
-    private final SlewRateLimiter xSlewRateLimiter = new SlewRateLimiter(DriveConstants.slewRateVal,
-            -DriveConstants.slewRateVal, 0); // TODO: Test
+    private final SlewRateLimiter xSlewRateLimiter = new SlewRateLimiter(DriveConstants.SLEWRATE_VAL,
+            -DriveConstants.SLEWRATE_VAL, 0); // TODO: Test
     // and clean
     // (this was a
     // hack)
-    private final SlewRateLimiter rotSlewRateLimiter = new SlewRateLimiter(DriveConstants.slewRotateVal,
-            -DriveConstants.slewRotateVal, 0); // same as top 2
+    private final SlewRateLimiter rotSlewRateLimiter = new SlewRateLimiter(DriveConstants.SLEW_ROTATE_VAL,
+            -DriveConstants.SLEW_ROTATE_VAL, 0); // same as top 2
 
     /** Creates a new FullDrive. */
     public FullDrive(final DriveSubsystem drive, final DriverInputs driverInputs) {

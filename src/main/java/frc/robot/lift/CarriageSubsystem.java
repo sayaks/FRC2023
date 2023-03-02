@@ -74,16 +74,16 @@ public class CarriageSubsystem extends SubsystemBase {
             this.minElbowPos = minElbowPos;
         }
 
-        public static final CarriageState start = new CarriageState(CarriageConstants.startPos, mainPID,
-                CarriageConstants.startPosMinElbow);
-        public static final CarriageState low = new CarriageState(CarriageConstants.lowPos, mainPID,
-                CarriageConstants.lowPosMinElbow);
-        public static final CarriageState mid = new CarriageState(CarriageConstants.midPos, mainPID,
-                CarriageConstants.midPosMinElbow);
-        public static final CarriageState loading = new CarriageState(CarriageConstants.loadingPos, mainPID,
-                CarriageConstants.loadingPosMinElbow);
-        public static final CarriageState high = new CarriageState(CarriageConstants.highPos, mainPID,
-                CarriageConstants.highPosMinElbow);
+        public static final CarriageState start = new CarriageState(CarriageConstants.START_POS, mainPID,
+                CarriageConstants.START_POS_MIN_ELBOW);
+        public static final CarriageState low = new CarriageState(CarriageConstants.LOW_POS, mainPID,
+                CarriageConstants.LOW_POS_MIN_ELBOW);
+        public static final CarriageState mid = new CarriageState(CarriageConstants.MID_POS, mainPID,
+                CarriageConstants.MID_POS_MIN_ELBOW);
+        public static final CarriageState loading = new CarriageState(CarriageConstants.LOADING_POS, mainPID,
+                CarriageConstants.LOADING_POS_MIN_ELBOW);
+        public static final CarriageState high = new CarriageState(CarriageConstants.HIGH_POS, mainPID,
+                CarriageConstants.HIGH_POS_MIN_ELBOW);
 
         @Override
         public SafetyLogic lowPosition() {
