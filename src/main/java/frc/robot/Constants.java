@@ -113,23 +113,23 @@ public final class Constants {
         public static final double LOADING_POS_MIN_WRIST = 36;
         public static final double HIGH_POS_MIN_WRIST = 36;
 
-        public static final double OTHER_POS_MIN_ELEVATOR = 1800;
-        public static final double HIGH_POS_MIN_ELEVATOR = 1500;
+        public static final double OTHER_POS_MIN_ELEVATOR = 1775;
+        public static final double HIGH_POS_MIN_ELEVATOR = 1475;
 
-        public static final double SAFETY_ELEVATOR_LIMIT_HIGH = 1540;
+        public static final double SAFETY_ELEVATOR_LIMIT_HIGH = 1520;
     }
 
     public static class ElevatorConstants {
         public static final int ELEVATOR_MOTOR_ID = 16;
-        public static final Range ELEVATOR_LIMITS = new Range(1340, 1800); // end is the bottom most and start is
+        public static final Range ELEVATOR_LIMITS = new Range(1315, 1775); // end is the bottom most and start is
                                                                            // the top most
         public static final int ELEVATOR_ANALOG_ID = 3;
 
-        public static final double START_POS = 1795;
-        public static final double LOW_POS = 1795;
-        public static final double MID_POS = 1718;
-        public static final double LOADING_POS = 1540;
-        public static final double HIGH_POS = 1350;
+        public static final double START_POS = 1775;
+        public static final double LOW_POS = 1775;
+        public static final double MID_POS = 1698;
+        public static final double LOADING_POS = 1520;
+        public static final double HIGH_POS = 1330;
 
         public static final double SLEW_POSITIVE_VAL = 10;
         public static final double SLEW_NEGATIVE_VAL = -1;
@@ -159,19 +159,6 @@ public final class Constants {
         public static final double MID_POS_MIN_ELBOW = 207;
         public static final double LOADING_POS_MIN_ELBOW = 207;
         public static final double HIGH_POS_MIN_ELBOW = 207;
-        public static final double startPos = 1860;
-        public static final double lowPos = 3180;
-        public static final double highPos = 3180;
-        public static final double midPos = 1860;
-        public static final double loadingPos = 3170;
-        public static final double highConePos = 3180;
-
-        public static final double startPosMinElbow = 236;
-        public static final double lowPosMinElbow = 146;
-        public static final double highPosMinElbow = 207;
-        public static final double midPosMinElbow = 236;
-        public static final double loadingPosMinElbow = 207;
-        public static final double highConePosMinElbow = 207;
     }
 
 }

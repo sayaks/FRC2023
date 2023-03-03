@@ -15,6 +15,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class DriverInputs extends DynamicLayout {
+    public static final Axis.Key intakeSpeed = new Axis.Key("Intake Speed");
     public static final Axis.Key runIntakeMotorIn = new Axis.Key("Run Intake Motor In");
     public static final Axis.Key runIntakeMotorOut = new Axis.Key("Run Intake Motor Out");
     public static final Axis.Key runIntakeMotorInDriver = new Axis.Key("Run Intake Motor In via Driver");
@@ -63,6 +64,13 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(runIntakeMotorInDriver, driver.rightTriggerHeld);
         layout.assign(runIntakeMotorOutDriver, driver.leftTriggerHeld);
 
+        layout.assign(intakeSpeed, new Axis("Operator and driver triggers", () -> {
+            if (Math.abs(operator.combinedTriggersHeld.get()) > Math.abs(driver.combinedTriggersHeld.get())) {
+                return operator.combinedTriggersHeld.get();
+            }
+            return driver.combinedTriggersHeld.get();
+        }));
+
         layout.assign(runIntakeMotorIn, operator.rightTriggerHeld);
         layout.assign(runIntakeMotorOut, operator.leftTriggerHeld);
         layout.assign(setIntakeSolenoidForward, operator.rightBumper);
@@ -73,11 +81,11 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(loadingPosition, operator.b);
         layout.assign(startPosition, operator.start);
 
-        layout.assign(rotateWrist, operator.rightStickY.map(deadzone::apply).scaledBy(0.5));
-        layout.assign(rotateElbow, operator.leftStickY.map(deadzone::apply).scaledBy(0.5));
+        layout.assign(rotateWrist, operator.rightStickY.map(deadzone::apply).scaledBy(-0.5));
+        layout.assign(rotateElbow, operator.leftStickY.map(deadzone::apply).scaledBy(-0.5));
 
-        layout.assign(elevator, operator.pov.y.scaledBy(0.25));
-        layout.assign(carriage, operator.pov.x.scaledBy(-0.75));
+        layout.assign(elevator, operator.pov.y.scaledBy(-0.25));
+        layout.assign(carriage, operator.pov.x.scaledBy(0.75));
 
         return layout;
     }

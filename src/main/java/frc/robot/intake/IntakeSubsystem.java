@@ -34,21 +34,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public Command runIntake(final DriverInputs inputs) {
         return runEnd(() -> {
-            // Look into later for making priorty control in controller lib
-            double speed = inputs.axis(DriverInputs.runIntakeMotorIn).get()
-                    - inputs.axis(DriverInputs.runIntakeMotorOut).get();
-            final double driverspeed = inputs.axis(DriverInputs.runIntakeMotorInDriver).get()
-                    - inputs.axis(DriverInputs.runIntakeMotorOutDriver).get();
-            speed = Math.abs(speed) > Math.abs(driverspeed) ? speed : driverspeed;
-            if (speed > 0) {
-                if (getSensor()) {
-                    motor.set(-speed);
-                } else {
-                    motor.set(-speed);
-                }
-            } else {
-                motor.set(-speed);
-            }
+            final var speed = inputs.axis(DriverInputs.intakeSpeed).get();
+            motor.set(-speed);
         }, () -> motor.set(0));
     }
 
