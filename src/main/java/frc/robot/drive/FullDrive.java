@@ -9,18 +9,13 @@ import frc.robot.Constants.DriveConstants;
 public class FullDrive extends CommandBase {
     private final DriveSubsystem drive;
     private final DriverInputs driverInputs;
+    // Slew rate on teleop drive, based on joystick input rather than drive output
     private final SlewRateLimiter ySlewRateLimiter = new SlewRateLimiter(DriveConstants.SLEWRATE_VAL,
-            -DriveConstants.SLEWRATE_VAL, 0); // TODO: Test
-    // and clean
-    // (this was a
-    // hack)
+            -DriveConstants.SLEWRATE_VAL, 0);
     private final SlewRateLimiter xSlewRateLimiter = new SlewRateLimiter(DriveConstants.SLEWRATE_VAL,
-            -DriveConstants.SLEWRATE_VAL, 0); // TODO: Test
-    // and clean
-    // (this was a
-    // hack)
+            -DriveConstants.SLEWRATE_VAL, 0);
     private final SlewRateLimiter rotSlewRateLimiter = new SlewRateLimiter(DriveConstants.SLEW_ROTATE_VAL,
-            -DriveConstants.SLEW_ROTATE_VAL, 0); // same as top 2
+            -DriveConstants.SLEW_ROTATE_VAL, 0);
 
     /** Creates a new FullDrive. */
     public FullDrive(final DriveSubsystem drive, final DriverInputs driverInputs) {
@@ -38,7 +33,6 @@ public class FullDrive extends CommandBase {
         // final var x = driverInputs.axis(DriverInputs.driveSpeedY).get();
         // final var y = driverInputs.axis(DriverInputs.driveSpeedX).get();
         // final var r = driverInputs.axis(DriverInputs.driveRotation).get();
-        // TODO TEST THIS PLS
         final var x = xSlewRateLimiter.calculate(driverInputs.axis(DriverInputs.driveSpeedY).get());
         final var y = ySlewRateLimiter.calculate(driverInputs.axis(DriverInputs.driveSpeedX).get());
         final var r = rotSlewRateLimiter.calculate(driverInputs.axis(DriverInputs.driveRotation).get());

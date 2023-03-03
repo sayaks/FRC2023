@@ -57,7 +57,8 @@ public final class Constants {
 
     public static class AutoConstants {
         public static final ChassisSpeeds AUTO_SPEEDS = new ChassisSpeeds(-0.3, 0, 0);
-        public static final double AUTO_DISTANCE = 3000000; // TODO: DEFINITELY THAT (NOT)
+        public static final double AUTO_DISTANCE = 3000000; // This value isn't used but will be if distance based
+                                                            // autonomous is ever made, change if that is the case
         public static final double TURN_ACCURACY_DEG = 20;
         public static final double DRIVE_ACCURACY = 20;
         public static final double BALANCE_ACCURACY_DEG = 2.5;
@@ -111,6 +112,11 @@ public final class Constants {
         public static final double MID_POS_MIN_WRIST = 36;
         public static final double LOADING_POS_MIN_WRIST = 36;
         public static final double HIGH_POS_MIN_WRIST = 36;
+
+        public static final double OTHER_POS_MIN_ELEVATOR = 1800;
+        public static final double HIGH_POS_MIN_ELEVATOR = 1500;
+
+        public static final double SAFETY_ELEVATOR_LIMIT_HIGH = 1540;
     }
 
     public static class ElevatorConstants {
@@ -127,6 +133,14 @@ public final class Constants {
 
         public static final double SLEW_POSITIVE_VAL = 10;
         public static final double SLEW_NEGATIVE_VAL = -1;
+
+        public static final double SAFETY_ELBOW_LIMIT_START_MID = 293;
+        public static final double SAFETY_ELBOW_LIMIT_LOW = 157;
+        public static final double SAFETY_ELBOW_LIMIT_HIGH = 260;
+        public static final double SAFETY_WRIST_LIMIT_START_MID = 60;
+        public static final double SAFETY_WRIST_LIMIT_LOW = 121;
+        public static final double SAFETY_WRIST_LIMIT_HIGH = 100;
+        public static final double SAFETY_CARRIAGE_LIMIT_LOW = 2908;
     }
 
     public static class CarriageConstants {

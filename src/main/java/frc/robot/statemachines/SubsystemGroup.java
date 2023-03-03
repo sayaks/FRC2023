@@ -52,7 +52,7 @@ public class SubsystemGroup extends SubsystemBase {
 
         public SafetyLogic defaultPosition();
 
-        public double stateCalculate(double speed, double armPosition, double wristPosition,
+        public double stateCalculate(double speed, double elbowPosition, double wristPosition,
                 double elevatorPosition, double carriagePosition);
     }
 

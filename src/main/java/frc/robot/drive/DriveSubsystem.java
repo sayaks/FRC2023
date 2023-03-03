@@ -131,11 +131,14 @@ public class DriveSubsystem extends SubsystemBase {
                 .finallyDo((a) -> stop());
     }
 
+    // These 3 methods are used for orienting wheels the same direction, currently
+    // not in use, however look into further if distance based auto is wanted TODO:
+    // Test
     public void resetPostitions() {
         for (SwervePod swervePod : swervePods) {
             swervePod.directSet(0, (180 - swervePod.getCurrentAngle()) / 90);
         }
-    } // TODO: Test
+    }
 
     public boolean checkAllPositionsCloseToZero() {
         for (SwervePod swervePod : swervePods) {
@@ -144,9 +147,9 @@ public class DriveSubsystem extends SubsystemBase {
             }
         }
         return true;
-    } // TODO: Test
+    }
 
     public Command resetPositionsCommand() {
         return runEnd(this::resetPostitions, this::stop).until(this::checkAllPositionsCloseToZero);
-    } // TODO: Test
+    }
 }

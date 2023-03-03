@@ -69,69 +69,85 @@ public class ElbowSubsystem extends SubsystemBase {
         private double minCarriagePos;
         private double minWristPos;
         private PIDController elbowDownPid;
+        private ElbowStates state;
+
+        public enum ElbowStates {
+            start, low, mid, loading, high
+        }
 
         public ElbowState(final double elbowPosition, final PIDController elbowDownPid,
-                final double minCarriagePos, double minWristPos) {
+                final double minCarriagePos, double minWristPos, ElbowStates state) {
             this.elbowPosition = elbowPosition;
             this.elbowDownPid = elbowDownPid;
             this.minCarriagePos = minCarriagePos;
             this.minWristPos = minWristPos;
+            this.state = state;
         }
 
         public static final ElbowState start = new ElbowState(ElbowConstants.START_POS, mainPID,
                 ElbowConstants.START_POS_MIN_CARRIAGE,
-                ElbowConstants.START_POS_MIN_WRIST);
+                ElbowConstants.START_POS_MIN_WRIST, ElbowStates.start);
         public static final ElbowState low = new ElbowState(ElbowConstants.LOW_POS, mainPID,
                 ElbowConstants.LOW_POS_MIN_CARRIAGE,
-                ElbowConstants.LOW_POS_MIN_WRIST);
+                ElbowConstants.LOW_POS_MIN_WRIST, ElbowStates.low);
         public static final ElbowState mid = new ElbowState(ElbowConstants.MID_POS, mainPID,
                 ElbowConstants.MID_POS_MIN_CARRIAGE,
-                ElbowConstants.MID_POS_MIN_WRIST);
+                ElbowConstants.MID_POS_MIN_WRIST, ElbowStates.mid);
         public static final ElbowState loading = new ElbowState(ElbowConstants.LOADING_POS, mainPID,
-                ElbowConstants.LOADING_POS_MIN_CARRIAGE, ElbowConstants.LOADING_POS_MIN_WRIST);
+                ElbowConstants.LOADING_POS_MIN_CARRIAGE, ElbowConstants.LOADING_POS_MIN_WRIST, ElbowStates.loading);
         public static final ElbowState high = new ElbowState(ElbowConstants.HIGH_POS, mainPID,
                 ElbowConstants.HIGH_POS_MIN_CARRIAGE,
-                ElbowConstants.HIGH_POS_MIN_WRIST);
+                ElbowConstants.HIGH_POS_MIN_WRIST, ElbowStates.high);
 
         @Override
         public SafetyLogic lowPosition() {
-            // TODO Auto-generated method stub
             return low;
         }
 
         @Override
-        public SafetyLogic highPosition() {
-            // TODO Auto-generated method stub
-            return high;
+        public SafetyLogic midPosition() {
+            return mid;
         }
 
         @Override
         public SafetyLogic loadingPosition() {
-            // TODO Auto-generated method stub
             return loading;
         }
 
         @Override
+        public SafetyLogic highPosition() {
+            return high;
+        }
+
+        @Override
         public SafetyLogic defaultPosition() {
-            // TODO Auto-generated method stub
             return start;
         }
 
         @Override
         public double stateCalculate(double speed, double elbowPosition, double wristPosition, double elevatorPosition,
                 double carriagePosition) {
-            // TODO Auto-generated method stub
-
-            if (carriagePosition > this.minCarriagePos && wristPosition > this.minWristPos) {
-                return this.elbowDownPid.calculate(elbowPosition, this.elbowPosition);
+            // This switch case stops the elbow from moving when going towards high position
+            // if it is too low, as to stop the elbow from colliding into a pole
+            switch (this.state) {
+                case start:
+                case low:
+                case mid:
+                case loading:
+                    if (carriagePosition > this.minCarriagePos && wristPosition > this.minWristPos) {
+                        return this.elbowDownPid.calculate(elbowPosition, this.elbowPosition);
+                    }
+                    break;
+                case high:
+                    if (elevatorPosition < ElbowConstants.SAFETY_ELEVATOR_LIMIT_HIGH
+                            || elbowPosition < this.elbowPosition) {
+                        return this.elbowDownPid.calculate(elbowPosition, this.elbowPosition);
+                    }
+                    break;
+                default:
+                    break;
             }
             return 0;
-        }
-
-        @Override
-        public SafetyLogic midPosition() {
-            // TODO Auto-generated method stub
-            return mid;
         }
 
     }

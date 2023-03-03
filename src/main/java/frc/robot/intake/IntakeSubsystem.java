@@ -34,8 +34,12 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public Command runIntake(final DriverInputs inputs) {
         return runEnd(() -> {
-            final double speed = inputs.axis(DriverInputs.runIntakeMotorIn).get()
+            // Look into later for making priorty control in controller lib
+            double speed = inputs.axis(DriverInputs.runIntakeMotorIn).get()
                     - inputs.axis(DriverInputs.runIntakeMotorOut).get();
+            final double driverspeed = inputs.axis(DriverInputs.runIntakeMotorInDriver).get()
+                    - inputs.axis(DriverInputs.runIntakeMotorOutDriver).get();
+            speed = Math.abs(speed) > Math.abs(driverspeed) ? speed : driverspeed;
             if (speed > 0) {
                 if (getSensor()) {
                     motor.set(-speed);
@@ -53,8 +57,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public Command intake(final double speed) {
-        return runMotor(isOpen ? speed : speed).until(this::getSensor); // TODO: CHANGE EVENTUALLY MAYBE SPEED
-                                                                        // MULTIPLIER
+        return runMotor(isOpen ? speed : speed).until(this::getSensor);
     }
 
     public Command setSolenoid(final DoubleSolenoid.Value value) {

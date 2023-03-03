@@ -17,6 +17,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class DriverInputs extends DynamicLayout {
     public static final Axis.Key runIntakeMotorIn = new Axis.Key("Run Intake Motor In");
     public static final Axis.Key runIntakeMotorOut = new Axis.Key("Run Intake Motor Out");
+    public static final Axis.Key runIntakeMotorInDriver = new Axis.Key("Run Intake Motor In via Driver");
+    public static final Axis.Key runIntakeMotorOutDriver = new Axis.Key("Run Intake Motor Out via Driver");
     public static final Button.Key setIntakeSolenoidForward = new Button.Key("Set Intake Solenoid Forward");
     public static final Button.Key setIntakeSolenoidBackward = new Button.Key("Set Intake Solenoid Backward");
     public static final Button.Key lowPosition = new Button.Key("Set to low position");
@@ -32,7 +34,7 @@ public class DriverInputs extends DynamicLayout {
     public static final Axis.Key rotateWrist = new Axis.Key("Rotate Wrist");
     public static final Axis.Key rotateElbow = new Axis.Key("Rotate Elbow");
     public static final Axis.Key elevator = new Axis.Key("Lift Elevator");
-    public static final Axis.Key carriage = new Axis.Key("lift Carriage");
+    public static final Axis.Key carriage = new Axis.Key("Lift Carriage");
 
     private static final NetworkTableEntry entry = NetworkTableInstance.getDefault().getEntry("157/Drive/StickEnabled");
 
@@ -58,6 +60,8 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(driveRotation, driver.rightStickX.map(deadzone::apply).scaledBy(speedModifier)
                 .scaledBy(maxRotationPerSecond.getDegrees()));
         layout.assign(autoBalance, driver.a);
+        layout.assign(runIntakeMotorInDriver, driver.rightTriggerHeld);
+        layout.assign(runIntakeMotorOutDriver, driver.leftTriggerHeld);
 
         layout.assign(runIntakeMotorIn, operator.rightTriggerHeld);
         layout.assign(runIntakeMotorOut, operator.leftTriggerHeld);

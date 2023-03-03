@@ -6,7 +6,6 @@
 
 package frc.robot;
 
-import frc.robot.Constants.AutoConstants;
 import frc.robot.drive.AutoBalance;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.FullDrive;
@@ -96,94 +95,78 @@ public class RobotContainer {
         return scoreHighThenLeaveCommunityThenEngage();
     }
 
-    // TODO: NAMING, PLEASE
-
-    public Command runDistance() {
-        return driveSubsystem.resetDrivePositionCommand()
-                .andThen(driveSubsystem.driveRawDistanceCommand(
-                        AutoConstants.AUTO_SPEEDS,
-                        AutoConstants.AUTO_DISTANCE));
-    }
-
+    // Do not use unless very specific case calls for it (IE: ONLY DRIVE IS WORKING,
+    // IN WHICH CASE YOU SHOULD BE PANICKING)
     public Command runDistanceWithSpeeds(double x, double y, double dist) {
         return driveSubsystem.resetDrivePositionCommand()
                 .andThen(driveSubsystem.driveRawDistanceCommand(new ChassisSpeeds(x, y, 0), dist));
     }
 
+    // Do not use unless very specific case calls for it (INCASE WE WANT TO SCORE
+    // MID)
     public Command WristDownThenEjectThenRunDistance() {
         return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(180))
                 .andThen(intakeSubsystem.ejectCargo().withTimeout(0.5))
                 .andThen(runDistanceWithSpeeds(-0.3, 0.0, 3000.0).withTimeout(4.2));
     }
 
-    public Command ejectThenRunDistance() {
-        return intakeSubsystem.ejectCargo().withTimeout(1)
-                .andThen(runDistance().withTimeout(4.2));
-    }
-
-    public Command WristDownThenEjectThenPoorlyDock() { // TODO: Don't change this name though, kinda cool.
+    // Do not use unless very specific case calls for it (IE: THE GYRO DOESN'T WORK
+    // FOR WHATEVER REASON)
+    public Command WristDownThenEjectThenPoorlyDock() {
         return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(180))
                 .andThen(intakeSubsystem.ejectCargo().withTimeout(0.5))
-                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 3000.0).withTimeout(1.75) /**
-                                                                                     * change dis, no more time, only
-                                                                                     * space
-                                                                                     */
-                )
+                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 3000.0).withTimeout(1.75))
                 .andThen(driveSubsystem.driveRawDistanceCommand(
                         new ChassisSpeeds(0, 0, 0.001),
-                        100000)/** TODO: Dat to */
-                );
+                        100000));
     }
 
+    // Do not use unless very specific case calls for it (IE: OUR STATES AREN'T
+    // WORKING)
     public Command WristDownThenEjectThenBetterDock() {
         return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(180))
                 .andThen(intakeSubsystem.ejectCargo().withTimeout(0.5))
-                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 3000.0).withTimeout(1.75) /**
-                                                                                     * change dis, no more time, only
-                                                                                     * space
-                                                                                     */
-                )
+                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 3000.0).withTimeout(1.75))
                 .andThen(new AutoBalance(driveSubsystem));
     }
 
+    // Do not use unless very specific case calls for it (IE: OUR STATES AREN'T
+    // WORKING)
     public Command WristDownThenEjectThenLeaveCommunityThenBetterDock() {
         return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(180))
                 .andThen(intakeSubsystem.ejectCargo().withTimeout(0.5))
-                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(3.5) /**
-                                                                                    * change dis, no more time, only
-                                                                                    * space
-                                                                                    */
-                )
-                .andThen(runDistanceWithSpeeds(0.5, 0.0, -3000.0).withTimeout(1.75) /**
-                                                                                     * change dis, no more time, only
-                                                                                     * space
-                                                                                     */
-                )
+                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(3.5))
+                .andThen(runDistanceWithSpeeds(0.5, 0.0, -3000.0).withTimeout(1.75))
                 .andThen(new AutoBalance(driveSubsystem));
     }
 
+    // SCORES A CUBE HIGH THEN LEAVES COMMUNITY
     public Command scoreHighThenRunDistance() {
         return new SequentialCommandGroup(driveSubsystem.addGyroOffset(180),
-                group.midPosConeCommand(1).withTimeout(2),
-                intakeSubsystem.runMotor(-1).withTimeout(0.5),
-                group.startingPosCommand(1).withTimeout(2),
+                group.midPosConeCommand(1).withTimeout(1.3),
+                intakeSubsystem.runMotor(-1).withTimeout(0.3),
+                group.startingPosCommand(1).withTimeout(1.4),
                 runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(3.5));
     }
 
+    // SCORES A CUBE HIGH THEN ENGAGES ON CHARGING PLATFORM WITHOUT LEAVING
+    // COMMUNITY
     public Command scoreHighThenEngage() {
         return new SequentialCommandGroup(driveSubsystem.addGyroOffset(180),
-                group.midPosConeCommand(1).withTimeout(2),
-                intakeSubsystem.runMotor(-1).withTimeout(0.5),
-                group.startingPosCommand(1).withTimeout(2),
+                group.midPosConeCommand(1).withTimeout(1.3),
+                intakeSubsystem.runMotor(-1).withTimeout(0.3),
+                group.startingPosCommand(1).withTimeout(1.4),
                 runDistanceWithSpeeds(-0.5, 0.0, -3000.0).withTimeout(1.75),
                 new AutoBalance(driveSubsystem));
     }
 
+    // SCORES A CUBE HIGH THEN LEAVES COMMUNITY THEN ENGAGES ON CHARING PLATFORM
     public Command scoreHighThenLeaveCommunityThenEngage() {
         return new SequentialCommandGroup(driveSubsystem.addGyroOffset(180),
-                group.midPosConeCommand(1).withTimeout(1.5),
-                intakeSubsystem.runMotor(-1).withTimeout(0.5),
-                group.startingPosCommand(1).withTimeout(1.5),
+                group.midPosConeCommand(1).withTimeout(1.3),
+                intakeSubsystem.runMotor(-1).withTimeout(0.3),
+                group.startingPosCommand(1).withTimeout(1.4),
+                wristSubsystem.stopWrist(),
                 runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(2.9),
                 runDistanceWithSpeeds(0.5, 0.0, -3000.0).withTimeout(1.75),
                 new AutoBalance(driveSubsystem));

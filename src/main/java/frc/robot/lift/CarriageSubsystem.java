@@ -87,39 +87,34 @@ public class CarriageSubsystem extends SubsystemBase {
 
         @Override
         public SafetyLogic lowPosition() {
-            // TODO Auto-generated method stub
             return low;
         }
 
         @Override
         public SafetyLogic midPosition() {
-            // TODO Auto-generated method stub
             return mid;
         }
 
         @Override
         public SafetyLogic loadingPosition() {
-            // TODO Auto-generated method stub
             return loading;
         }
 
         @Override
         public SafetyLogic highPosition() {
-            // TODO Auto-generated method stub
             return high;
         }
 
         @Override
         public SafetyLogic defaultPosition() {
-            // TODO Auto-generated method stub
             return start;
         }
 
         @Override
-        public double stateCalculate(double speed, double armPosition, double wristPosition, double elevatorPosition,
+        public double stateCalculate(double speed, double elbowPosition, double wristPosition, double elevatorPosition,
                 double carriagePosition) {
-            // TODO Auto-generated method stub
-            if (armPosition > this.minElbowPos) {
+            // Ensures the carriage is safe to move (elbow won't get crushed)
+            if (elbowPosition > this.minElbowPos) {
                 // if (carriagePosition < this.carriagePosition - 100) {
                 // return 0.2;
                 // } else if (carriagePosition > this.carriagePosition + 100) {

@@ -25,6 +25,8 @@ public class WristSubsystem extends SubsystemBase {
     private final CANSparkMax wristMotor = new CANSparkMax(WristConstants.MOTOR_ID, MotorType.kBrushless);
     private final Counter wristAbsEncoder = new Counter(Mode.kSemiperiod);
     private double wristSpeed = 0.0;
+    private Double positiveInfinity = Double.POSITIVE_INFINITY;
+    private Double negativeInfinity = Double.NEGATIVE_INFINITY;
 
     public WristSubsystem() {
         wristMotor.setInverted(true);
@@ -37,12 +39,20 @@ public class WristSubsystem extends SubsystemBase {
     public Command runWrist(final DriverInputs inputs) {
         return runEnd(() -> {
             final double speed = inputs.axis(DriverInputs.rotateWrist).get();
-            rotateWrist(speed);
-        }, () -> rotateWrist(0)); // TODO: Ignore limits when encoder is INF
+            if (speed != positiveInfinity && speed != negativeInfinity)
+                rotateWrist(speed);
+            else {
+                wristMotor.set(speed);
+            }
+        }, () -> rotateWrist(0));
     }
 
     public Command runWristSpeed(final double speed) {
         return runEnd(() -> rotateWrist(speed), () -> rotateWrist(0));
+    }
+
+    public Command stopWrist() {
+        return runOnce(() -> rotateWrist(0));
     }
 
     public double getWristRotationPosition() {
@@ -83,7 +93,7 @@ public class WristSubsystem extends SubsystemBase {
     public void periodic() {
         table.getEntry("Wrist").setNumber(getWristRotationPosition());
         table.getEntry("WristSpeed").setNumber(wristSpeed);
-        test(); // TODO: WHAT THE FRUIT IS THIS HELP ME UNDERSTAND
+        test();
     }
 
     public final Command turnDownToPos(double pos) {
@@ -94,11 +104,11 @@ public class WristSubsystem extends SubsystemBase {
 
         private double wristPosition;
         public static PIDController pid = new PIDController(0.01, 0, 0);
-        private double minArmPos;
+        private double minElbowPos;
 
         public WristState(final double wristPosition, final double minArmPos) {
             this.wristPosition = wristPosition;
-            this.minArmPos = minArmPos;
+            this.minElbowPos = minArmPos;
 
         }
 
@@ -112,33 +122,29 @@ public class WristSubsystem extends SubsystemBase {
 
         @Override
         public SafetyLogic lowPosition() {
-            // TODO Auto-generated method stub
             return low;
         }
 
         @Override
         public SafetyLogic highPosition() {
-            // TODO Auto-generated method stub
             return high;
         }
 
         @Override
         public SafetyLogic loadingPosition() {
-            // TODO Auto-generated method stub
             return loading;
         }
 
         @Override
         public SafetyLogic defaultPosition() {
-            // TODO Auto-generated method stub
             return start;
         }
 
         @Override
-        public double stateCalculate(double speed, double armPosition, double wristPosition, double elevatorPosition,
+        public double stateCalculate(double speed, double elbowPosition, double wristPosition, double elevatorPosition,
                 double carriagePosition) {
-            // TODO Auto-generated method stub
-            if (armPosition > this.minArmPos) {
+            // Runs the elbow for the states
+            if (elbowPosition > this.minElbowPos) {
                 return pid.calculate(wristPosition, this.wristPosition);
             }
 
@@ -147,7 +153,6 @@ public class WristSubsystem extends SubsystemBase {
 
         @Override
         public SafetyLogic midPosition() {
-            // TODO Auto-generated method stub
             return mid;
         }
 

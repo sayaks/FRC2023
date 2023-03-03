@@ -100,6 +100,7 @@ public class SwervePod {
         angleMotor.set(speed);
     }
 
+    // Next 3 methods are used to find the shortest distance to get to a given angle
     private void goToAngle(final double target) {
         table.getEntry("Input Angle").setDouble(target);
         table.getEntry("Current Angle").setDouble(getCurrentAngle());
