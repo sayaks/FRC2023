@@ -91,14 +91,8 @@ public class RobotContainer {
                 .whenPressed(intakeSubsystem.setSolenoid(DoubleSolenoid.Value.kReverse));
     }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // return scoreHighThenLeaveCommunityThenEngage();
-        final var chooser = new SendableChooser<Command>();
+    public SendableChooser<Command> chooser = new SendableChooser<>();
+    {
         Shuffleboard.getTab("Driver").add("Auto Choose", chooser);
         chooser.setDefaultOption("scoreHighThenLeaveCommunityThenEngage", scoreHighThenLeaveCommunityThenEngage());
         chooser.addOption("WristDownThenEjectThenRunDistance", WristDownThenEjectThenRunDistance());
@@ -109,6 +103,15 @@ public class RobotContainer {
         chooser.addOption("scoreHighThenRunDistance", scoreHighThenRunDistance());
         chooser.addOption("scoreHighThenEngage", scoreHighThenEngage());
         chooser.addOption("everythingIsBrokenDoNothing", new InstantCommand(() -> System.out.println(":(")));
+    }
+
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        // return scoreHighThenLeaveCommunityThenEngage();
         return new ProxyCommand(chooser::getSelected);
     }
 
