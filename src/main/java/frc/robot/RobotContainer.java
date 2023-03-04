@@ -19,7 +19,12 @@ import frc.robot.statemachines.SubsystemGroup;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ProxyCommand;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -92,7 +97,19 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return scoreHighThenLeaveCommunityThenEngage();
+        // return scoreHighThenLeaveCommunityThenEngage();
+        final var chooser = new SendableChooser<Command>();
+        Shuffleboard.getTab("Driver").add("Auto Choose", chooser);
+        chooser.setDefaultOption("scoreHighThenLeaveCommunityThenEngage", scoreHighThenLeaveCommunityThenEngage());
+        chooser.addOption("WristDownThenEjectThenRunDistance", WristDownThenEjectThenRunDistance());
+        chooser.addOption("WristDownThenEjectThenPoorlyDock", WristDownThenEjectThenPoorlyDock());
+        chooser.addOption("WristDownThenEjectThenBetterDock", WristDownThenEjectThenBetterDock());
+        chooser.addOption("WristDownThenEjectThenLeaveCommunityThenBetterDock",
+                WristDownThenEjectThenLeaveCommunityThenBetterDock());
+        chooser.addOption("scoreHighThenRunDistance", scoreHighThenRunDistance());
+        chooser.addOption("scoreHighThenEngage", scoreHighThenEngage());
+        chooser.addOption("everythingIsBrokenDoNothing", new InstantCommand(() -> System.out.println(":(")));
+        return new ProxyCommand(chooser::getSelected);
     }
 
     // Do not use unless very specific case calls for it (IE: ONLY DRIVE IS WORKING,
@@ -163,12 +180,12 @@ public class RobotContainer {
     // SCORES A CUBE HIGH THEN LEAVES COMMUNITY THEN ENGAGES ON CHARING PLATFORM
     public Command scoreHighThenLeaveCommunityThenEngage() {
         return new SequentialCommandGroup(driveSubsystem.addGyroOffset(180),
-                group.midPosConeCommand(1).withTimeout(1.3),
-                intakeSubsystem.runMotor(-1).withTimeout(0.3),
+                group.highPosCommand(1).withTimeout(1.3),
+                intakeSubsystem.runMotor(-1).withTimeout(0.4),
                 group.startingPosCommand(1).withTimeout(1.4),
                 wristSubsystem.stopWrist(),
                 runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(2.9),
-                runDistanceWithSpeeds(0.5, 0.0, -3000.0).withTimeout(1.75),
+                runDistanceWithSpeeds(0.5, 0.0, -3000.0).withTimeout(1.85),
                 new AutoBalance(driveSubsystem));
     }
 
