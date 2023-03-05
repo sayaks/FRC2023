@@ -102,6 +102,7 @@ public class RobotContainer {
                 WristDownThenEjectThenLeaveCommunityThenBetterDock());
         chooser.addOption("scoreHighThenRunDistance", scoreHighThenRunDistance());
         chooser.addOption("scoreHighThenEngage", scoreHighThenEngage());
+        chooser.addOption("leaveCommunityThenEngage", leaveCommunityThenEngage());
         chooser.addOption("everythingIsBrokenDoNothing", new InstantCommand(() -> System.out.println(":(")));
     }
 
@@ -144,7 +145,7 @@ public class RobotContainer {
     // Do not use unless very specific case calls for it (IE: OUR STATES AREN'T
     // WORKING)
     public Command WristDownThenEjectThenBetterDock() {
-        return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(180))
+        return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(75))
                 .andThen(intakeSubsystem.ejectCargo().withTimeout(0.5))
                 .andThen(runDistanceWithSpeeds(-0.5, 0.0, 3000.0).withTimeout(1.75))
                 .andThen(new AutoBalance(driveSubsystem));
@@ -153,10 +154,10 @@ public class RobotContainer {
     // Do not use unless very specific case calls for it (IE: OUR STATES AREN'T
     // WORKING)
     public Command WristDownThenEjectThenLeaveCommunityThenBetterDock() {
-        return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(180))
+        return driveSubsystem.addGyroOffset(180.0f).andThen(wristSubsystem.turnDownToPos(90))
                 .andThen(intakeSubsystem.ejectCargo().withTimeout(0.5))
-                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(3.5))
-                .andThen(runDistanceWithSpeeds(0.5, 0.0, -3000.0).withTimeout(1.75))
+                .andThen(runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(2.9))
+                .andThen(runDistanceWithSpeeds(0.5, 0.0, -3000.0).withTimeout(1.85))
                 .andThen(new AutoBalance(driveSubsystem));
     }
 
@@ -166,7 +167,7 @@ public class RobotContainer {
                 group.midPosConeCommand(1).withTimeout(1.3),
                 intakeSubsystem.runMotor(-1).withTimeout(0.3),
                 group.startingPosCommand(1).withTimeout(1.4),
-                runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(3.5));
+                runDistanceWithSpeeds(-0.3, 0.0, 3000.0).withTimeout(4.2));
     }
 
     // SCORES A CUBE HIGH THEN ENGAGES ON CHARGING PLATFORM WITHOUT LEAVING
@@ -187,6 +188,14 @@ public class RobotContainer {
                 intakeSubsystem.runMotor(-1).withTimeout(0.4),
                 group.startingPosCommand(1).withTimeout(1.4),
                 wristSubsystem.stopWrist(),
+                runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(2.9),
+                runDistanceWithSpeeds(0.5, 0.0, -3000.0).withTimeout(1.85),
+                new AutoBalance(driveSubsystem));
+    }
+
+    public Command leaveCommunityThenEngage() {
+        return new SequentialCommandGroup(
+                driveSubsystem.addGyroOffset(180),
                 runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(2.9),
                 runDistanceWithSpeeds(0.5, 0.0, -3000.0).withTimeout(1.85),
                 new AutoBalance(driveSubsystem));

@@ -83,29 +83,29 @@ public final class Constants {
         public static final double LOADING_POS = 75;
         public static final double HIGH_POS = 72;
 
-        public static final double START_POS_MIN_ARM = 157;
-        public static final double LOW_POS_MIN_ARM = 157;
-        public static final double MID_POS_MIN_ARM = 207;
-        public static final double LOADING_POS_MIN_ARM = 207;
-        public static final double HIGH_POS_MIN_ARM = 207;
+        public static final double START_POS_MIN_ARM = 60;
+        public static final double LOW_POS_MIN_ARM = 60;
+        public static final double MID_POS_MIN_ARM = 103;
+        public static final double LOADING_POS_MIN_ARM = 103;
+        public static final double HIGH_POS_MIN_ARM = 103;
     }
 
     public static class ElbowConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 1;
         public static final int MOTOR_ID = 15;
-        public static final Range ROTATE_LIMITS = new Range(157, 332); // 162 fully down, 336 fully up
+        public static final Range ROTATE_LIMITS = new Range(60, 230); // 162 fully down, 336 fully up
 
-        public static final double START_POS = 332;
-        public static final double LOW_POS = 157;
-        public static final double MID_POS = 320;
-        public static final double LOADING_POS = 290;
-        public static final double HIGH_POS = 293;
+        public static final double START_POS = 230;
+        public static final double LOW_POS = 60;
+        public static final double MID_POS = 218;
+        public static final double LOADING_POS = 187;
+        public static final double HIGH_POS = 190;
 
-        public static final double START_POS_MIN_CARRIAGE = 1638;
-        public static final double LOW_POS_MIN_CARRIAGE = 2003;
-        public static final double MID_POS_MIN_CARRIAGE = 1638;
-        public static final double LOADING_POS_MIN_CARRIAGE = 1638;
-        public static final double HIGH_POS_MIN_CARRIAGE = 1638;
+        public static final double START_POS_MIN_CARRIAGE = 1790;
+        public static final double LOW_POS_MIN_CARRIAGE = 2159;
+        public static final double MID_POS_MIN_CARRIAGE = 1790;
+        public static final double LOADING_POS_MIN_CARRIAGE = 1790;
+        public static final double HIGH_POS_MIN_CARRIAGE = 1790;
 
         public static final double START_POS_MIN_WRIST = 36;
         public static final double LOW_POS_MIN_WRIST = 121;
@@ -113,7 +113,7 @@ public final class Constants {
         public static final double LOADING_POS_MIN_WRIST = 36;
         public static final double HIGH_POS_MIN_WRIST = 36;
 
-        public static final double OTHER_POS_MIN_ELEVATOR = 1775;
+        public static final double OTHER_POS_MIN_ELEVATOR = 1730;
         public static final double HIGH_POS_MIN_ELEVATOR = 1475;
 
         public static final double SAFETY_ELEVATOR_LIMIT_HIGH = 1520;
@@ -121,12 +121,12 @@ public final class Constants {
 
     public static class ElevatorConstants {
         public static final int ELEVATOR_MOTOR_ID = 16;
-        public static final Range ELEVATOR_LIMITS = new Range(1315, 1775); // end is the bottom most and start is
+        public static final Range ELEVATOR_LIMITS = new Range(1315, 1730); // end is the bottom most and start is
                                                                            // the top most
         public static final int ELEVATOR_ANALOG_ID = 3;
 
-        public static final double START_POS = 1775;
-        public static final double LOW_POS = 1775;
+        public static final double START_POS = 1730;
+        public static final double LOW_POS = 1730;
         public static final double MID_POS = 1698;
         public static final double LOADING_POS = 1520;
         public static final double HIGH_POS = 1330;
@@ -134,31 +134,31 @@ public final class Constants {
         public static final double SLEW_POSITIVE_VAL = 10;
         public static final double SLEW_NEGATIVE_VAL = -1;
 
-        public static final double SAFETY_ELBOW_LIMIT_START_MID = 293;
-        public static final double SAFETY_ELBOW_LIMIT_LOW = 157;
-        public static final double SAFETY_ELBOW_LIMIT_HIGH = 260;
+        public static final double SAFETY_ELBOW_LIMIT_START_MID = 190;
+        public static final double SAFETY_ELBOW_LIMIT_LOW = 60;
+        public static final double SAFETY_ELBOW_LIMIT_HIGH = 157;
         public static final double SAFETY_WRIST_LIMIT_START_MID = 60;
         public static final double SAFETY_WRIST_LIMIT_LOW = 121;
         public static final double SAFETY_WRIST_LIMIT_HIGH = 100;
-        public static final double SAFETY_CARRIAGE_LIMIT_LOW = 2908;
+        public static final double SAFETY_CARRIAGE_LIMIT_LOW = 3075;
     }
 
     public static class CarriageConstants {
         public static final int CARRIAGE_MOTOR_ID = 17;
-        public static final Range CARRIAGE_LIMITS = new Range(1860, 3180);
+        public static final Range CARRIAGE_LIMITS = new Range(2015, 3350);
         public static final int CARRIAGE_ANALOG_ID = 0;
 
-        public static final double START_POS = 1860;
-        public static final double LOW_POS = 3180;
-        public static final double MID_POS = 3180;
-        public static final double LOADING_POS = 3180;
-        public static final double HIGH_POS = 3180;
+        public static final double START_POS = 2015;
+        public static final double LOW_POS = 3350;
+        public static final double MID_POS = 3350;
+        public static final double LOADING_POS = 3350;
+        public static final double HIGH_POS = 3350;
 
-        public static final double START_POS_MIN_ELBOW = 236;
-        public static final double LOW_POS_MIN_ELBOW = 146;
-        public static final double MID_POS_MIN_ELBOW = 207;
-        public static final double LOADING_POS_MIN_ELBOW = 207;
-        public static final double HIGH_POS_MIN_ELBOW = 207;
+        public static final double START_POS_MIN_ELBOW = 133;
+        public static final double LOW_POS_MIN_ELBOW = 42;
+        public static final double MID_POS_MIN_ELBOW = 103;
+        public static final double LOADING_POS_MIN_ELBOW = 103;
+        public static final double HIGH_POS_MIN_ELBOW = 103;
     }
 
 }

@@ -129,25 +129,26 @@ public class ElbowSubsystem extends SubsystemBase {
                 double carriagePosition) {
             // This switch case stops the elbow from moving when going towards high position
             // if it is too low, as to stop the elbow from colliding into a pole
+            var s = 0.0;
             switch (this.state) {
                 case start:
                 case low:
                 case mid:
                 case loading:
                     if (carriagePosition > this.minCarriagePos && wristPosition > this.minWristPos) {
-                        return this.elbowDownPid.calculate(elbowPosition, this.elbowPosition);
+                        s = this.elbowDownPid.calculate(elbowPosition, this.elbowPosition);
                     }
                     break;
                 case high:
                     if (elevatorPosition < ElbowConstants.SAFETY_ELEVATOR_LIMIT_HIGH
                             || elbowPosition < this.elbowPosition) {
-                        return this.elbowDownPid.calculate(elbowPosition, this.elbowPosition);
+                        s = this.elbowDownPid.calculate(elbowPosition, this.elbowPosition);
                     }
                     break;
                 default:
                     break;
             }
-            return 0;
+            return s < 0.5 ? s : 0.5;
         }
 
     }
