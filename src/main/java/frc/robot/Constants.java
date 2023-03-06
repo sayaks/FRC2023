@@ -75,45 +75,63 @@ public final class Constants {
     public static class WristConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 2;
         public static final int MOTOR_ID = 14;
+        public static final Range OLD_LIMITS = new Range(25, 140);
         public static final Range ROTATE_LIMITS = new Range(25, 140); // 280 is full max
 
-        public static final double START_POS = 140;
-        public static final double LOW_POS = 140;
-        public static final double MID_POS = 72;
-        public static final double LOADING_POS = 75;
-        public static final double HIGH_POS = 72;
+        public static final double START_POS = toNewRange(140, OLD_LIMITS, ROTATE_LIMITS);// 140;
+        public static final double LOW_POS = toNewRange(140, OLD_LIMITS, ROTATE_LIMITS);// 140;
+        public static final double MID_POS = toNewRange(72, OLD_LIMITS, ROTATE_LIMITS);// 72;
+        public static final double LOADING_POS = toNewRange(75, OLD_LIMITS, ROTATE_LIMITS);// 75;
+        public static final double HIGH_POS = toNewRange(72, OLD_LIMITS, ROTATE_LIMITS);// 72;
 
-        public static final double START_POS_MIN_ARM = 60;
-        public static final double LOW_POS_MIN_ARM = 60;
-        public static final double MID_POS_MIN_ARM = 103;
-        public static final double LOADING_POS_MIN_ARM = 103;
-        public static final double HIGH_POS_MIN_ARM = 103;
+        public static final double START_POS_MIN_ARM = toNewRange(60, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 60;
+        public static final double LOW_POS_MIN_ARM = toNewRange(60, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 60;
+        public static final double MID_POS_MIN_ARM = toNewRange(103, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 103;
+        public static final double LOADING_POS_MIN_ARM = toNewRange(103, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 103;
+        public static final double HIGH_POS_MIN_ARM = toNewRange(103, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 103;
     }
 
     public static class ElbowConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 1;
         public static final int MOTOR_ID = 15;
-        public static final Range ROTATE_LIMITS = new Range(60, 230); // 162 fully down, 336 fully up
 
-        public static final double START_POS = 230;
-        public static final double LOW_POS = 60;
-        public static final double MID_POS = 218;
-        public static final double LOADING_POS = 187;
-        public static final double HIGH_POS = 190;
+        public static final Range OLD_LIMITS = new Range(60, 230);
+        public static final Range ROTATE_LIMITS = new Range(40, 210); // 162 fully down, 336 fully up
 
-        public static final double START_POS_MIN_CARRIAGE = 1790;
-        public static final double LOW_POS_MIN_CARRIAGE = 2159;
-        public static final double MID_POS_MIN_CARRIAGE = 1790;
-        public static final double LOADING_POS_MIN_CARRIAGE = 1790;
-        public static final double HIGH_POS_MIN_CARRIAGE = 1790;
+        public static final double START_POS = toNewRange(230, OLD_LIMITS, ROTATE_LIMITS); // 230;
+        public static final double LOW_POS = toNewRange(60, OLD_LIMITS, ROTATE_LIMITS);// 60;
+        public static final double MID_POS = toNewRange(218, OLD_LIMITS, ROTATE_LIMITS);// 218;
+        public static final double LOADING_POS = toNewRange(187, OLD_LIMITS, ROTATE_LIMITS);// 187;
+        public static final double HIGH_POS = toNewRange(190, OLD_LIMITS, ROTATE_LIMITS);// 190;
 
-        public static final double START_POS_MIN_WRIST = 36;
-        public static final double LOW_POS_MIN_WRIST = 121;
-        public static final double MID_POS_MIN_WRIST = 36;
-        public static final double LOADING_POS_MIN_WRIST = 36;
-        public static final double HIGH_POS_MIN_WRIST = 36;
+        public static final double START_POS_MIN_CARRIAGE = toNewRange(1790, CarriageConstants.OLD_LIMITS,
+                CarriageConstants.CARRIAGE_LIMITS);// 1790;
+        public static final double LOW_POS_MIN_CARRIAGE = toNewRange(2159, CarriageConstants.OLD_LIMITS,
+                CarriageConstants.CARRIAGE_LIMITS);// 2159;
+        public static final double MID_POS_MIN_CARRIAGE = toNewRange(1790, CarriageConstants.OLD_LIMITS,
+                CarriageConstants.CARRIAGE_LIMITS);// 1790;
+        public static final double LOADING_POS_MIN_CARRIAGE = toNewRange(1790, CarriageConstants.OLD_LIMITS,
+                CarriageConstants.CARRIAGE_LIMITS);// 1790;
+        public static final double HIGH_POS_MIN_CARRIAGE = toNewRange(1790, CarriageConstants.OLD_LIMITS,
+                CarriageConstants.CARRIAGE_LIMITS);// 1790;
 
-        public static final double OTHER_POS_MIN_ELEVATOR = 1730;
+        public static final double START_POS_MIN_WRIST = toNewRange(36, WristConstants.OLD_LIMITS,
+                WristConstants.ROTATE_LIMITS);// 36;
+        public static final double LOW_POS_MIN_WRIST = toNewRange(121, WristConstants.OLD_LIMITS,
+                WristConstants.ROTATE_LIMITS);// 121;
+        public static final double MID_POS_MIN_WRIST = toNewRange(36, WristConstants.OLD_LIMITS,
+                WristConstants.ROTATE_LIMITS);// 36;
+        public static final double LOADING_POS_MIN_WRIST = toNewRange(36, WristConstants.OLD_LIMITS,
+                WristConstants.ROTATE_LIMITS);// 36;
+        public static final double HIGH_POS_MIN_WRIST = toNewRange(36, WristConstants.OLD_LIMITS,
+                WristConstants.ROTATE_LIMITS);// 36;
+
+        public static final double OTHER_POS_MIN_ELEVATOR = 1675;
         public static final double HIGH_POS_MIN_ELEVATOR = 1475;
 
         public static final double SAFETY_ELEVATOR_LIMIT_HIGH = 1520;
@@ -121,12 +139,12 @@ public final class Constants {
 
     public static class ElevatorConstants {
         public static final int ELEVATOR_MOTOR_ID = 16;
-        public static final Range ELEVATOR_LIMITS = new Range(1315, 1730); // end is the bottom most and start is
+        public static final Range ELEVATOR_LIMITS = new Range(1315, 1675); // end is the bottom most and start is
                                                                            // the top most
         public static final int ELEVATOR_ANALOG_ID = 3;
 
-        public static final double START_POS = 1730;
-        public static final double LOW_POS = 1730;
+        public static final double START_POS = 1675;
+        public static final double LOW_POS = 1675;
         public static final double MID_POS = 1698;
         public static final double LOADING_POS = 1520;
         public static final double HIGH_POS = 1330;
@@ -134,31 +152,51 @@ public final class Constants {
         public static final double SLEW_POSITIVE_VAL = 10;
         public static final double SLEW_NEGATIVE_VAL = -1;
 
-        public static final double SAFETY_ELBOW_LIMIT_START_MID = 190;
-        public static final double SAFETY_ELBOW_LIMIT_LOW = 60;
-        public static final double SAFETY_ELBOW_LIMIT_HIGH = 157;
-        public static final double SAFETY_WRIST_LIMIT_START_MID = 60;
-        public static final double SAFETY_WRIST_LIMIT_LOW = 121;
-        public static final double SAFETY_WRIST_LIMIT_HIGH = 100;
-        public static final double SAFETY_CARRIAGE_LIMIT_LOW = 3075;
+        public static final double SAFETY_ELBOW_LIMIT_START_MID = toNewRange(190, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 190;
+        public static final double SAFETY_ELBOW_LIMIT_LOW = toNewRange(60, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 60;
+        public static final double SAFETY_ELBOW_LIMIT_HIGH = toNewRange(157, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 157;
+        public static final double SAFETY_WRIST_LIMIT_START_MID = toNewRange(60, WristConstants.OLD_LIMITS,
+                WristConstants.ROTATE_LIMITS);// 60;
+        public static final double SAFETY_WRIST_LIMIT_LOW = toNewRange(121, WristConstants.OLD_LIMITS,
+                WristConstants.ROTATE_LIMITS);// 121;
+        public static final double SAFETY_WRIST_LIMIT_HIGH = toNewRange(100, WristConstants.OLD_LIMITS,
+                WristConstants.ROTATE_LIMITS);// 100;
+        public static final double SAFETY_CARRIAGE_LIMIT_LOW = toNewRange(3075, CarriageConstants.OLD_LIMITS,
+                CarriageConstants.CARRIAGE_LIMITS);// 3075;
     }
 
     public static class CarriageConstants {
         public static final int CARRIAGE_MOTOR_ID = 17;
-        public static final Range CARRIAGE_LIMITS = new Range(2015, 3350);
+        public static final Range OLD_LIMITS = new Range(2015, 3350);
+        public static final Range CARRIAGE_LIMITS = new Range(2000, 3310);
         public static final int CARRIAGE_ANALOG_ID = 0;
 
-        public static final double START_POS = 2015;
-        public static final double LOW_POS = 3350;
-        public static final double MID_POS = 3350;
-        public static final double LOADING_POS = 3350;
-        public static final double HIGH_POS = 3350;
+        public static final double START_POS = toNewRange(2015, OLD_LIMITS, CARRIAGE_LIMITS);// 2015;
+        public static final double LOW_POS = toNewRange(3350, OLD_LIMITS, CARRIAGE_LIMITS);// 3350;
+        public static final double MID_POS = toNewRange(3350, OLD_LIMITS, CARRIAGE_LIMITS);// 3350;
+        public static final double LOADING_POS = toNewRange(3350, OLD_LIMITS, CARRIAGE_LIMITS);// 3350;
+        public static final double HIGH_POS = toNewRange(3350, OLD_LIMITS, CARRIAGE_LIMITS);// 3350;
 
-        public static final double START_POS_MIN_ELBOW = 133;
-        public static final double LOW_POS_MIN_ELBOW = 42;
-        public static final double MID_POS_MIN_ELBOW = 103;
-        public static final double LOADING_POS_MIN_ELBOW = 103;
-        public static final double HIGH_POS_MIN_ELBOW = 103;
+        public static final double START_POS_MIN_ELBOW = toNewRange(133, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 133;
+        public static final double LOW_POS_MIN_ELBOW = toNewRange(42, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 42;
+        public static final double MID_POS_MIN_ELBOW = toNewRange(103, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 103;
+        public static final double LOADING_POS_MIN_ELBOW = toNewRange(103, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 103;
+        public static final double HIGH_POS_MIN_ELBOW = toNewRange(103, ElbowConstants.OLD_LIMITS,
+                ElbowConstants.ROTATE_LIMITS);// 103;
     }
 
+    // TODO may not work if start is the smaller value, fix this before using on the
+    // elevator
+    public static double toNewRange(double oldVal, Range oldRange, Range newRange) {
+        double conversion = (newRange.end() - newRange.start()) / (oldRange.end() - oldRange.start());
+        return ((oldVal - oldRange.start()) * conversion) + newRange.start();
+
+    }
 }

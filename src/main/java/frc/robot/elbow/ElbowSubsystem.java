@@ -148,7 +148,7 @@ public class ElbowSubsystem extends SubsystemBase {
                 default:
                     break;
             }
-            return s < 0.5 ? s : 0.5;
+            return s < 0.75 ? s : 0.75;
         }
 
     }
