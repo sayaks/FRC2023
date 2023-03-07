@@ -6,6 +6,7 @@ package frc.robot.drive;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -27,6 +28,9 @@ public class DriveSubsystem extends SubsystemBase {
 
     private final NetworkTable table = NetworkTableInstance.getDefault().getTable("157/Swerve");
     private float gyroOffset = 0.0f;
+    public PIDController pidx = new PIDController(0.01, 0, 0);
+    public PIDController pidy = new PIDController(0.01, 0, 0);
+    public PIDController pidr = new PIDController(1, 0, 0);
 
     public SwervePod[] swervePods = new SwervePod[] {
             new SwervePod(DriveConstants.POD_CONFIGS[0], table.getSubTable("Pod 1")),
@@ -43,6 +47,25 @@ public class DriveSubsystem extends SubsystemBase {
     public void resetGyro() {
         gyro.zeroYaw();
         addGyroOffset(0);
+    }
+
+    public void resetDisplacement() {
+        gyro.resetDisplacement();
+    }
+
+    public double getXDisplacement() {
+        return gyro.getDisplacementX();
+    }
+
+    public double getYDisplacement() {
+        return gyro.getDisplacementY();
+    }
+
+    // TODO test this please, it might just work or just need a few negatives. it
+    // uses Accellerometer data to attempt to drive for a distance.
+    public void driveDistanceAccellerometer(double xPos, double yPos, double angle) {
+        set(new ChassisSpeeds(pidx.calculate(getXDisplacement(), xPos), pidy.calculate(getYDisplacement(), yPos),
+                pidr.calculate(getRobotPitch().getDegrees(), angle)));
     }
 
     public void set(final ChassisSpeeds inputSpeeds) {
