@@ -40,7 +40,7 @@ public class DriverInputs extends DynamicLayout {
     private static final NetworkTableEntry entry = NetworkTableInstance.getDefault().getEntry("157/Drive/StickEnabled");
 
     public DriverInputs() {
-        super(() -> entry.getBoolean(false) ? flightStickLayout() : dualLogitechLayout());
+        super(() -> true ? flightStickLayout() : dualLogitechLayout());
 
         entry.setDefaultBoolean(false);
         entry.setPersistent();
@@ -54,7 +54,7 @@ public class DriverInputs extends DynamicLayout {
         final var driver = new LogitechGamepadF310(0);
         final var operator = new LogitechGamepadF310(1);
 
-        final var speedModifier = 0.80;
+        final var speedModifier = 0.20;
 
         layout.assign(driveSpeedX, driver.leftStickX.map(deadzone::apply).scaledBy(speedModifier));
         layout.assign(driveSpeedY, driver.leftStickY.map(deadzone::apply).scaledBy(speedModifier));
@@ -95,12 +95,20 @@ public class DriverInputs extends DynamicLayout {
         final var driver = new LogitechExtreme3D(0);
         final var operator = new LogitechGamepadF310(1);
 
-        final var speedModifier = 0.80;
+        final var speedModifier = 0.20;
 
         layout.assign(driveSpeedX, driver.stickX.map(deadzone::apply).scaledBy(speedModifier));
         layout.assign(driveSpeedY, driver.stickY.map(deadzone::apply).scaledBy(speedModifier));
         layout.assign(driveRotation, driver.stickRotate.map(deadzone::apply).scaledBy(speedModifier)
                 .scaledBy(maxRotationPerSecond.getDegrees()));
+        layout.assign(autoBalance, driver.button7);
+        layout.assign(intakeSpeed, new Axis("Operator and driver triggers", () -> {
+            double driverSpeed = driver.thumb.get() ? 1 : (driver.trigger.get() ? -1 : 0);
+            if (Math.abs(operator.combinedTriggersHeld.get()) > Math.abs(driverSpeed)) {
+                return operator.combinedTriggersHeld.get();
+            }
+            return driverSpeed;
+        }));
 
         layout.assign(runIntakeMotorIn, operator.rightTriggerHeld);
         layout.assign(runIntakeMotorOut, operator.leftTriggerHeld);
