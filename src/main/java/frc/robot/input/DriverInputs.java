@@ -101,7 +101,7 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(driveSpeedY, driver.stickY.map(deadzone::apply).scaledBy(speedModifier));
         layout.assign(driveRotation, driver.stickRotate.map(deadzone::apply).scaledBy(speedModifier)
                 .scaledBy(maxRotationPerSecond.getDegrees()));
-        layout.assign(autoBalance, driver.button7);
+        layout.assign(autoBalance, driver.button4);
         layout.assign(intakeSpeed, new Axis("Operator and driver triggers", () -> {
             double driverSpeed = driver.thumb.get() ? 1 : (driver.trigger.get() ? -1 : 0);
             if (Math.abs(operator.combinedTriggersHeld.get()) > Math.abs(driverSpeed)) {
