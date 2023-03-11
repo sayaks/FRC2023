@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.cosmetics.LightsSubsystem;
 import frc.robot.input.DriverInputs;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -27,9 +28,11 @@ public class IntakeSubsystem extends SubsystemBase {
     private final Compressor airCompressor = new Compressor(IntakeConstants.PNEUMATICS_HUB_ID,
             PneumaticsModuleType.REVPH);
     private boolean isOpen = false;
+    private final LightsSubsystem lights;
 
-    public IntakeSubsystem() {
+    public IntakeSubsystem(LightsSubsystem lights) {
         airCompressor.enableDigital();
+        this.lights = lights;
     }
 
     public Command runIntake(final DriverInputs inputs) {
@@ -51,6 +54,11 @@ public class IntakeSubsystem extends SubsystemBase {
         return runOnce(() -> {
             solenoid.set(value);
             isOpen = value == DoubleSolenoid.Value.kForward;
+            if (isOpen) {
+                lights.setPurple();
+            } else {
+                lights.setYellow();
+            }
         });
     }
 

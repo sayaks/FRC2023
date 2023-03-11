@@ -27,6 +27,12 @@ import frc.robot.drive.SwervePod;
  */
 public final class Constants {
 
+    public static class CosmeticConstants {
+        public static final int LIGHT_ID = 0;
+        public static final double SOLID_YELLOW_VALUE = 0.69;
+        public static final double SOLID_PURPLE_VALUE = 0.91;
+    }
+
     public static class DriveConstants {
         public static final IdleMode DRIVE_IDLE_MODE = IdleMode.kBrake;
         public static final IdleMode ANGLE_IDLE_MODE = IdleMode.kCoast;
