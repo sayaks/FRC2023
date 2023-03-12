@@ -61,6 +61,19 @@ public class DriveSubsystem extends SubsystemBase {
         return gyro.getDisplacementY();
     }
 
+    public Command driveWithRotation(double desiredAngle, double xSpeed, double ySpeed) {
+        return run(() -> driveDistanceWithRotation(desiredAngle, xSpeed, ySpeed));
+    }
+
+    public Command driveWithRotationWithStop(double desiredAngle, double xSpeed, double ySpeed) {
+        return runEnd(() -> driveDistanceWithRotation(desiredAngle, xSpeed, ySpeed), () -> stop());
+    }
+
+    public void driveDistanceWithRotation(double desiredAngle, double xSpeed, double ySpeed) {
+        set(new ChassisSpeeds(xSpeed, ySpeed,
+                pidr.calculate(getRobotPitch().getDegrees(), desiredAngle)));
+    }
+
     // TODO test this please, it might just work or just need a few negatives. it
     // uses Accellerometer data to attempt to drive for a distance.
     public void driveDistanceAccellerometer(double xPos, double yPos, double angle) {
