@@ -5,6 +5,7 @@ import org.assabet.aztechs157.input.layouts.MapLayout;
 import org.assabet.aztechs157.input.layouts.DynamicLayout;
 import org.assabet.aztechs157.input.models.LogitechExtreme3D;
 import org.assabet.aztechs157.input.models.LogitechGamepadF310;
+import org.assabet.aztechs157.input.models.XboxOne;
 import org.assabet.aztechs157.input.values.Axis;
 import org.assabet.aztechs157.input.values.Button;
 import org.assabet.aztechs157.numbers.Deadzone;
@@ -91,9 +92,9 @@ public class DriverInputs extends DynamicLayout {
     }
 
     private static Layout flightStickLayout() {
-        final var layout = new MapLayout("driver flight, operator logitech");
+        final var layout = new MapLayout("driver flight, operator xbox");
         final var driver = new LogitechExtreme3D(0);
-        final var operator = new LogitechGamepadF310(1);
+        final var operator = new XboxOne(1);
 
         final var speedModifier = 0.20;
 
