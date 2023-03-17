@@ -24,8 +24,10 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -200,6 +202,25 @@ public class RobotContainer {
                 runDistanceWithSpeeds(-0.5, 0.0, 6000.0).withTimeout(2.9),
                 runDistanceWithSpeeds(0.5, 0.0, -3000.0).withTimeout(1.85),
                 new AutoBalance(driveSubsystem));
+    }
+
+    public Command TwoPieceThenEngage() {
+        return new SequentialCommandGroup(intakeSubsystem.intake(-1).withTimeout(0.75),
+                new ParallelCommandGroup(driveSubsystem.driveWithRotation(0, 1, 0),
+                        group.lowPosCommand(1),
+                        intakeSubsystem.intake(1)
+                ).withTimeout(3),
+                new ParallelCommandGroup(driveSubsystem.driveWithRotation(180, -1, 0),
+                        group.startingPosCommand(1),
+                        intakeSubsystem.intake(0.1)
+                ).withTimeout(3),
+                group.highPosCommand(1).withTimeout(1.3),
+                intakeSubsystem.ejectCargo().withTimeout(0.5),
+                new ParallelCommandGroup(group.startingPosCommand(1),
+                    new WaitCommand(0.5).andThen(driveSubsystem.driveWithRotation(0, 0.5, .5))
+                ).withTimeout(2.25),
+                new AutoBalance(driveSubsystem)
+        );
     }
 
     /*
