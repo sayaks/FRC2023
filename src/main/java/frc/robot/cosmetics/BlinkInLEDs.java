@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CosmeticConstants;
 
-public class LightsSubsystem extends SubsystemBase {
+public class BlinkInLEDs extends SubsystemBase {
     public final Spark lightController = new Spark(CosmeticConstants.LIGHT_ID);
     private ShuffleboardTab tab = Shuffleboard.getTab("LED");
     private GenericEntry lightColor = tab.add("led color", CosmeticConstants.SOLID_YELLOW_VALUE).getEntry();
 
     /** Creates a new lights. */
-    public LightsSubsystem() {
+    public BlinkInLEDs() {
     }
 
     public void setYellow() {

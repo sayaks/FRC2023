@@ -6,7 +6,7 @@
 
 package frc.robot;
 
-import frc.robot.cosmetics.LightsSubsystem;
+import frc.robot.cosmetics.PwmLEDs;
 import frc.robot.drive.AutoBalance;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.FullDrive;
@@ -39,7 +39,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    private final LightsSubsystem lightsSubsystem = new LightsSubsystem();
+    public final PwmLEDs lightsSubsystem = new PwmLEDs();
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(lightsSubsystem);
     private final WristSubsystem wristSubsystem = new WristSubsystem();
