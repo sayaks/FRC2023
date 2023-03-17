@@ -12,10 +12,12 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Counter.Mode;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ElbowConstants;
 import frc.robot.input.DriverInputs;
 import frc.robot.lib.NumberUtil;
@@ -25,6 +27,7 @@ public class ElbowSubsystem extends SubsystemBase {
 
     private final CANSparkMax elbowMotor = new CANSparkMax(ElbowConstants.MOTOR_ID, MotorType.kBrushless);
     private final Counter elbowAbsEncoder = new Counter(Mode.kSemiperiod);
+    private final Servo visionServo = new Servo(ElbowConstants.SERVO_ID);
     private double elbowSpeed = 0.0;
 
     public ElbowSubsystem() {
@@ -54,6 +57,8 @@ public class ElbowSubsystem extends SubsystemBase {
 
     public void rotateElbow(final double speed) {
         elbowSpeed = speed;
+        visionServo.setAngle(Constants.toNewRange(getElbowRotationPosition(), ElbowConstants.ROTATE_LIMITS,
+                ElbowConstants.VISION_SERVO_RANGE));
 
         final double limitedSpeed = ElbowConstants.ROTATE_LIMITS.limitMotionWithinRange(
                 speed, getElbowRotationPosition());

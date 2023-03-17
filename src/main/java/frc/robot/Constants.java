@@ -31,7 +31,7 @@ public final class Constants {
         public static final int LIGHT_ID = 0;
         public static final double SOLID_YELLOW_VALUE = 0.69;
         public static final double SOLID_PURPLE_VALUE = 0.91;
-        public static final int LIGHT_LENGTH = 10;
+        public static final int LIGHT_LENGTH = 69;
     }
 
     public static class DriveConstants {
@@ -106,9 +106,11 @@ public final class Constants {
     public static class ElbowConstants {
         public static final int ABS_ENCODER_ROTATION_ID = 1;
         public static final int MOTOR_ID = 15;
+        public static final int SERVO_ID = 1;
 
         public static final Range OLD_LIMITS = new Range(60, 230);
         public static final Range ROTATE_LIMITS = new Range(40, 210); // 162 fully down, 336 fully up
+        public static final Range VISION_SERVO_RANGE = new Range(0, 180);
 
         public static final double START_POS = toNewRange(230, OLD_LIMITS, ROTATE_LIMITS); // 230;
         public static final double LOW_POS = toNewRange(60, OLD_LIMITS, ROTATE_LIMITS);// 60;
