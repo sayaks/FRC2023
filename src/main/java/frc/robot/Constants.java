@@ -138,23 +138,27 @@ public final class Constants {
         public static final double HIGH_POS_MIN_WRIST = toNewRange(36, WristConstants.OLD_LIMITS,
                 WristConstants.ROTATE_LIMITS);// 36;
 
-        public static final double OTHER_POS_MIN_ELEVATOR = 1675;
-        public static final double HIGH_POS_MIN_ELEVATOR = 1475;
+        public static final double OTHER_POS_MIN_ELEVATOR = toNewRange(1675, ElevatorConstants.OLD_LIMITS,
+                ElevatorConstants.ELEVATOR_LIMITS);
+        public static final double HIGH_POS_MIN_ELEVATOR = toNewRange(1475, ElevatorConstants.OLD_LIMITS,
+                ElevatorConstants.ELEVATOR_LIMITS);
 
-        public static final double SAFETY_ELEVATOR_LIMIT_HIGH = 1520;
+        public static final double SAFETY_ELEVATOR_LIMIT_HIGH = toNewRange(1520, ElevatorConstants.OLD_LIMITS,
+                ElevatorConstants.ELEVATOR_LIMITS);
     }
 
     public static class ElevatorConstants {
         public static final int ELEVATOR_MOTOR_ID = 16;
+        public static final Range OLD_LIMITS = new Range(1315, 1675);
         public static final Range ELEVATOR_LIMITS = new Range(1315, 1675); // end is the bottom most and start is
                                                                            // the top most
         public static final int ELEVATOR_ANALOG_ID = 3;
 
-        public static final double START_POS = 1675;
-        public static final double LOW_POS = 1675;
-        public static final double MID_POS = 1698;
-        public static final double LOADING_POS = 1520;
-        public static final double HIGH_POS = 1330;
+        public static final double START_POS = toNewRange(1675, OLD_LIMITS, ELEVATOR_LIMITS);
+        public static final double LOW_POS = toNewRange(1675, OLD_LIMITS, ELEVATOR_LIMITS);
+        public static final double MID_POS = toNewRange(1698, OLD_LIMITS, ELEVATOR_LIMITS);
+        public static final double LOADING_POS = toNewRange(1520, OLD_LIMITS, ELEVATOR_LIMITS);
+        public static final double HIGH_POS = toNewRange(1330, OLD_LIMITS, ELEVATOR_LIMITS);
 
         public static final double SLEW_POSITIVE_VAL = 10;
         public static final double SLEW_NEGATIVE_VAL = -1;
