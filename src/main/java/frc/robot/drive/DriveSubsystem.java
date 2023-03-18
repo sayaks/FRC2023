@@ -4,12 +4,16 @@
 
 package frc.robot.drive;
 
+import java.util.ArrayList;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -25,6 +29,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
             Constants.DriveConstants.WHEEL_LOCATIONS);
+    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(kinematics, getRobotPitch(),
+            getModulePositions());
 
     private final NetworkTable table = NetworkTableInstance.getDefault().getTable("157/Swerve");
     private float gyroOffset = 0.0f;
@@ -76,8 +82,9 @@ public class DriveSubsystem extends SubsystemBase {
 
     // TODO test this please, it might just work or just need a few negatives. it
     // uses Accellerometer data to attempt to drive for a distance.
-    public void driveDistanceAccellerometer(double xPos, double yPos, double angle) {
-        set(new ChassisSpeeds(pidx.calculate(getXDisplacement(), xPos), pidy.calculate(getYDisplacement(), yPos),
+    public void driveDistanceOdometer(double xPos, double yPos, double angle) {
+        var pose = odometer.getPoseMeters();
+        set(new ChassisSpeeds(pidx.calculate(pose.getX(), xPos), pidy.calculate(pose.getY(), yPos),
                 pidr.calculate(getRobotPitch().getDegrees(), angle)));
     }
 
@@ -133,6 +140,7 @@ public class DriveSubsystem extends SubsystemBase {
         gyroTable.getEntry("Pitch").setDouble(gyro.getPitch());
         gyroTable.getEntry("Roll").setDouble(gyro.getRoll());
         table.getEntry("Raw Drive Position").setDouble(getRawDrivePosition());
+        odometer.update(getRobotPitch(), getModulePositions());
     }
 
     public void resetDrivePosition() {
@@ -183,6 +191,15 @@ public class DriveSubsystem extends SubsystemBase {
             }
         }
         return true;
+    }
+
+    public SwerveModulePosition[] getModulePositions() {
+        ArrayList<SwerveModulePosition> retval = new ArrayList<SwerveModulePosition>(swervePods.length);
+        for (SwervePod swervePod : swervePods) {
+            retval.add(swervePod.getPosition());
+
+        }
+        return retval.toArray(new SwerveModulePosition[] {});
     }
 
     public Command resetPositionsCommand() {
