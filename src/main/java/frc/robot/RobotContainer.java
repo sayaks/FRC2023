@@ -107,6 +107,7 @@ public class RobotContainer {
         chooser.addOption("scoreHighThenEngage", scoreHighThenEngage());
         chooser.addOption("leaveCommunityThenEngage", leaveCommunityThenEngage());
         chooser.addOption("everythingIsBrokenDoNothing", new InstantCommand(() -> System.out.println(":(")));
+        chooser.addOption("twoPiecethenEngage", TwoPieceThenEngage());
     }
 
     /**
@@ -205,6 +206,8 @@ public class RobotContainer {
     }
 
     public Command TwoPieceThenEngage() {
+        // for wpi, might need to change desired angle and definitely distance gone
+        // Figure out what side this works on, then mirror it for the opposite color
         return new SequentialCommandGroup(intakeSubsystem.intake(-1).withTimeout(0.75),
                 new ParallelCommandGroup(driveSubsystem.driveWithRotation(0, 1, 0),
                         group.lowPosCommand(1),
@@ -215,7 +218,10 @@ public class RobotContainer {
                 group.highPosCommand(1).withTimeout(1.3),
                 intakeSubsystem.ejectCargo().withTimeout(0.5),
                 new ParallelCommandGroup(group.startingPosCommand(1),
-                        new WaitCommand(0.5).andThen(driveSubsystem.driveWithRotation(0, 0.5, .5))).withTimeout(2.25),
+                        new WaitCommand(0.5).andThen(driveSubsystem.driveWithRotation(0, 0.5, .5)))
+                        .withTimeout(0.5 + 1.75), // first value is the wait, second value is the drive time, and maybe
+                                                  // increase Y to adjust for charge station (if hit charge station
+                                                  // side, increase Y) maybe add a forward to get further up platform
                 new AutoBalance(driveSubsystem));
     }
 
