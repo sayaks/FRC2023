@@ -5,10 +5,13 @@
 package frc.robot.drive;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -37,6 +40,10 @@ public class DriveSubsystem extends SubsystemBase {
     public PIDController pidx = new PIDController(0.01, 0, 0);
     public PIDController pidy = new PIDController(0.01, 0, 0);
     public PIDController pidr = new PIDController(1, 0, 0);
+
+    public SlewRateLimiter slewx = new SlewRateLimiter(DriveConstants.AUTO_SLEW_RATE);
+    public SlewRateLimiter slewy = new SlewRateLimiter(DriveConstants.AUTO_SLEW_RATE);
+    public SlewRateLimiter slewr = new SlewRateLimiter(DriveConstants.AUTO_SLEW_ROTATE_VAL);
 
     public SwervePod[] swervePods = new SwervePod[] {
             new SwervePod(DriveConstants.POD_CONFIGS[0], table.getSubTable("Pod 1")),
@@ -88,6 +95,13 @@ public class DriveSubsystem extends SubsystemBase {
                 pidr.calculate(getRobotPitch().getDegrees(), angle)));
     }
 
+    public Command driveToPosWithAngleOdometry(double xPos, double yPos, double angle, double tolerance) {
+        return runEnd(() -> driveDistanceOdometer(xPos, yPos, angle), () -> stop()).until(() -> {
+            var pose = odometer.getPoseMeters();
+            return pose.getX() < tolerance && pose.getY() < tolerance;
+        });
+    }
+
     public void set(final ChassisSpeeds inputSpeeds) {
         final var speeds = ChassisSpeeds.fromFieldRelativeSpeeds(inputSpeeds, getRobotYaw());
         final var states = kinematics.toSwerveModuleStates(speeds);
@@ -132,6 +146,10 @@ public class DriveSubsystem extends SubsystemBase {
 
     public Rotation2d getRobotPitch() {
         return Rotation2d.fromDegrees(gyro.getPitch());
+    }
+
+    public Pose2d getOdometryPose() {
+        return odometer.getPoseMeters();
     }
 
     @Override
@@ -204,5 +222,254 @@ public class DriveSubsystem extends SubsystemBase {
 
     public Command resetPositionsCommand() {
         return runEnd(this::resetPostitions, this::stop).until(this::checkAllPositionsCloseToZero);
+    }
+
+    public static class AutoDriveLineBuilder {
+        protected Pose2d targetPose;
+
+        protected boolean useRot = true;
+
+        protected Optional<Double> startXatY = Optional.empty();
+        protected Optional<Double> startXatRot = Optional.empty();
+
+        protected Optional<Double> startYatX = Optional.empty();
+        protected Optional<Double> startYatRot = Optional.empty();
+
+        protected Optional<Double> startRotAtX = Optional.empty();
+        protected Optional<Double> startRotAtY = Optional.empty();
+
+        protected Optional<Double> startTime = Optional.empty();
+
+        protected Optional<Double> xTolerance = Optional.empty();
+        protected Optional<Double> yTolerance = Optional.empty();
+        protected Optional<Double> rotTolerance = Optional.empty();
+
+        protected Double maxXSpeed = 1.0;
+        protected Double maxYSpeed = 1.0;
+        protected Double maxRotSpeed = 65.0;
+
+        protected boolean useSlewX = false;
+        protected boolean useSlewY = false;
+        protected boolean useSlewRot = false;
+
+        protected boolean usePidX = true;
+        protected boolean usePidY = true;
+
+        protected boolean holdRotTillRotStarts = false;
+        protected boolean holdXTillXStarts = false;
+        protected boolean holdYTillYStarts = false;
+
+        public AutoDriveLineBuilder(double xDist, double yDist) {
+            this(xDist, yDist, 0.0);
+            useRot = false;
+        }
+
+        public AutoDriveLineBuilder(double xDist, double yDist, double targetAngle) {
+            targetPose = new Pose2d(xDist, yDist, Rotation2d.fromDegrees(0.0));
+        }
+
+        public AutoDriveLineBuilder(Pose2d pose) {
+            targetPose = pose;
+        }
+
+        public AutoDriveLineBuilder startXAtY(Optional<Double> val) {
+            startXatY = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder startXAtY(double val) {
+            startXatY = Optional.of(val);
+            return this;
+        }
+
+        public AutoDriveLineBuilder startXatRot(Optional<Double> val) {
+            startXatRot = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder startXatRot(double val) {
+            startXatRot = Optional.of(val);
+            return this;
+        }
+
+        public AutoDriveLineBuilder startYatX(Optional<Double> val) {
+            startYatX = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder startYatX(double val) {
+            startYatX = Optional.of(val);
+            return this;
+        }
+
+        public AutoDriveLineBuilder startYatRot(Optional<Double> val) {
+            startYatRot = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder startYatRot(double val) {
+            startYatRot = Optional.of(val);
+            return this;
+        }
+
+        public AutoDriveLineBuilder startRotAtX(Optional<Double> val) {
+            startRotAtX = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder startRotAtX(double val) {
+            startRotAtX = Optional.of(val);
+            return this;
+        }
+
+        public AutoDriveLineBuilder startRotAtY(Optional<Double> val) {
+            startRotAtY = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder startRotAtY(double val) {
+            startRotAtY = Optional.of(val);
+            return this;
+        }
+
+        public AutoDriveLineBuilder startTime(Optional<Double> val) {
+            startTime = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder startTime(double val) {
+            startTime = Optional.of(val);
+            return this;
+        }
+
+        public AutoDriveLineBuilder xTolerance(Optional<Double> val) {
+            xTolerance = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder xTolerance(double val) {
+            xTolerance = Optional.of(val);
+            return this;
+        }
+
+        public AutoDriveLineBuilder yTolerance(Optional<Double> val) {
+            yTolerance = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder yTolerance(double val) {
+            yTolerance = Optional.of(val);
+            return this;
+        }
+
+        public AutoDriveLineBuilder rotTolerance(Optional<Double> val) {
+            rotTolerance = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder rotTolerance(double val) {
+            rotTolerance = Optional.of(val);
+            return this;
+        }
+
+        public AutoDriveLineBuilder xyTolerance(Optional<Double> val) {
+            xTolerance = val;
+            yTolerance = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder xyTolerance(double val) {
+            xTolerance = Optional.of(val);
+            yTolerance = Optional.of(val);
+            return this;
+        }
+
+        public AutoDriveLineBuilder useSlewXY(boolean val) {
+            useSlewX = val;
+            useSlewY = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder useSlewAll(boolean val) {
+            useSlewX = val;
+            useSlewY = val;
+            useSlewRot = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder useSlewX(boolean val) {
+            useSlewX = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder useSlewY(boolean val) {
+            useSlewY = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder useSlewRot(boolean val) {
+            useSlewRot = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder holdXTillXStarts(boolean val) {
+            holdXTillXStarts = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder holdYTillYStarts(boolean val) {
+            holdYTillYStarts = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder holdRotTillRotStarts(boolean val) {
+            holdRotTillRotStarts = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder holdXYTillXYStarts(boolean val) {
+            holdXTillXStarts = val;
+            holdYTillYStarts = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder HoldAllTillStart(boolean val) {
+            holdXTillXStarts = val;
+            holdYTillYStarts = val;
+            holdRotTillRotStarts = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder maxXSpeed(double val) {
+            maxXSpeed = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder maxYSpeed(double val) {
+            maxYSpeed = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder maxRotSpeed(double val) {
+            maxRotSpeed = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder maxXYSpeed(double val) {
+            maxXSpeed = val;
+            maxYSpeed = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder usePidY(boolean val) {
+            usePidY = val;
+            return this;
+        }
+
+        public AutoDriveLineBuilder usePidX(boolean val) {
+            usePidX = val;
+            return this;
+        }
+
     }
 }

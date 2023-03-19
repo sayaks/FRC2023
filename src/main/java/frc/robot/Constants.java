@@ -61,6 +61,7 @@ public final class Constants {
         public static final double SLEWRATE_VAL = 1;
         public static final double SLEW_ROTATE_VAL = 100;
         public static final double AUTO_SLEW_RATE = 1;
+        public static final double AUTO_SLEW_ROTATE_VAL = 100;
     }
 
     public static class AutoConstants {
