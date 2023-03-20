@@ -53,6 +53,7 @@ public class DriveSubsystem extends SubsystemBase {
     };
 
     public DriveSubsystem() {
+        pidr.enableContinuousInput(-180, 180);
         final var resetCommand = runOnce(this::resetGyro).ignoringDisable(true);
         SmartDashboard.putData("Reset Yaw", resetCommand);
     }
