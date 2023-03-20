@@ -162,6 +162,6 @@ public class SwervePod {
     }
 
     public SwerveModulePosition getPosition() {
-        return new SwerveModulePosition(getRawDrivePosition(), Rotation2d.fromDegrees(getCurrentAngle()))
+        return new SwerveModulePosition(getRawDrivePosition(), Rotation2d.fromDegrees(getCurrentAngle()));
     }
 }
