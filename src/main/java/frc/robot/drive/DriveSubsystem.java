@@ -56,6 +56,13 @@ public class DriveSubsystem extends SubsystemBase {
         pidr.enableContinuousInput(-180, 180);
         final var resetCommand = runOnce(this::resetGyro).ignoringDisable(true);
         SmartDashboard.putData("Reset Yaw", resetCommand);
+        setAllEncoderMultipliers(0.03921201641325);
+    }
+
+    public void setAllEncoderMultipliers(double distancePerRotation) {
+        for (SwervePod swervePod : swervePods) {
+            swervePod.setDistancePerRotation(distancePerRotation);
+        }
     }
 
     public void resetGyro() {

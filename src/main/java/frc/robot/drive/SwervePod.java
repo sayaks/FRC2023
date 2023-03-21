@@ -164,4 +164,8 @@ public class SwervePod {
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(getRawDrivePosition(), Rotation2d.fromDegrees(getCurrentAngle()));
     }
+
+    public void setDistancePerRotation(double distancePerRotation) {
+        driveMotor.getEncoder().setPositionConversionFactor(distancePerRotation); // this is in meters
+    }
 }
