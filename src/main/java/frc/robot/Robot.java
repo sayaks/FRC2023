@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
-        m_robotContainer.lightsSubsystem.setWave(Color.kBlue, Color.kYellow, 2.0, 1.0);
+        m_robotContainer.lightsSubsystem.setWave(Color.kBlack, Color.kBlack, 10, 1);
     }
 
     @Override

@@ -27,7 +27,6 @@ public class ElbowSubsystem extends SubsystemBase {
 
     private final CANSparkMax elbowMotor = new CANSparkMax(ElbowConstants.MOTOR_ID, MotorType.kBrushless);
     private final Counter elbowAbsEncoder = new Counter(Mode.kSemiperiod);
-    private final Servo visionServo = new Servo(ElbowConstants.SERVO_ID);
     private double elbowSpeed = 0.0;
 
     public ElbowSubsystem() {
@@ -57,8 +56,6 @@ public class ElbowSubsystem extends SubsystemBase {
 
     public void rotateElbow(final double speed) {
         elbowSpeed = speed;
-        visionServo.setAngle(Constants.toNewRange(getElbowRotationPosition(), ElbowConstants.ROTATE_LIMITS,
-                ElbowConstants.VISION_SERVO_RANGE));
 
         final double limitedSpeed = ElbowConstants.ROTATE_LIMITS.limitMotionWithinRange(
                 speed, getElbowRotationPosition());

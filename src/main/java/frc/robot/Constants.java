@@ -86,7 +86,7 @@ public final class Constants {
         public static final int ABS_ENCODER_ROTATION_ID = 2;
         public static final int MOTOR_ID = 14;
         public static final Range OLD_LIMITS = new Range(25, 140);
-        public static final Range ROTATE_LIMITS = new Range(25, 140); // 280 is full max
+        public static final Range ROTATE_LIMITS = new Range(32, 197); // 280 is full max
 
         public static final double START_POS = toNewRange(140, OLD_LIMITS, ROTATE_LIMITS);// 140;
         public static final double LOW_POS = toNewRange(140, OLD_LIMITS, ROTATE_LIMITS);// 140;
@@ -112,8 +112,7 @@ public final class Constants {
         public static final int SERVO_ID = 1;
 
         public static final Range OLD_LIMITS = new Range(60, 230);
-        public static final Range ROTATE_LIMITS = new Range(40, 210); // 162 fully down, 336 fully up
-        public static final Range VISION_SERVO_RANGE = new Range(0, 180);
+        public static final Range ROTATE_LIMITS = new Range(40, 269); // 162 fully down, 336 fully up
 
         public static final double START_POS = toNewRange(230, OLD_LIMITS, ROTATE_LIMITS); // 230;
         public static final double LOW_POS = toNewRange(60, OLD_LIMITS, ROTATE_LIMITS);// 60;
@@ -155,7 +154,7 @@ public final class Constants {
     public static class ElevatorConstants {
         public static final int ELEVATOR_MOTOR_ID = 16;
         public static final Range OLD_LIMITS = new Range(1315, 1675);
-        public static final Range ELEVATOR_LIMITS = new Range(1315, 1675); // end is the bottom most and start is
+        public static final Range ELEVATOR_LIMITS = new Range(1232, 1683); // end is the bottom most and start is
                                                                            // the top most
         public static final int ELEVATOR_ANALOG_ID = 3;
 
@@ -187,7 +186,7 @@ public final class Constants {
     public static class CarriageConstants {
         public static final int CARRIAGE_MOTOR_ID = 17;
         public static final Range OLD_LIMITS = new Range(2015, 3350);
-        public static final Range CARRIAGE_LIMITS = new Range(2150, 3460);
+        public static final Range CARRIAGE_LIMITS = new Range(1843, 3166);
         public static final int CARRIAGE_ANALOG_ID = 0;
 
         public static final double START_POS = toNewRange(2165, OLD_LIMITS, CARRIAGE_LIMITS);// 2015;
