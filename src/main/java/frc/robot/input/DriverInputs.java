@@ -111,8 +111,8 @@ public class DriverInputs extends DynamicLayout {
             return driverSpeed;
         }));
 
-        layout.assign(runIntakeMotorIn, operator.rightTriggerHeld);
-        layout.assign(runIntakeMotorOut, operator.leftTriggerHeld);
+        layout.assign(runIntakeMotorIn, operator.rightTriggerHeld.scaledBy(.1));
+        layout.assign(runIntakeMotorOut, operator.leftTriggerHeld.scaledBy(.1));
         layout.assign(setIntakeSolenoidForward, operator.rightBumper);
         layout.assign(setIntakeSolenoidBackward, operator.leftBumper);
         layout.assign(lowPosition, operator.x);

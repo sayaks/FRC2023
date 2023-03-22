@@ -58,7 +58,7 @@ public class ElbowSubsystem extends SubsystemBase {
         elbowSpeed = speed;
 
         final double limitedSpeed = ElbowConstants.ROTATE_LIMITS.limitMotionWithinRange(
-                speed, getElbowRotationPosition());
+                -speed, getElbowRotationPosition());
         elbowMotor.set(limitedSpeed);
     }
 
