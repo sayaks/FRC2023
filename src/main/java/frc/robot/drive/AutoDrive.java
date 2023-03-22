@@ -67,14 +67,18 @@ public class AutoDrive extends CommandBase {
 
     }
 
+    // return if the magnitude of the current has exceeded the magnitude of the
+    // target
     private boolean checkVal(double currVal, double targetVal) {
         return targetVal > 0 ? currVal > targetVal : currVal < targetVal;
     }
 
+    // if min is empty, start, otherwise check value to recheck min
     private boolean checkStarting(Optional<Double> min, double current) {
         return min.isEmpty() || checkVal(current, min.get());
     }
 
+    // caps the magnitude of val to cap
     public double capVal(double val, double cap) {
         double retval = val;
         double tempCap = Math.abs(cap);
@@ -86,6 +90,7 @@ public class AutoDrive extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        // wait to start if wanted
         if (params.startTime.isPresent() && Timer.getFPGATimestamp() - startTime < params.startTime.get()) {
             return;
         }
@@ -97,6 +102,7 @@ public class AutoDrive extends CommandBase {
         double yVal = 0;
         double rotVal = 0;
 
+        // checks to see if we are driving each axis independently
         boolean useX = checkStarting(params.startXatY, pose.getY())
                 && checkStarting(params.startXatRot, rot.getDegrees());
         boolean useY = checkStarting(params.startYatX, pose.getX())
@@ -104,37 +110,39 @@ public class AutoDrive extends CommandBase {
         boolean useRot = params.useRot && checkStarting(params.startRotAtY, pose.getY())
                 && checkStarting(params.startRotAtX, pose.getX());
 
+        // use the x axis if wanted, otherwise hold x if desired, otherwise do nothing
         if (useX) {
             xVal = params.usePidX ? pidx.calculate(pose.getX(), setPose.getX()) : params.maxXSpeed;
         } else if (params.holdXTillXStarts) {
             xVal = pidx.calculate(pose.getX(), startX);
         }
+        // use if slew is wanted on X
         if (params.useSlewX) {
             xVal = slewx.calculate(xVal);
         }
+        // use the y axis if wanted, otherwise hold y if desired, otherwise do nothing
         if (useY) {
             yVal = params.usePidY ? pidy.calculate(pose.getY(), setPose.getY()) : params.maxYSpeed;
-            if (params.useSlewY) {
-                yVal = slewy.calculate(yVal);
-            }
         } else if (params.holdYTillYStarts) {
             yVal = pidy.calculate(pose.getY(), startY);
         }
+        // use if slew is wanted on Y
         if (params.useSlewY) {
             yVal = slewy.calculate(yVal);
         }
+        // rotate around the z axis if wanted, otherwise hold rotation if desired,
+        // otherwise do nothing
         if (useRot) {
             rotVal = pidr.calculate(rot.getDegrees(), setPose.getRotation().getDegrees());
-            if (params.useSlewRot) {
-                rotVal = slewr.calculate(rotVal);
-            }
         } else if (params.holdRotTillRotStarts) {
             rotVal = pidr.calculate(rot.getDegrees(), startRot);
         }
+        // use if slew is wanted on rotation
         if (params.useSlewRot) {
             rotVal = slewr.calculate(rotVal);
         }
 
+        // caps values to max speed
         xVal = capVal(xVal, params.maxXSpeed);
         yVal = capVal(yVal, params.maxYSpeed);
         rotVal = capVal(rotVal, params.maxRotSpeed);
@@ -148,6 +156,8 @@ public class AutoDrive extends CommandBase {
         drive.stop();
     }
 
+    // optional, if no tolerance we return true, otherwise check if the distance
+    // from target is in tolerance
     public boolean checkTolerance(double target, Optional<Double> tolerance, double current) {
         return tolerance.isEmpty() || Math.abs(target - current) < tolerance.get();
     }
@@ -157,6 +167,8 @@ public class AutoDrive extends CommandBase {
     public boolean isFinished() {
 
         Pose2d pose = drive.getOdometryPose();
+        // if no tolerances return false, otherwise check tolerance on X and Y, and
+        // tolerance on Rotation if applicable
         return !(params.rotTolerance.isEmpty() && params.xTolerance.isEmpty() && params.yTolerance.isEmpty()) &&
                 (checkTolerance(params.targetPose.getX(), params.xTolerance, pose.getX()) &&
                         checkTolerance(params.targetPose.getY(), params.yTolerance, pose.getY()) &&

@@ -32,11 +32,10 @@ public class DriveSubsystem extends SubsystemBase {
 
     private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
             Constants.DriveConstants.WHEEL_LOCATIONS);
-    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(kinematics, getRobotPitch(),
-            getModulePositions());
 
     private final NetworkTable table = NetworkTableInstance.getDefault().getTable("157/Swerve");
     private float gyroOffset = 0.0f;
+    // tune these values for auto (mostly p, maybe some d)
     public PIDController pidx = new PIDController(0.01, 0, 0);
     public PIDController pidy = new PIDController(0.01, 0, 0);
     public PIDController pidr = new PIDController(1, 0, 0);
@@ -478,6 +477,9 @@ public class DriveSubsystem extends SubsystemBase {
             usePidX = val;
             return this;
         }
-
     }
+
+    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(kinematics, new Rotation2d(0),
+            getModulePositions());
+
 }

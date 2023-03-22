@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Counter.Mode;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.WristConstants;
+import frc.robot.elbow.ElbowSubsystem;
 import frc.robot.input.DriverInputs;
 import frc.robot.lib.NumberUtil;
 import frc.robot.statemachines.SubsystemGroup.SafetyLogic;
@@ -39,9 +40,11 @@ public class WristSubsystem extends SubsystemBase {
     public Command runWrist(final DriverInputs inputs) {
         return runEnd(() -> {
             final double speed = inputs.axis(DriverInputs.rotateWrist).get();
-            if (speed != positiveInfinity && speed != negativeInfinity)
+            final double position = getWristRotationPosition();
+            if (position != positiveInfinity && position != negativeInfinity) {
                 rotateWrist(speed);
-            else {
+
+            } else {
                 wristMotor.set(speed);
             }
         }, () -> rotateWrist(0));
@@ -143,9 +146,10 @@ public class WristSubsystem extends SubsystemBase {
         @Override
         public double stateCalculate(double speed, double elbowPosition, double wristPosition, double elevatorPosition,
                 double carriagePosition) {
-            // Runs the elbow for the states
-            if (elbowPosition > this.minElbowPos) {
-                return pid.calculate(wristPosition, this.wristPosition);
+            // Runs the wrist for the states
+            double pidVal = pid.calculate(wristPosition, this.wristPosition);
+            if (elbowPosition > this.minElbowPos || pidVal > 0) {
+                return pidVal;
             }
 
             return 0;

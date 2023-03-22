@@ -105,10 +105,10 @@ public class PwmLEDs extends SubsystemBase {
         int counter = (int) Math.floor(Timer.getFPGATimestamp() * speed);
         for (int i = 0; i < buffer.getLength(); i += color2Length + color1Length) {
             for (int j = 0; j < color1Length; j++) {
-                buffer.setLED(i + j + counter % buffer.getLength(), color1);
+                buffer.setLED((i + j + counter) % buffer.getLength(), color1);
             }
             for (int j = color1Length; j < color1Length + color2Length; j++) {
-                buffer.setLED(i + j + counter % buffer.getLength(), color2);
+                buffer.setLED((i + j + counter) % buffer.getLength(), color2);
             }
         }
     }
@@ -170,5 +170,7 @@ public class PwmLEDs extends SubsystemBase {
             default:
                 solid(Color.kBlack);
         }
+
+        lights.setData(buffer);
     }
 }
