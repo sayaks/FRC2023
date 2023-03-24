@@ -51,7 +51,7 @@ public class ElbowSubsystem extends SubsystemBase {
     }
 
     public double getElbowRotationPosition() {
-        return NumberUtil.ticksToDegs(elbowAbsEncoder.getPeriod()) + 100;
+        return NumberUtil.ticksToDegs(elbowAbsEncoder.getPeriod());
     }
 
     public void rotateElbow(final double speed) {

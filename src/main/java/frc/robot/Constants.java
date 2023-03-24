@@ -112,7 +112,7 @@ public final class Constants {
         public static final int SERVO_ID = 1;
 
         public static final Range OLD_LIMITS = new Range(60, 233);
-        public static final Range ROTATE_LIMITS = new Range(250, 340); // 340 fully down, 250 fully up
+        public static final Range ROTATE_LIMITS = new Range(150, 240); // 340 fully down, 250 fully up
 
         public static final double START_POS = 0;// toNewRange(230, OLD_LIMITS, ROTATE_LIMITS); // 230;
         public static final double LOW_POS = 0;// toNewRange(60, OLD_LIMITS, ROTATE_LIMITS);// 60;
