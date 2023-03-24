@@ -51,14 +51,14 @@ public class ElbowSubsystem extends SubsystemBase {
     }
 
     public double getElbowRotationPosition() {
-        return NumberUtil.ticksToDegs(elbowAbsEncoder.getPeriod());
+        return NumberUtil.ticksToDegs(elbowAbsEncoder.getPeriod()) + 100;
     }
 
     public void rotateElbow(final double speed) {
         elbowSpeed = speed;
 
         final double limitedSpeed = ElbowConstants.ROTATE_LIMITS.limitMotionWithinRange(
-                -speed, getElbowRotationPosition());
+                speed, getElbowRotationPosition());
         elbowMotor.set(limitedSpeed);
     }
 

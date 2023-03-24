@@ -86,13 +86,13 @@ public final class Constants {
         public static final int ABS_ENCODER_ROTATION_ID = 2;
         public static final int MOTOR_ID = 14;
         public static final Range OLD_LIMITS = new Range(25, 140);
-        public static final Range ROTATE_LIMITS = new Range(35, 175); // 280 is full max
+        public static final Range ROTATE_LIMITS = new Range(32, 197); // 280 is full max
 
-        public static final double START_POS = 0;// toNewRange(140, OLD_LIMITS, ROTATE_LIMITS);// 140;
-        public static final double LOW_POS = 0;// toNewRange(140, OLD_LIMITS, ROTATE_LIMITS);// 140;
-        public static final double MID_POS = 0;// toNewRange(72, OLD_LIMITS, ROTATE_LIMITS);// 72;
-        public static final double LOADING_POS = 0;// toNewRange(75, OLD_LIMITS, ROTATE_LIMITS);// 75;
-        public static final double HIGH_POS = 0;// toNewRange(72, OLD_LIMITS, ROTATE_LIMITS);// 72;
+        public static final double START_POS = toNewRange(140, OLD_LIMITS, ROTATE_LIMITS);// 140;
+        public static final double LOW_POS = toNewRange(140, OLD_LIMITS, ROTATE_LIMITS);// 140;
+        public static final double MID_POS = toNewRange(72, OLD_LIMITS, ROTATE_LIMITS);// 72;
+        public static final double LOADING_POS = toNewRange(75, OLD_LIMITS, ROTATE_LIMITS);// 75;
+        public static final double HIGH_POS = toNewRange(72, OLD_LIMITS, ROTATE_LIMITS);// 72;
 
         public static final double START_POS_MIN_ARM = toNewRange(60, ElbowConstants.OLD_LIMITS,
                 ElbowConstants.ROTATE_LIMITS);// 60;
@@ -111,14 +111,14 @@ public final class Constants {
         public static final int MOTOR_ID = 15;
         public static final int SERVO_ID = 1;
 
-        public static final Range OLD_LIMITS = new Range(60, 233);
-        public static final Range ROTATE_LIMITS = new Range(150, 240); // 340 fully down, 250 fully up
+        public static final Range OLD_LIMITS = new Range(60, 230);
+        public static final Range ROTATE_LIMITS = new Range(40, 269); // 162 fully down, 336 fully up
 
-        public static final double START_POS = 0;// toNewRange(230, OLD_LIMITS, ROTATE_LIMITS); // 230;
-        public static final double LOW_POS = 0;// toNewRange(60, OLD_LIMITS, ROTATE_LIMITS);// 60;
-        public static final double MID_POS = 0;// toNewRange(218, OLD_LIMITS, ROTATE_LIMITS);// 218;
-        public static final double LOADING_POS = 0;// toNewRange(187, OLD_LIMITS, ROTATE_LIMITS);// 187;
-        public static final double HIGH_POS = 0;// toNewRange(190, OLD_LIMITS, ROTATE_LIMITS);// 190;
+        public static final double START_POS = toNewRange(230, OLD_LIMITS, ROTATE_LIMITS); // 230;
+        public static final double LOW_POS = toNewRange(60, OLD_LIMITS, ROTATE_LIMITS);// 60;
+        public static final double MID_POS = toNewRange(218, OLD_LIMITS, ROTATE_LIMITS);// 218;
+        public static final double LOADING_POS = toNewRange(187, OLD_LIMITS, ROTATE_LIMITS);// 187;
+        public static final double HIGH_POS = toNewRange(190, OLD_LIMITS, ROTATE_LIMITS);// 190;
 
         public static final double START_POS_MIN_CARRIAGE = toNewRange(1790, CarriageConstants.OLD_LIMITS,
                 CarriageConstants.CARRIAGE_LIMITS);// 1790;
@@ -154,15 +154,15 @@ public final class Constants {
     public static class ElevatorConstants {
         public static final int ELEVATOR_MOTOR_ID = 16;
         public static final Range OLD_LIMITS = new Range(1315, 1675);
-        public static final Range ELEVATOR_LIMITS = new Range(1206, 1670); // end is the bottom most and start is
+        public static final Range ELEVATOR_LIMITS = new Range(1232, 1683); // end is the bottom most and start is
                                                                            // the top most
         public static final int ELEVATOR_ANALOG_ID = 3;
 
-        public static final double START_POS = 0;// toNewRange(1675, OLD_LIMITS, ELEVATOR_LIMITS);
-        public static final double LOW_POS = 0;// toNewRange(1675, OLD_LIMITS, ELEVATOR_LIMITS);
-        public static final double MID_POS = 0;// toNewRange(1698, OLD_LIMITS, ELEVATOR_LIMITS);
-        public static final double LOADING_POS = 0;// toNewRange(1520, OLD_LIMITS, ELEVATOR_LIMITS);
-        public static final double HIGH_POS = 0;// toNewRange(1330, OLD_LIMITS, ELEVATOR_LIMITS);
+        public static final double START_POS = toNewRange(1675, OLD_LIMITS, ELEVATOR_LIMITS);
+        public static final double LOW_POS = toNewRange(1675, OLD_LIMITS, ELEVATOR_LIMITS);
+        public static final double MID_POS = toNewRange(1698, OLD_LIMITS, ELEVATOR_LIMITS);
+        public static final double LOADING_POS = toNewRange(1520, OLD_LIMITS, ELEVATOR_LIMITS);
+        public static final double HIGH_POS = toNewRange(1330, OLD_LIMITS, ELEVATOR_LIMITS);
 
         public static final double SLEW_POSITIVE_VAL = 10;
         public static final double SLEW_NEGATIVE_VAL = -1;
@@ -186,14 +186,14 @@ public final class Constants {
     public static class CarriageConstants {
         public static final int CARRIAGE_MOTOR_ID = 17;
         public static final Range OLD_LIMITS = new Range(2015, 3350);
-        public static final Range CARRIAGE_LIMITS = new Range(2730, 3850);
+        public static final Range CARRIAGE_LIMITS = new Range(1843, 3166);
         public static final int CARRIAGE_ANALOG_ID = 0;
 
-        public static final double START_POS = 0;// toNewRange(2165, OLD_LIMITS, CARRIAGE_LIMITS);// 2015;
-        public static final double LOW_POS = 0;// toNewRange(3430, OLD_LIMITS, CARRIAGE_LIMITS);// 3350;
-        public static final double MID_POS = 0;// toNewRange(3430, OLD_LIMITS, CARRIAGE_LIMITS);// 3350;
-        public static final double LOADING_POS = 0;// toNewRange(3430, OLD_LIMITS, CARRIAGE_LIMITS);// 3350;
-        public static final double HIGH_POS = 0;// toNewRange(3430, OLD_LIMITS, CARRIAGE_LIMITS);// 3350;
+        public static final double START_POS = toNewRange(2165, OLD_LIMITS, CARRIAGE_LIMITS);// 2015;
+        public static final double LOW_POS = toNewRange(3430, OLD_LIMITS, CARRIAGE_LIMITS);// 3350;
+        public static final double MID_POS = toNewRange(3430, OLD_LIMITS, CARRIAGE_LIMITS);// 3350;
+        public static final double LOADING_POS = toNewRange(3430, OLD_LIMITS, CARRIAGE_LIMITS);// 3350;
+        public static final double HIGH_POS = toNewRange(3430, OLD_LIMITS, CARRIAGE_LIMITS);// 3350;
 
         public static final double START_POS_MIN_ELBOW = toNewRange(133, ElbowConstants.OLD_LIMITS,
                 ElbowConstants.ROTATE_LIMITS);// 133;
