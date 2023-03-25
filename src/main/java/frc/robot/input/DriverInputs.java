@@ -55,7 +55,7 @@ public class DriverInputs extends DynamicLayout {
         final var driver = new LogitechGamepadF310(0);
         final var operator = new LogitechGamepadF310(1);
 
-        final var speedModifier = 0.20;
+        final var speedModifier = 0.80;
 
         layout.assign(driveSpeedX, driver.leftStickX.map(deadzone::apply).scaledBy(speedModifier));
         layout.assign(driveSpeedY, driver.leftStickY.map(deadzone::apply).scaledBy(speedModifier));
@@ -96,7 +96,7 @@ public class DriverInputs extends DynamicLayout {
         final var driver = new LogitechExtreme3D(0);
         final var operator = new XboxOne(1);
 
-        final var speedModifier = 0.20;
+        final var speedModifier = 0.80;
 
         layout.assign(driveSpeedX, driver.stickX.map(deadzone::apply).scaledBy(speedModifier));
         layout.assign(driveSpeedY, driver.stickY.map(deadzone::apply).scaledBy(speedModifier));
@@ -121,8 +121,8 @@ public class DriverInputs extends DynamicLayout {
         layout.assign(loadingPosition, operator.b);
         layout.assign(startPosition, operator.start);
 
-        layout.assign(rotateWrist, operator.rightStickY.scaledBy(-0.5));
-        layout.assign(rotateElbow, operator.leftStickY.scaledBy(-0.5));
+        layout.assign(rotateWrist, operator.rightStickY.map(deadzone::apply).scaledBy(-0.5));
+        layout.assign(rotateElbow, operator.leftStickY.map(deadzone::apply).scaledBy(-0.5));
 
         layout.assign(elevator, operator.pov.y.scaledBy(-0.25));
         layout.assign(carriage, operator.pov.x.scaledBy(0.75));

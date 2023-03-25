@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.cosmetics.PwmLEDs;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -61,7 +62,8 @@ public class Robot extends TimedRobot {
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
-        m_robotContainer.lightsSubsystem.setWave(Color.kBlack, Color.kBlack, 10, 1);
+        m_robotContainer.lightsSubsystem.setWave(PwmLEDs.dimColor(Color.kGold, 0.1),
+                PwmLEDs.dimColor(Color.kBlue, 0.1), 10, 1);
     }
 
     @Override

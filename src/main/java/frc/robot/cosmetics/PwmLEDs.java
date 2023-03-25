@@ -151,6 +151,10 @@ public class PwmLEDs extends SubsystemBase {
         this.lightMode = Mode.STROBE;
     }
 
+    public static Color dimColor(Color color, double brightness) {
+        return new Color(color.red * brightness, color.green * brightness, color.blue * brightness);
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run

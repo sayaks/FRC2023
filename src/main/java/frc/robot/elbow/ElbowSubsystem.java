@@ -30,7 +30,7 @@ public class ElbowSubsystem extends SubsystemBase {
     private double elbowSpeed = 0.0;
 
     public ElbowSubsystem() {
-        elbowMotor.setInverted(false);
+        elbowMotor.setInverted(true);
         elbowMotor.setIdleMode(IdleMode.kBrake);
         final var tab = Shuffleboard.getTab("Encoder Debug");
         tab.addNumber("elbow position", this::getElbowRotationPosition);
@@ -51,7 +51,7 @@ public class ElbowSubsystem extends SubsystemBase {
     }
 
     public double getElbowRotationPosition() {
-        return NumberUtil.ticksToDegs(elbowAbsEncoder.getPeriod()) + 100;
+        return 360 - NumberUtil.ticksToDegs(elbowAbsEncoder.getPeriod());
     }
 
     public void rotateElbow(final double speed) {

@@ -56,9 +56,9 @@ public class IntakeSubsystem extends SubsystemBase {
             solenoid.set(value);
             isOpen = value == DoubleSolenoid.Value.kForward;
             if (isOpen) {
-                lights.setColor1(Color.kPurple);
+                lights.setSolid(Color.kPurple);
             } else {
-                lights.setColor2(Color.kYellow);
+                lights.setSolid(Color.kYellow);
             }
         });
     }
