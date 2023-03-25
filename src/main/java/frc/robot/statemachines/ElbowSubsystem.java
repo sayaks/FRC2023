@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.elbow;
+package frc.robot.statemachines;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -64,66 +64,36 @@ public class ElbowSubsystem extends SubsystemBase {
 
     private final NetworkTable table = NetworkTableInstance.getDefault().getTable("157/Elbow");
 
-    public static class ElbowState implements SafetyLogic {
-
-        private double elbowPosition;
-        private static PIDController mainPID = new PIDController(0.03, 0, 0);
+    public static class ElbowState extends SafetyLogic {
         private double minCarriagePos;
         private double minWristPos;
-        private PIDController elbowDownPid;
-        private ElbowStates state;
 
-        public enum ElbowStates {
-            start, low, mid, loading, high
-        }
-
-        public ElbowState(final double elbowPosition, final PIDController elbowDownPid,
-                final double minCarriagePos, double minWristPos, ElbowStates state) {
-            this.elbowPosition = elbowPosition;
-            this.elbowDownPid = elbowDownPid;
-            this.minCarriagePos = minCarriagePos;
-            this.minWristPos = minWristPos;
-            this.state = state;
-        }
-
-        public static final ElbowState start = new ElbowState(ElbowConstants.START_POS, mainPID,
-                ElbowConstants.START_POS_MIN_CARRIAGE,
-                ElbowConstants.START_POS_MIN_WRIST, ElbowStates.start);
-        public static final ElbowState low = new ElbowState(ElbowConstants.LOW_POS, mainPID,
-                ElbowConstants.LOW_POS_MIN_CARRIAGE,
-                ElbowConstants.LOW_POS_MIN_WRIST, ElbowStates.low);
-        public static final ElbowState mid = new ElbowState(ElbowConstants.MID_POS, mainPID,
-                ElbowConstants.MID_POS_MIN_CARRIAGE,
-                ElbowConstants.MID_POS_MIN_WRIST, ElbowStates.mid);
-        public static final ElbowState loading = new ElbowState(ElbowConstants.LOADING_POS, mainPID,
-                ElbowConstants.LOADING_POS_MIN_CARRIAGE, ElbowConstants.LOADING_POS_MIN_WRIST, ElbowStates.loading);
-        public static final ElbowState high = new ElbowState(ElbowConstants.HIGH_POS, mainPID,
-                ElbowConstants.HIGH_POS_MIN_CARRIAGE,
-                ElbowConstants.HIGH_POS_MIN_WRIST, ElbowStates.high);
-
-        @Override
-        public SafetyLogic lowPosition() {
-            return low;
-        }
-
-        @Override
-        public SafetyLogic midPosition() {
-            return mid;
-        }
-
-        @Override
-        public SafetyLogic loadingPosition() {
-            return loading;
-        }
-
-        @Override
-        public SafetyLogic highPosition() {
-            return high;
-        }
-
-        @Override
-        public SafetyLogic defaultPosition() {
-            return start;
+        public ElbowState(State state) {
+            super(state);
+            switch (state) {
+                case high:
+                    this.minCarriagePos = ElbowConstants.HIGH_POS_MIN_CARRIAGE;
+                    this.minWristPos = ElbowConstants.HIGH_POS_MIN_WRIST;
+                    break;
+                case loading:
+                    this.minCarriagePos = ElbowConstants.LOADING_POS_MIN_CARRIAGE;
+                    this.minWristPos = ElbowConstants.LOADING_POS_MIN_WRIST;
+                    break;
+                case low:
+                    this.minCarriagePos = ElbowConstants.LOW_POS_MIN_CARRIAGE;
+                    this.minWristPos = ElbowConstants.LOW_POS_MIN_WRIST;
+                    break;
+                case mid:
+                    this.minCarriagePos = ElbowConstants.MID_POS_MIN_CARRIAGE;
+                    this.minWristPos = ElbowConstants.MID_POS_MIN_WRIST;
+                    break;
+                case start:
+                default:
+                    this.minCarriagePos = ElbowConstants.START_POS_MIN_CARRIAGE;
+                    this.minWristPos = ElbowConstants.START_POS_MIN_WRIST;
+                    break;
+            }
+            mainPid = new PIDController(0.03, 0, 0);
         }
 
         @Override
@@ -138,13 +108,13 @@ public class ElbowSubsystem extends SubsystemBase {
                 case mid:
                 case loading:
                     if (carriagePosition > this.minCarriagePos && wristPosition > this.minWristPos) {
-                        s = this.elbowDownPid.calculate(elbowPosition, this.elbowPosition);
+                        s = mainPid.calculate(elbowPosition, position);
                     }
                     break;
                 case high:
                     if (elevatorPosition < ElbowConstants.SAFETY_ELEVATOR_LIMIT_HIGH
-                            || elbowPosition < this.elbowPosition) {
-                        s = this.elbowDownPid.calculate(elbowPosition, this.elbowPosition);
+                            || elbowPosition < position) {
+                        s = mainPid.calculate(elbowPosition, position);
                     }
                     break;
                 default:
@@ -153,6 +123,10 @@ public class ElbowSubsystem extends SubsystemBase {
             return s < 0.75 ? s : 0.75;
         }
 
+        @Override
+        protected PositionConstants get_constants() {
+            return new ElbowConstants();
+        }
     }
 
     @Override

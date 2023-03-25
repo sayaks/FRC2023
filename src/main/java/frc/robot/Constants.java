@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import frc.robot.drive.SwervePod;
+import frc.robot.statemachines.SubsystemGroup.SafetyLogic.PositionConstants;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -82,7 +83,11 @@ public final class Constants {
         public static final int INTAKE_SENSOR_ID = 3;
     }
 
-    public static class WristConstants {
+    public static class WristConstants extends PositionConstants {
+        public WristConstants() {
+            super(START_POS, LOW_POS, MID_POS, HIGH_POS, LOADING_POS);
+        }
+
         public static final int ABS_ENCODER_ROTATION_ID = 2;
         public static final int MOTOR_ID = 14;
         public static final Range OLD_LIMITS = new Range(36, 179);
@@ -106,7 +111,11 @@ public final class Constants {
                 ElbowConstants.ROTATE_LIMITS);// 103;
     }
 
-    public static class ElbowConstants {
+    public static class ElbowConstants extends PositionConstants {
+        public ElbowConstants() {
+            super(START_POS, LOW_POS, MID_POS, HIGH_POS, LOADING_POS);
+        }
+
         public static final int ABS_ENCODER_ROTATION_ID = 1;
         public static final int MOTOR_ID = 15;
         public static final int SERVO_ID = 1;
@@ -151,7 +160,11 @@ public final class Constants {
                 ElevatorConstants.ELEVATOR_LIMITS);
     }
 
-    public static class ElevatorConstants {
+    public static class ElevatorConstants extends PositionConstants {
+        public ElevatorConstants() {
+            super(START_POS, LOW_POS, MID_POS, HIGH_POS, LOADING_POS);
+        }
+
         public static final int ELEVATOR_MOTOR_ID = 16;
         public static final Range OLD_LIMITS = new Range(1315, 1675);
         public static final Range ELEVATOR_LIMITS = new Range(1164, 1620); // end is the bottom most and start is
@@ -183,7 +196,11 @@ public final class Constants {
                 CarriageConstants.CARRIAGE_LIMITS);// 3075;
     }
 
-    public static class CarriageConstants {
+    public static class CarriageConstants extends PositionConstants {
+        public CarriageConstants() {
+            super(START_POS, LOW_POS, MID_POS, HIGH_POS, LOADING_POS);
+        }
+
         public static final int CARRIAGE_MOTOR_ID = 17;
         public static final Range OLD_LIMITS = new Range(2015, 3350);
         public static final Range CARRIAGE_LIMITS = new Range(1390, 2520);

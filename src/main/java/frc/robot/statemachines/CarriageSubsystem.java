@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.lift;
+package frc.robot.statemachines;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -60,54 +60,32 @@ public class CarriageSubsystem extends SubsystemBase {
         table.getEntry("CarriageSpeed").setNumber(carriageSpeed);
     }
 
-    public static class CarriageState implements SafetyLogic {
-        private static PIDController mainPID = new PIDController(0.01, 0, 0.00);
-
+    public static class CarriageState extends SafetyLogic {
         private double carriagePosition;
-        private PIDController carriageDownPid;
         private double minElbowPos;
 
-        public CarriageState(final double carriagePosition, final PIDController carriageDownPid,
-                final double minElbowPos) {
-            this.carriagePosition = carriagePosition;
-            this.carriageDownPid = carriageDownPid;
-            this.minElbowPos = minElbowPos;
-        }
+        public CarriageState(State state) {
+            super(state);
+            switch (state) {
+                case high:
+                    this.minElbowPos = CarriageConstants.HIGH_POS_MIN_ELBOW;
+                    break;
+                case loading:
+                    this.minElbowPos = CarriageConstants.LOADING_POS_MIN_ELBOW;
+                    break;
+                case low:
+                    this.minElbowPos = CarriageConstants.LOW_POS_MIN_ELBOW;
+                    break;
+                case mid:
+                    this.minElbowPos = CarriageConstants.MID_POS_MIN_ELBOW;
+                    break;
+                case start:
+                default:
+                    this.minElbowPos = CarriageConstants.START_POS_MIN_ELBOW;
+                    break;
 
-        public static final CarriageState start = new CarriageState(CarriageConstants.START_POS, mainPID,
-                CarriageConstants.START_POS_MIN_ELBOW);
-        public static final CarriageState low = new CarriageState(CarriageConstants.LOW_POS, mainPID,
-                CarriageConstants.LOW_POS_MIN_ELBOW);
-        public static final CarriageState mid = new CarriageState(CarriageConstants.MID_POS, mainPID,
-                CarriageConstants.MID_POS_MIN_ELBOW);
-        public static final CarriageState loading = new CarriageState(CarriageConstants.LOADING_POS, mainPID,
-                CarriageConstants.LOADING_POS_MIN_ELBOW);
-        public static final CarriageState high = new CarriageState(CarriageConstants.HIGH_POS, mainPID,
-                CarriageConstants.HIGH_POS_MIN_ELBOW);
-
-        @Override
-        public SafetyLogic lowPosition() {
-            return low;
-        }
-
-        @Override
-        public SafetyLogic midPosition() {
-            return mid;
-        }
-
-        @Override
-        public SafetyLogic loadingPosition() {
-            return loading;
-        }
-
-        @Override
-        public SafetyLogic highPosition() {
-            return high;
-        }
-
-        @Override
-        public SafetyLogic defaultPosition() {
-            return start;
+            }
+            this.mainPid = new PIDController(0.01, 0, 0);
         }
 
         @Override
@@ -120,9 +98,14 @@ public class CarriageSubsystem extends SubsystemBase {
                 // } else if (carriagePosition > this.carriagePosition + 100) {
                 // return -0.2;
                 //
-                return this.carriageDownPid.calculate(carriagePosition, this.carriagePosition);
+                return mainPid.calculate(carriagePosition, this.carriagePosition);
             }
             return 0;
+        }
+
+        @Override
+        protected PositionConstants get_constants() {
+            return new CarriageConstants();
         }
 
     }
