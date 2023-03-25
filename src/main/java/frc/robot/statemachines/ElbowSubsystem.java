@@ -12,16 +12,14 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Counter.Mode;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.ElbowConstants;
+import frc.robot.Constants.ElbowData;
 import frc.robot.input.DriverInputs;
 import frc.robot.lib.NumberUtil;
-import frc.robot.statemachines.SubsystemGroup.SafetyLogic;
 
 public class ElbowSubsystem extends SubsystemBase {
 
@@ -64,35 +62,14 @@ public class ElbowSubsystem extends SubsystemBase {
 
     private final NetworkTable table = NetworkTableInstance.getDefault().getTable("157/Elbow");
 
-    public static class ElbowState extends SafetyLogic {
-        private double minCarriagePos;
-        private double minWristPos;
+    public static class ElbowState extends SafetyLogic<ElbowData> {
+        public final double minCarriagePos;
+        public final double minWristPos;
 
         public ElbowState(State state) {
             super(state);
-            switch (state) {
-                case high:
-                    this.minCarriagePos = ElbowConstants.HIGH_POS_MIN_CARRIAGE;
-                    this.minWristPos = ElbowConstants.HIGH_POS_MIN_WRIST;
-                    break;
-                case loading:
-                    this.minCarriagePos = ElbowConstants.LOADING_POS_MIN_CARRIAGE;
-                    this.minWristPos = ElbowConstants.LOADING_POS_MIN_WRIST;
-                    break;
-                case low:
-                    this.minCarriagePos = ElbowConstants.LOW_POS_MIN_CARRIAGE;
-                    this.minWristPos = ElbowConstants.LOW_POS_MIN_WRIST;
-                    break;
-                case mid:
-                    this.minCarriagePos = ElbowConstants.MID_POS_MIN_CARRIAGE;
-                    this.minWristPos = ElbowConstants.MID_POS_MIN_WRIST;
-                    break;
-                case start:
-                default:
-                    this.minCarriagePos = ElbowConstants.START_POS_MIN_CARRIAGE;
-                    this.minWristPos = ElbowConstants.START_POS_MIN_WRIST;
-                    break;
-            }
+            this.minCarriagePos = this.data.minCarriagePos;
+            this.minWristPos = this.data.minWristPos;
             mainPid = new PIDController(0.03, 0, 0);
         }
 
@@ -124,8 +101,8 @@ public class ElbowSubsystem extends SubsystemBase {
         }
 
         @Override
-        protected PositionConstants get_constants() {
-            return new ElbowConstants();
+        protected SafetyConstants<ElbowData> get_constants() {
+            return ElbowConstants.SINGLETON;
         }
     }
 
