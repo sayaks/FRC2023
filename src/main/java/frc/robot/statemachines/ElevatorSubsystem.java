@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.input.DriverInputs;
-import frc.robot.statemachines.SubsystemGroup.SafetyLogic;
 
 public class ElevatorSubsystem extends SubsystemBase {
     private final CANSparkMax elevatorMotor = new CANSparkMax(ElevatorConstants.ELEVATOR_MOTOR_ID,
@@ -66,7 +65,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public static class ElevatorState
-            extends SafetyLogic {
+            extends SafetyLogic<Void> {
 
         public ElevatorState(State state) {
             super(state);
@@ -119,8 +118,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
 
         @Override
-        protected PositionConstants get_constants() {
-            return new ElevatorConstants();
+        protected SafetyConstants<Void> get_constants() {
+            return ElevatorConstants.SINGLETON;
         }
     }
 }
