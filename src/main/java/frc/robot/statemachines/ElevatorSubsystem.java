@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.lift;
+package frc.robot.statemachines;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -65,65 +65,16 @@ public class ElevatorSubsystem extends SubsystemBase {
         table.getEntry("ElevatorSpeed").setNumber(elevatorSpeed);
     }
 
-    public static final PIDController mainPid = new PIDController(0.01, 0, 0);
+    public static class ElevatorState
+            extends SafetyLogic {
 
-    public static class ElevatorState implements SafetyLogic {
-        public final double elevatorPosition;
-        public final PIDController elevatorUpPid;
-        public final PIDController elevatorDownPid;
+        public ElevatorState(State state) {
+            super(state);
+            this.mainPid = new PIDController(0.01, 0, 0);
+        }
+
         public static final SlewRateLimiter slew = new SlewRateLimiter(ElevatorConstants.SLEW_POSITIVE_VAL,
                 ElevatorConstants.SLEW_NEGATIVE_VAL, 0);
-        private ElevatorStates state;
-
-        public enum ElevatorStates {
-            start, low, high, mid, loading
-        }
-
-        public ElevatorState(final double elevatorPosition, final PIDController elevatorUpPid,
-                final PIDController elevatorDownPid, ElevatorStates state) {
-            this.elevatorPosition = elevatorPosition;
-            this.elevatorUpPid = elevatorUpPid;
-            this.elevatorDownPid = elevatorDownPid;
-            this.state = state;
-        }
-
-        public static final ElevatorState start = new ElevatorState(
-                ElevatorConstants.START_POS, mainPid, mainPid, ElevatorStates.start);
-        public static final ElevatorState low = new ElevatorState(
-                ElevatorConstants.LOW_POS, mainPid, mainPid, ElevatorStates.low);
-        // the min wrist position theoretically will work at 157, however, may not be
-        // safe, so will likely need some testing and logic for a safer min pos.
-        public static final ElevatorState mid = new ElevatorState(
-                ElevatorConstants.MID_POS, mainPid, mainPid, ElevatorStates.mid);
-        public static final ElevatorState loading = new ElevatorState(
-                ElevatorConstants.LOADING_POS, mainPid, mainPid, ElevatorStates.loading);
-        public static final ElevatorState high = new ElevatorState(
-                ElevatorConstants.HIGH_POS, mainPid, mainPid, ElevatorStates.high);
-
-        @Override
-        public SafetyLogic lowPosition() {
-            return low;
-        }
-
-        @Override
-        public SafetyLogic midPosition() {
-            return mid;
-        }
-
-        @Override
-        public SafetyLogic highPosition() {
-            return high;
-        }
-
-        @Override
-        public SafetyLogic loadingPosition() {
-            return loading;
-        }
-
-        @Override
-        public SafetyLogic defaultPosition() {
-            return start;
-        }
 
         @Override
         public double stateCalculate(double speed, double elbowPosition, double wristPosition, double elevatorPosition,
@@ -136,7 +87,7 @@ public class ElevatorSubsystem extends SubsystemBase {
                 case start:
                     if (elbowPosition > ElevatorConstants.SAFETY_ELBOW_LIMIT_START_MID
                             && wristPosition > ElevatorConstants.SAFETY_WRIST_LIMIT_START_MID) {
-                        return mainPid.calculate(elevatorPosition, this.elevatorPosition);
+                        return mainPid.calculate(elevatorPosition, this.position);
                     }
                     break;
                 // Ensures everything is safe to move before elevator goes too low
@@ -144,7 +95,7 @@ public class ElevatorSubsystem extends SubsystemBase {
                     if (elbowPosition > ElevatorConstants.SAFETY_ELBOW_LIMIT_LOW
                             && wristPosition > ElevatorConstants.SAFETY_WRIST_LIMIT_LOW
                             && carriagePosition > ElevatorConstants.SAFETY_CARRIAGE_LIMIT_LOW) {
-                        return mainPid.calculate(elevatorPosition, this.elevatorPosition);
+                        return mainPid.calculate(elevatorPosition, this.position);
                     }
                     break;
                 // Will run the elbow up if already too low to ensure it won't collide with the
@@ -152,19 +103,24 @@ public class ElevatorSubsystem extends SubsystemBase {
                 case high:
                     if (elbowPosition > ElevatorConstants.SAFETY_ELBOW_LIMIT_HIGH
                             && wristPosition < ElevatorConstants.SAFETY_WRIST_LIMIT_HIGH) {
-                        return mainPid.calculate(elevatorPosition, this.elevatorPosition);
+                        return mainPid.calculate(elevatorPosition, this.position);
                     }
                     break;
                 // Runs the elevator up to loading as there are no safety limits we need to keep
                 // in mind for loading
                 case loading:
-                    return mainPid.calculate(elevatorPosition, this.elevatorPosition);
+                    return mainPid.calculate(elevatorPosition, this.position);
 
                 default:
 
                     break;
             }
             return 0;
+        }
+
+        @Override
+        protected PositionConstants get_constants() {
+            return new ElevatorConstants();
         }
     }
 }

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.wrist;
+package frc.robot.statemachines;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.Counter.Mode;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.WristConstants;
-import frc.robot.elbow.ElbowSubsystem;
 import frc.robot.input.DriverInputs;
 import frc.robot.lib.NumberUtil;
 import frc.robot.statemachines.SubsystemGroup.SafetyLogic;
@@ -103,51 +102,39 @@ public class WristSubsystem extends SubsystemBase {
         return runWristSpeed(-0.3).until(() -> getWristRotationPosition() < pos);
     }
 
-    public static class WristState implements SafetyLogic {
+    public static class WristState extends SafetyLogic {
 
-        private double wristPosition;
-        public static PIDController pid = new PIDController(0.01, 0, 0);
         private double minElbowPos;
 
-        public WristState(final double wristPosition, final double minArmPos) {
-            this.wristPosition = wristPosition;
-            this.minElbowPos = minArmPos;
+        public WristState(State state) {
+            super(state);
+            switch (state) {
+                case high:
+                    this.minElbowPos = WristConstants.HIGH_POS_MIN_ARM;
+                    break;
+                case loading:
+                    this.minElbowPos = WristConstants.LOADING_POS_MIN_ARM;
+                    break;
+                case low:
+                    this.minElbowPos = WristConstants.LOW_POS_MIN_ARM;
+                    break;
+                case mid:
+                    this.minElbowPos = WristConstants.MID_POS_MIN_ARM;
+                    break;
+                case start:
+                default:
+                    this.minElbowPos = WristConstants.START_POS_MIN_ARM;
+                    break;
 
-        }
-
-        public static final WristState start = new WristState(WristConstants.START_POS,
-                WristConstants.START_POS_MIN_ARM);
-        public static final WristState low = new WristState(WristConstants.LOW_POS, WristConstants.LOW_POS_MIN_ARM);
-        public static final WristState mid = new WristState(WristConstants.MID_POS, WristConstants.MID_POS_MIN_ARM);
-        public static final WristState loading = new WristState(WristConstants.LOADING_POS,
-                WristConstants.LOADING_POS_MIN_ARM);
-        public static final WristState high = new WristState(WristConstants.HIGH_POS, WristConstants.HIGH_POS_MIN_ARM);
-
-        @Override
-        public SafetyLogic lowPosition() {
-            return low;
-        }
-
-        @Override
-        public SafetyLogic highPosition() {
-            return high;
-        }
-
-        @Override
-        public SafetyLogic loadingPosition() {
-            return loading;
-        }
-
-        @Override
-        public SafetyLogic defaultPosition() {
-            return start;
+            }
+            this.mainPid = new PIDController(0.01, 0, 0);
         }
 
         @Override
         public double stateCalculate(double speed, double elbowPosition, double wristPosition, double elevatorPosition,
                 double carriagePosition) {
             // Runs the wrist for the states
-            double pidVal = pid.calculate(wristPosition, this.wristPosition);
+            double pidVal = mainPid.calculate(wristPosition, position);
             if (elbowPosition > this.minElbowPos || pidVal > 0) {
                 return pidVal;
             }
@@ -156,10 +143,9 @@ public class WristSubsystem extends SubsystemBase {
         }
 
         @Override
-        public SafetyLogic midPosition() {
-            return mid;
+        protected PositionConstants get_constants() {
+            return new WristConstants();
         }
-
     }
 
 }
